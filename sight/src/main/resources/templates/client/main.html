@@ -1,0 +1,360 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+	<!--<![endif]-->
+	<head th:replace="~{fragments/clientFragment::head('eTravel')}">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>eTravel</title>
+		<meta name="description" content="eTravel">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
+		<link rel="stylesheet" href="../../static/css/cs-skin-elastic.css">
+		<link rel="stylesheet" href="../../static/css/lib/datatable/dataTables.bootstrap.min.css">
+		<link rel="stylesheet" href="../../static/css/style.css">
+		<!-- layui Css -->
+		<link rel="stylesheet" href="../../static/layui/css/layui.css" />
+		<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+	</head>
+	<body>
+		<!-- Left Panel -->
+
+		<aside id="left-panel" class="left-panel">
+			<nav class="navbar navbar-expand-sm navbar-default">
+
+				<div id="main-menu" class="main-menu collapse navbar-collapse">
+					<ul class="nav navbar-nav">
+						<li class="menu-title">主菜单</li><!-- /.menu-title -->
+						<li>
+							<a href="#" class="dropdown-toggle"> <i class="menu-icon fa fa-server"></i>浏览景区</a>
+						</li>
+						<li class="menu-item-has-children dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-area-chart"></i>景区分析</a>
+							<ul class="sub-menu children dropdown-menu">
+								<li><i class="menu-icon fa fa-bar-chart"></i><a href="#">全国热门景区分析</a></li>
+								<li><i class="menu-icon fa fa-line-chart"></i><a href="#">各省热门景区分析</a></li>
+							</ul>
+						</li>
+						<li>
+							<a href="#"> <i class="menu-icon fa fa-file-word-o"></i>撰写游记 </a>
+						</li>
+						<li>
+							<a href="#"> <i class="menu-icon fa fa-thumbs-up "></i>投出一票 </a>
+						</li>
+					</ul>
+				</div><!-- /.navbar-collapse -->
+			</nav>
+		</aside><!-- /#left-panel -->
+
+		<!-- Left Panel -->
+
+		<!-- Right Panel -->
+
+		<div id="right-panel" class="right-panel">
+
+			<!-- Header-->
+			<header id="header" class="header">
+				<div class="top-left">
+					<div class="navbar-header">
+						<div class="navbar-brand"><i>
+								<h2>eTravel</h2>
+							</i></div>
+						<a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
+					</div>
+				</div>
+				<div class="top-right">
+					<div class="header-menu">
+						<div class="header-left">
+							<button class="search-trigger"><i class="fa fa-search"></i></button>
+							<div class="form-inline">
+								<form class="search-form">
+									<input class="form-control mr-sm-2" type="text" placeholder="Search Sight..." aria-label="Search">
+									<button class="search-close" type="submit"><i class="fa fa-close"></i></button>
+								</form>
+							</div>
+
+							<!-- <div class="user-area dropdown float-right">
+								<a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
+								</a>
+
+								<div class="user-menu dropdown-menu">
+									<a class="nav-link" href="#"><i class="fa fa-user"></i>My Profile</a>
+
+									<a class="nav-link" href="#"><i class="fa fa-bell-o"></i>Notifications <span class="count">13</span></a>
+
+									<a class="nav-link" href="#"><i class="fa fa-cog"></i>Settings</a>
+
+									<a class="nav-link" href="#"><i class="fa fa-power-off"></i>Logout</a>
+								</div>
+							</div> -->
+						</div>
+					</div>
+				</div>
+			</header>
+
+			<div id="fragmentContainer_rightPanel_parent">
+				<!-- /header -->
+				<!-- Header-->
+				<div id="fragmentContainer_rightPanel">
+					<div th:fragment="rightPanel">
+						<div class="container" style="padding-top: 20px;">
+							<div class="row">
+								<div class="col-md-2">
+									<select id="provinceSelect" class="form-control" style="width: 150px;float: left;margin-right: 5px;" onchange="changeOption(this)">
+										<option selected disabled hidden>选择省份</option>
+										<!-- th:selected标签选择默认值 -->
+										<option th:each="province:${allProvince}" th:value="${province}" th:text="${province}" th:selected="${province} eq ${currentProvince}">北京</option>
+										<!--/*-->
+										<option>湖北</option>
+										<option>江西</option>
+										<!--*/-->
+									</select>
+								</div>
+								<div class="col-md-4">
+									<form id="priceForm" style="width: 300px; float: left;" th:action="@{/querySights/}" method="get">
+										<div class="input-group mb-3">
+											<div class="input-group-prepend">
+												<span class="input-group-text" style="color: #000000;font-weight: 500;">价格区间</span>
+											</div>
+											<input id="startPrice" type="text" class="form-control" placeholder="start">
+											<input id="endPrice" type="text" class="form-control" placeholder="end">
+											<button id="formBtn" onclick="formBtnOnClick(this)" type="button" class="btn btn-outline-info">确定</button>
+										</div>
+									</form>
+								</div>
+								<div class="col-md-6">
+									<div id="orderBtns" class="btn-group" style="float: left;">
+										<button onclick="toggleActive(this)" id="priceBtn" class="btn btn-outline-info">价格优先</button>
+										<button onclick="toggleActive(this)"  id="saleBtn" class="btn btn-outline-info">热度优先</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="fragmentContainer_sightsWithPage">
+							<div th:fragment="sightsAndPageContainer">
+								<!-- 辅助获取后台返回的总数 -->
+								<span id="totalElements" style="display: none" th:text="${page.total}"></span>
+
+								<div id="fragmentContainer_sights">
+									<div class="container" th:fragment="sightsContainer">
+										<div class="sight" th:each="sight:${page.list}" th:object="${sight}">
+											<div class="row">
+												<div class="col-md-4 align-self-center">
+													<img src="https://imgs.qunarzz.com/sight/p0/1409/19/adca619faaab0898245dc4ec482b5722.jpg_280x200_444f23e4.jpg"
+													  th:src="@{ *{sightImgURL} }" class="card-body">
+												</div>
+												<div class="col-md-5">
+													<div class="card-body text-left">
+														<h3 class="card-title" th:text="*{sightName}">故宫</h3>
+														<p class="card-text text-success" th:if="*{star}" th:text="*{star}">5A景区</p>
+														<p class="card-text" th:text="*{address}">地址:北京市东城区景山前街4号</p>
+														<p class="card-text text-primary" th:text="*{intro}">世界五大宫之首，穿越与您近在咫尺...</p>
+														<p class="card-text text-danger">门票价格:<span th:text="*{qunarPrice}">159元起</span></p>
+													</div>
+												</div>
+												<div class="col-md-1 align-self-center">
+													<div class="col-md-12">
+														<a href="#" class="btn btn-info ">查看景点</a>
+													</div>
+												</div>
+												<div class="col-md-2 align-self-center">
+													<div class="col-md-12">
+														<p class="text-left card-text">月销量:<span th:text="*{saleCount}">159</span></p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!--/*-->
+										<div class="sight">
+											<div class="row">
+												<div class="col-md-4 align-self-center">
+													<img src="https://imgs.qunarzz.com/sight/p0/1409/19/adca619faaab0898245dc4ec482b5722.jpg_280x200_444f23e4.jpg"
+													 class="card-body">
+												</div>
+												<div class="col-md-5">
+													<div class="card-body text-left">
+														<h3 class="card-title">故宫</h3>
+														<p class="card-text text-success">5A景区</p>
+														<p class="card-text">地址:北京市东城区景山前街4号</p>
+														<p class="card-text text-primary">世界五大宫之首，穿越与您近在咫尺...世界五大宫之首，穿越与您近在咫尺...世界五大宫之首，穿越与您近在咫尺...世界五大宫之首，穿越与您近在咫尺...世界五大宫之首，穿越与您近在咫尺...</p>
+														<p class="card-text text-danger">门票价格:159</p>
+													</div>
+												</div>
+												<div class="col-md-1 align-self-center">
+													<div class="col-md-12">
+														<a href="#" class="btn btn-info ">查看景点</a>
+													</div>
+												</div>
+												<div class="col-md-2 align-self-center">
+													<div class="col-md-12">
+														<p class="text-left card-text">月销量:159</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="sight">
+											<div class="row">
+												<div class="col-md-4 align-self-center">
+													<img src="https://imgs.qunarzz.com/sight/p0/1409/19/adca619faaab0898245dc4ec482b5722.jpg_280x200_444f23e4.jpg"
+													 class="card-body">
+												</div>
+												<div class="col-md-5">
+													<div class="card-body text-left">
+														<h3 class="card-title">故宫</h3>
+														<p class="card-text text-success">5A景区</p>
+														<p class="card-text">地址:北京市东城区景山前街4号</p>
+														<p class="card-text text-primary">世界五大宫之首，穿越与您近在咫尺...</p>
+														<p class="card-text text-danger">门票价格:159</p>
+													</div>
+												</div>
+												<div class="col-md-1 align-self-center">
+													<div class="col-md-12">
+														<a href="#" class="btn btn-info ">查看景点</a>
+													</div>
+												</div>
+												<div class="col-md-2 align-self-center">
+													<div class="col-md-12">
+														<p class="text-left card-text">月销量:159</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!--*/-->
+									</div>
+								</div>
+								<div class="container">
+									<div id="Page" style="float: left;"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!-- /#right-panel -->
+
+		<!-- 用于辅助获取后台返回的值的标签 -->
+		<a id="queryURL" style="display: none" href="/querySights/" th:href="@{/querySights/}"></a>
+
+		<!-- Right Panel -->
+		<!--/*/ <th:block th:replace="~{fragments/clientFragment::js}"> /*/-->
+		<!-- Scripts -->
+		<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+		<script src="../../static/js/main.js"></script>
+		<script src="../../static/js/lib/data-table/datatables.min.js"></script>
+		<script src="../../static/js/lib/data-table/dataTables.bootstrap.min.js"></script>
+		<script src="../../static/js/lib/data-table/dataTables.buttons.min.js"></script>
+		<script src="../../static/js/lib/data-table/buttons.bootstrap.min.js"></script>
+		<script src="../../static/js/lib/data-table/jszip.min.js"></script>
+		<script src="../../static/js/lib/data-table/vfs_fonts.js"></script>
+		<script src="../../static/js/lib/data-table/buttons.html5.min.js"></script>
+		<script src="../../static/js/lib/data-table/buttons.print.min.js"></script>
+		<script src="../../static/js/lib/data-table/buttons.colVis.min.js"></script>
+		<script src="../../static/js/init/datatables-init.js"></script>
+		<!-- layui js -->
+		<script src="../../static/layui/layui.js"></script>
+		<!--/*/ </th:block> /*/-->
+
+		<script type="text/javascript" th:inline="javascript">
+			//初始化分页栏
+			function initPage(){
+				//分页栏
+				layui.use(['laypage', 'layer'], function() {
+					var laypage = layui.laypage,
+							layer = layui.layer;
+					//完整功能
+					laypage.render({
+						elem: 'Page',
+						count: $('#totalElements').text(),//通过一个辅助标签来获取后台返回的总数量
+						layout: ['count', 'prev', 'page', 'next', 'limit', 'skip'],
+						jump: function(obj) {
+							console.log(obj);
+							var province=$('#provinceSelect option:selected').val();
+							var start=$("#startPrice").val();
+							var end=$("#endPrice").val();
+							var order;
+							if ($('#orderBtns').attr("data-order")==undefined){
+								order="";
+							}else{
+								order=$('#orderBtns').attr("data-order");
+							}
+							var page=obj.curr;
+							var pageSize=obj.limit;
+							var url=$("#queryURL").prop('href')+province+"?start="+start+"&end="+end+
+									"&order="+order+"&page="+page+"&pageSize="+pageSize+"&turnPage=true";
+
+							//load方法会将后台返回的文本加载到被选元素中。
+							$("#fragmentContainer_sights").load(url,function(response,status,xhr) {
+							});
+							//回到最顶层
+							$('#fragmentContainer_rightPanel_parent').animate({scrollTop:'0'},1000);
+						}
+					});
+				});
+			}
+			//必须使用onclick属性设置事件调用函数。因为异步放回的页面片段时，不会执行下面的js代码来设置事件！
+			function formBtnOnClick(obj){
+				var province=$("#provinceSelect option:selected").val();
+				var start=$("#startPrice").val();
+				var end=$("#endPrice").val();
+				var url=$("#priceForm").prop("action")+province+"?start="+start+"&end="+end;
+				console.log("提交--->"+url);
+
+				//还原排序按钮状态
+				$('#orderBtns').removeAttr('data-order');
+				$('#orderBtns').find('button').removeClass('active');
+
+				$("#fragmentContainer_sightsWithPage").load(url,function(response,status,xhr) {
+					initPage();//重新初始化分页栏
+				});
+			}
+
+			//设置下拉框选择事件
+			function changeOption(obj){
+				console.log($('#provinceSelect option:selected').val());
+				var url=$("#queryURL").prop('href')+$('#provinceSelect option:selected').val();
+				$("#fragmentContainer_rightPanel").load(url,function(response,status,xhr) {
+					initPage();//重新初始化分页栏
+				});
+			}
+
+			//
+			function toggleActive(obj){
+				var id=$(obj).prop("id");
+				if (id=='priceBtn'){
+					$('#saleBtn').removeClass('active');
+					$('#orderBtns').attr("data-order",0);
+				}else{
+					$('#priceBtn').removeClass('active');
+					$('#orderBtns').attr("data-order",1);
+				}
+				$(obj).toggleClass("active");
+				var province=$("#provinceSelect option:selected").val();
+				var start=$("#startPrice").val();
+				var end=$("#endPrice").val();
+				var url=$('#queryURL').prop('href')+province+"?start="+start+"&end="+end+"&order="+$('#orderBtns').attr("data-order");
+				console.log("排序-->"+url);
+				$("#fragmentContainer_sightsWithPage").load(url,function(response,status,xhr) {
+					initPage();//重新初始化分页栏
+				});
+			}
+
+			$(function () {
+				initPage();
+				console.log($('#orderBtns').attr("data-order"));
+				console.log($('#orderBtns').attr("data-order")==undefined);
+			});
+		</script>
+	</body>
+</html>

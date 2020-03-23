@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxufe.sight.mapper.SightBasicInfoMapper">
+    <select id="findById" resultType="SightBasicInfoVO" parameterType="long">
+        select t1.id as id,t1.sightId as sightId,t1.*,t2.* from t_sightinfo as t1 join t_sightupdateinfo as t2 on t1.sightId=t2.sightId where t1.id=#{id}
+    </select>
+    <select id="findBySightId" resultType="SightBasicInfoVO" parameterType="string">
+        select t1.id as id,t1.sightId as sightId,t1.*,t2.* from t_sightinfo as t1 join t_sightupdateinfo as t2 on t1.sightId=t2.sightId where t1.sightId=#{sightId}
+    </select>
+    <select id="findOnePage" resultType="SightBasicInfoVO">
+        select t1.id as id,t1.sightId as sightId,t1.*,t2.* from t_sightinfo as t1 join t_sightupdateinfo as t2 on t1.sightId=t2.sightId limit #{offset},#{size}
+    </select>
+    <select id="findAllByProvinceWithMultiCondition" resultType="SightBasicInfoVO">
+        select t1.id as id,t1.sightId as sightId,t1.*,t2.* from t_sightinfo as t1 join t_sightupdateinfo as t2 on t1.sightId=t2.sightId
+        where 1=1
+        <if test="province != '全国'">
+            and province=#{province}
+        </if>
+        <if test="start != null">
+            and qunarPrice BETWEEN #{start} AND #{end}
+        </if>
+        <if test="order != null">
+            <choose>
+                <when test="order==0">
+                    order by qunarPrice ASC
+                </when>
+                <otherwise>
+                    order by saleCount DESC
+                </otherwise>
+            </choose>
+        </if>
+        <if test="order == null">
+            order by saleCount DESC
+        </if>
+    </select>
+    <select id="getAllProvince" resultType="string">
+        SELECT province FROM t_sightinfo GROUP BY province
+    </select>
+</mapper>

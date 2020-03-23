@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/clientFragment::head('404')}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+    <div th:replace="~{fragments/clientFragment::aside}"></div>
+    <div th:replace="~{fragments/clientFragment::rightPanel}"></div>
+</body>
+
+<th:block th:replace="~{fragments/clientFragment::js}"></th:block>
+
+</html>
