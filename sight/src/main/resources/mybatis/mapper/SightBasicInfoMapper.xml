@@ -26,8 +26,11 @@
                 <when test="order==0">
                     order by qunarPrice ASC
                 </when>
-                <otherwise>
+                <when test="order==1">
                     order by saleCount DESC
+                </when>
+                <otherwise>
+                    order by goodCommentAmount DESC
                 </otherwise>
             </choose>
         </if>

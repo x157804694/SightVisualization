@@ -15,6 +15,7 @@ public class SightBasicInfoVO implements Serializable {
     private String sightImgURL;
     private float qunarPrice;
     private int saleCount;
+    private int goodCommentAmount;
 
     public long getId() {
         return id;
@@ -96,6 +97,14 @@ public class SightBasicInfoVO implements Serializable {
         this.saleCount = saleCount;
     }
 
+    public int getGoodCommentAmount() {
+        return goodCommentAmount;
+    }
+
+    public void setGoodCommentAmount(int goodCommentAmount) {
+        this.goodCommentAmount = goodCommentAmount;
+    }
+
     @Override
     public String toString() {
         return "SightBasicInfoVO{" +
@@ -109,6 +118,7 @@ public class SightBasicInfoVO implements Serializable {
                 ", sightImgURL='" + sightImgURL + '\'' +
                 ", qunarPrice=" + qunarPrice +
                 ", saleCount=" + saleCount +
+                ", goodCommentAmount=" + goodCommentAmount +
                 '}';
     }
 }

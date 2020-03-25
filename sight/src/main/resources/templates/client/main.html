@@ -134,7 +134,8 @@
 								<div class="col-md-6">
 									<div id="orderBtns" class="btn-group" style="float: left;">
 										<button onclick="toggleActive(this)" id="priceBtn" class="btn btn-outline-info">价格优先</button>
-										<button onclick="toggleActive(this)"  id="saleBtn" class="btn btn-outline-info">热度优先</button>
+										<button onclick="toggleActive(this)"  id="saleBtn" class="btn btn-outline-info">销量优先</button>
+										<button onclick="toggleActive(this)"  id="goodCommentBtn" class="btn btn-outline-info">好评优先</button>
 									</div>
 								</div>
 							</div>
@@ -158,7 +159,8 @@
 														<p class="card-text text-success" th:if="*{star}" th:text="*{star}">5A景区</p>
 														<p class="card-text" th:text="*{address}">地址:北京市东城区景山前街4号</p>
 														<p class="card-text text-primary" th:text="*{intro}">世界五大宫之首，穿越与您近在咫尺...</p>
-														<p class="card-text text-danger">门票价格:<span th:text="*{qunarPrice}">159元起</span></p>
+														<p class="card-text text-danger">门票价格:<span th:text="|*{qunarPrice}元起|">159元起</span></p>
+														<p class="card-text text-info">好评数:<span th:text="*{goodCommentAmount}">666</span></p>
 													</div>
 												</div>
 												<div class="col-md-1 align-self-center">
@@ -332,12 +334,13 @@
 			//
 			function toggleActive(obj){
 				var id=$(obj).prop("id");
+				$('#orderBtns').find('button').removeClass('active');
 				if (id=='priceBtn'){
-					$('#saleBtn').removeClass('active');
-					$('#orderBtns').attr("data-order",0);
+					$('#orderBtns').attr("data-order",0);//0是价格优先
+				}else if (id=='saleBtn'){
+					$('#orderBtns').attr("data-order",1);//1是销量优先
 				}else{
-					$('#priceBtn').removeClass('active');
-					$('#orderBtns').attr("data-order",1);
+					$('#orderBtns').attr("data-order",2);//2是好评优先
 				}
 				$(obj).toggleClass("active");
 				var province=$("#provinceSelect option:selected").val();
