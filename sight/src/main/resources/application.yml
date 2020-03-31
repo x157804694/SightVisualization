@@ -1,12 +1,13 @@
 spring:
   thymeleaf:
     cache: false
+
   profiles:
     active: dev
   datasource:
-    url: jdbc:mysql://localhost:3306/sight?characterEncoding=utf-8
+    url: jdbc:mysql://localhost:3306/sight?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
-    password: 0174014XZP
+    password: 123456
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     #   数据源其他配置
@@ -27,14 +28,17 @@ spring:
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
 
+# mybatis配置
 mybatis:
   config-location: classpath:mybatis/config/mybatis-config
   mapper-locations: classpath:mybatis/mapper/*.xml
   type-aliases-package: com.jxufe.sight.vo
 
+# 日志等级配置
 logging:
   level:
     com:
       jxufe:
         sight:
           mapper: debug
+

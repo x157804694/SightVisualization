@@ -13,7 +13,8 @@
         select t1.id as id,t1.sightId as sightId,t1.*,t2.* from t_sightinfo as t1 join t_sightupdateinfo as t2 on t1.sightId=t2.sightId limit #{offset},#{size}
     </select>
     <select id="findAllByProvinceWithMultiCondition" resultType="SightBasicInfoVO">
-        select t1.id as id,t1.sightId as sightId,t1.*,t2.* from t_sightinfo as t1 join t_sightupdateinfo as t2 on t1.sightId=t2.sightId
+        select t1.id as id,t1.sightId as sightId,t1.*,t2.* from t_sightinfo as t1 join t_sightupdateinfo as t2 on
+        t1.sightId=t2.sightId
         where 1=1
         <if test="province != '全国'">
             and province=#{province}
@@ -38,7 +39,32 @@
             order by saleCount DESC
         </if>
     </select>
+    <select id="getSightSaleCountTop10" resultType="SightBasicInfoVO">
+        SELECT sightName,star,city,saleCount FROM t_sightinfo as t1 INNER JOIN t_sightmonthlysalecount as t2 on t1.sightId=t2.sightId ORDER BY saleCount DESC LIMIT 10
+    </select>
+    <select id="getSumSaleCount" resultType="java.lang.Integer">
+        SELECT SUM(saleCount) FROM t_sightmonthlysalecount
+    </select>
     <select id="getAllProvince" resultType="string">
         SELECT province FROM t_sightinfo GROUP BY province
+    </select>
+    <select id="getCitySightNum" resultType="java.util.HashMap">
+        SELECT city,COUNT(DISTINCT sightId) as value FROM t_sightinfo GROUP BY city
+    </select>
+    <select id="getDiffStarNum" resultType="java.util.HashMap">
+        SELECT star,COUNT(DISTINCT sightId) as value FROM t_sightinfo GROUP BY star
+    </select>
+    <select id="getDiffStarSaleCount" resultType="java.util.HashMap">
+        SELECT star,SUM(saleCount) as value FROM t_sightinfo INNER JOIN t_sightmonthlysalecount WHERE t_sightinfo.sightId=t_sightmonthlysalecount.sightId GROUP BY star
+    </select>
+    <select id="getDiffPriceRangeNum" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT t1.sightId) as value FROM t_sightinfo as t1 INNER JOIN t_sightupdateinfo as t2 ON t1.sightId=t2.sightId
+        WHERE qunarPrice BETWEEN #{start} AND #{end}
+    </select>
+    <select id="getCitySightNumTop5" resultType="java.util.HashMap">
+        SELECT city,COUNT(CASE WHEN star is NULL THEN '1' END ) as 其它,COUNT(CASE WHEN star='3A' THEN '1' END ) as 3A,COUNT(CASE WHEN star='4A' THEN '1' END ) as 4A,COUNT(CASE WHEN star='5A' THEN '1' END ) as 5A FROM t_sightinfo GROUP BY city ORDER BY COUNT(sightId) DESC LIMIT 5
+    </select>
+    <select id="getCitySaleCountTop5" resultType="java.util.HashMap">
+        SELECT city,SUM(saleCount) as value FROM t_sightinfo INNER JOIN t_sightmonthlysalecount on t_sightinfo.sightId=t_sightmonthlysalecount.sightId GROUP BY city ORDER BY SUM(saleCount) DESC LIMIT 5
     </select>
 </mapper>

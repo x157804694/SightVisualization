@@ -13,6 +13,7 @@ public class SightBasicInfoVO implements Serializable {
     private String star;
     private String point;
     private String sightImgURL;
+    private String city;
     private float qunarPrice;
     private int saleCount;
     private int goodCommentAmount;
@@ -56,7 +57,13 @@ public class SightBasicInfoVO implements Serializable {
     public void setAddress(String address) {
         this.address = address;
     }
+    public String getCity() {
+        return city;
+    }
 
+    public void setCity(String city) {
+        this.city = city;
+    }
     public String getStar() {
         return star;
     }
@@ -116,6 +123,7 @@ public class SightBasicInfoVO implements Serializable {
                 ", star='" + star + '\'' +
                 ", point='" + point + '\'' +
                 ", sightImgURL='" + sightImgURL + '\'' +
+                ", city='" + city + '\'' +
                 ", qunarPrice=" + qunarPrice +
                 ", saleCount=" + saleCount +
                 ", goodCommentAmount=" + goodCommentAmount +

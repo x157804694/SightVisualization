@@ -1,0 +1,289 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: url(../img/background.png) no-repeat;
+	background-size: 100% 100% top center;
+	overflow: hidden;
+}
+
+/* 设置滚动条样式 */
+::-webkit-scrollbar {
+	width: 6px;
+	background-color: #0e487c;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #4facfa;
+}
+
+#header {
+	position: absolute;
+	width: 100%;
+	height: 10%;
+	/* border-bottom: #62CAD5 solid 1px; */
+}
+
+#title {
+	position: absolute;
+	width: 45%;
+	height: 100%;
+	left: 30%;
+	/* 设置居中 */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 4vmin;
+	color: #62cad5;
+}
+
+#selectMonthBox{
+	position: absolute;
+	width: 25%;
+	left: 0;
+	height: 100%;
+}
+
+#selectMonth{
+	position: absolute;
+	width: 30%;
+	height: 30%;
+	left: 10%;
+	top: 60%;
+	/* 定义字体 */
+	font-size: 2vmin;
+	color: #62cad5;
+	/* 设置背景颜色 透明*/
+	background-color:transparent;
+	border: #62cad5 solid 1px;
+}
+
+#selectMonth option{
+	color: black;
+	background-color:#FFFFFF;
+}
+
+/* 右上角返回标签 */
+#exit{
+	position: absolute;
+	width: 23%;
+	height: 30%;
+	top:10%;
+	right: 2%;
+	/* 设置居中 */
+	display: flex;
+	justify-content: flex-end;
+	/* 设置字体大小 */
+	font-size: 2.5vmin;
+}
+
+#exit a{
+	text-decoration: none;
+	color: #62cad5;
+}
+
+#exit a:hover{
+	color: #f7b67c;
+}
+
+/* 时钟 */
+#time{
+	position: absolute;
+	width: 25%;
+	height: 60%;
+	top: 40%;
+	right: 0;
+	/* 设置居中 */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	/* 字体 */
+	color: #e1e1e1;
+	font-size: 3vmin;
+}
+
+.bd1 {
+	position: absolute;
+	left: -1px;
+	top: -1px;
+}
+
+.bd2 {
+	position: absolute;
+	right: -1px;
+	top: -1px;
+}
+
+.bd3 {
+	position: absolute;
+	right: -1px;
+	bottom: -1px;
+}
+
+.bd4 {
+	position: absolute;
+	left: -1px;
+	bottom: -1px;
+}
+
+.chartsArea {
+	width: 96%;
+	height: 96%;
+	top: 2%;
+	left: 2%;
+	position: absolute;
+}
+
+.borderBox {
+	width: 96%;
+	height: 96%;
+	top: 2%;
+	left: 2%;
+	position: absolute;
+	border: 1px solid #20558b;
+	box-sizing: border-box;
+}
+
+#left1 {
+	position: absolute;
+	width: 30%;
+	height: 50%;
+	top: 10%;
+	left: 0;
+	overflow: auto;
+}
+
+.left1Title{
+	width: 100%;
+	height: 10%;
+	position: absolute;
+	font-size: 2vmin;
+	font-weight: 500;
+	color: #f0f0f0;
+}
+
+#left2 {
+	position: absolute;
+	width: 30%;
+	height: 40%;
+	top: 60%;
+	left: 0;
+
+}
+
+#center1 {
+	position: absolute;
+	width: 45%;
+	height: 60%;
+	top: 10%;
+	left: 30%;
+
+}
+
+#center2 {
+	position: absolute;
+	width: 45%;
+	height: 30%;
+	top: 70%;
+	left: 30%;
+}
+
+#pie1{
+	position: absolute;
+	width: 40%;
+	height: 100%;
+	
+}
+
+#pie2{
+	position: absolute;
+	width: 40%;
+	height: 100%;
+	left: 40%;
+	
+}
+
+#sumOfSaleCount{
+	position: absolute;
+	width: 16%;
+	height: 50%;
+	top: 25%;
+	right: 2%;
+	border: #fff solid 1px;
+	/* 字体 */
+	color: #fff;
+	font-size: 2.5vmin;
+	/* 设置居中 */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#right1 {
+	position: absolute;
+	width: 25%;
+	height: 30%;
+	top: 10%;
+	right: 0;
+
+}
+
+#right2 {
+	position: absolute;
+	width: 25%;
+	height: 30%;
+	top: 40%;
+	right: 0;
+
+}
+
+#right3 {
+	position: absolute;
+	width: 25%;
+	height: 30%;
+	top: 70%;
+	right: 0;
+
+}
+
+/* 表格样式 */
+.table1 {
+	font-size: 1.7vmin;
+	border: 1px solid #0e94ea;
+	border-collapse: collapse;
+	width: 100%;
+	height: 90%;
+	top: 10%;
+	position: absolute;
+}
+
+.table1 tr {
+	border-top: 1px solid #0e94ea;
+	background: rgba(14, 148, 234, 0.1);
+
+}
+
+.table1 thead tr {
+	background: rgba(14, 148, 234, 0.4);
+}
+
+.table1 tr.bg-color {
+	background: rgba(14, 148, 234, 0.2);
+}
+
+.table1 tr td,
+.table tr th {
+	border-right: 1px solid #0e94ea;
+	color: #cdddf7;
+	text-align: center;
+	width: 25%;
+}
+
+.table1 tr td p {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: #cdddf7;
+}
