@@ -11,33 +11,35 @@
 			<header id="header" class="header" th:replace="~{fragments/clientFragment::rightPanelHeader}"></header>
 			<!-- /header -->
 			<div id="main" class="container" style="padding-top: 50px;">
-				<header id="title" th:text="|${city}·${sightName}评论分析|">哈尔滨冰雪大世界</header>
-				<div class="row" style="height:300px;">
-					<div id="pie" class="col-sm-6 col-md-6 col-lg-6" style="padding-left: 20px;"></div>
-					<div id="bar" class="col-sm-6 col-md-6 col-lg-6" style="padding-right: 20px;"></div>
-				</div>
-				<header id="header1">好评词云</header>
-				<div class="row self-padd">
-					<div class="col-sm-6 col-md-6 col-lg-6">
-						<header class="self-sub-header">形容词</header>
-						<div id="ga" style="height: 500px;"></div>
-					</div>
-					<div class="col-sm-6 col-md-6 col-lg-6">
-						<header class="self-sub-header">名词</header>
-						<div id="gn" style="height: 500px;"></div>
-					</div>
-				</div>
-				<header id="header2">差评词云</header>
-				<div class="row self-padd">
-					<div class="col-sm-6 col-md-6 col-lg-6">
-						<header class="self-sub-header">形容词</header>
-						<div id="ba" style="height: 500px;"></div>
-					</div>
-					<div class="col-sm-6 col-md-6 col-lg-6">
-						<header class="self-sub-header">名词</header>
-						<div id="bn" style="height: 500px;"></div>
-					</div>
-				</div>
+                <div style="background-color: white">
+                    <header id="title" style="padding-top: 10px;" th:text="|${city}·${sightName}评论分析|">哈尔滨冰雪大世界</header>
+                    <div class="row" style="height:300px">
+                        <div id="pie" class="col-sm-6 col-md-6 col-lg-6" style="padding-left: 20px;"></div>
+                        <div id="bar" class="col-sm-6 col-md-6 col-lg-6" style="padding-right: 20px;"></div>
+                    </div>
+                    <header id="header1">好评词云</header>
+                    <div class="row self-padd">
+                        <div class="col-sm-6 col-md-6 col-lg-6" >
+                            <header class="self-sub-header">形容词</header>
+                            <div id="ga" style="height: 500px;"></div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6" >
+                            <header class="self-sub-header">名词</header>
+                            <div id="gn" style="height: 500px;"></div>
+                        </div>
+                    </div>
+                    <header id="header2">差评词云</header>
+                    <div class="row self-padd">
+                        <div class="col-sm-6 col-md-6 col-lg-6" >
+                            <header class="self-sub-header">形容词</header>
+                            <div id="ba" style="height: 500px;"></div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <header class="self-sub-header">名词</header>
+                            <div id="bn" style="height: 500px;"></div>
+                        </div>
+                    </div>
+                </div>
 			</div>
 		</div>
 		<!-- Right Panel -->
