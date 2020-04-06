@@ -1,159 +1,60 @@
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!-->
 <html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
-	<!--<![endif]-->
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>eTravel</title>
-		<meta name="description" content="eTravel">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
-		<link rel="stylesheet" href="../../static/css/cs-skin-elastic.css" th:href="@{/css/cs-skin-elastic.css}">
-		<link rel="stylesheet" href="../../static/css/lib/datatable/dataTables.bootstrap.min.css" th:href="@{/css/lib/datatable/dataTables.bootstrap.min.css}">
-		<link rel="stylesheet" href="../../static/css/style.css" th:href="@{/css/style.css}">
-		<!-- layui Css -->
-		<link rel="stylesheet" href="../../static/layui/css/layui.css" th:href="@{/layui/css/layui.css}"/>
-		<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href="../../static/css/sightComments.css" th:href="@{/css/sightComments.css}">
-	</head>
+	<head th:replace="~{fragments/clientFragment::head('eTravel')}"></head>
 	<body>
 		<!-- Left Panel -->
-
-		<aside id="left-panel" class="left-panel">
-			<nav class="navbar navbar-expand-sm navbar-default">
-
-				<div id="main-menu" class="main-menu collapse navbar-collapse">
-					<ul class="nav navbar-nav">
-						<li class="menu-title">主菜单</li><!-- /.menu-title -->
-						<li>
-							<a href="#" class="dropdown-toggle"> <i class="menu-icon fa fa-server"></i>浏览景区</a>
-						</li>
-						<li class="menu-item-has-children dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-area-chart"></i>景区分析</a>
-							<ul class="sub-menu children dropdown-menu">
-								<li><i class="menu-icon fa fa-bar-chart"></i><a href="#">全国热门景区分析</a></li>
-								<li><i class="menu-icon fa fa-line-chart"></i><a href="#">各省热门景区分析</a></li>
-							</ul>
-						</li>
-						<li>
-							<a href="#"> <i class="menu-icon fa fa-file-word-o"></i>撰写游记 </a>
-						</li>
-						<li>
-							<a href="#"> <i class="menu-icon fa fa-thumbs-up "></i>投出一票 </a>
-						</li>
-					</ul>
-				</div><!-- /.navbar-collapse -->
-			</nav>
-		</aside><!-- /#left-panel -->
-
+		<aside th:replace="~{fragments/clientFragment::aside}"></aside>
 		<!-- Left Panel -->
-
 		<!-- Right Panel -->
-
 		<div id="right-panel" class="right-panel">
-
 			<!-- Header-->
-			<header id="header" class="header">
-				<div class="top-left">
-					<div class="navbar-header">
-						<div class="navbar-brand"><i>
-								<h2>eTravel</h2>
-							</i></div>
-						<a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
-					</div>
-				</div>
-				<div class="top-right">
-					<div class="header-menu">
-						<div class="header-left">
-							<button class="search-trigger"><i class="fa fa-search"></i></button>
-							<div class="form-inline">
-								<form class="search-form">
-									<input class="form-control mr-sm-2" type="text" placeholder="Search Sight..." aria-label="Search">
-									<button class="search-close" type="submit"><i class="fa fa-close"></i></button>
-								</form>
-							</div>
-
-							<!-- <div class="user-area dropdown float-right">
-								<a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
-								</a>
-
-								<div class="user-menu dropdown-menu">
-									<a class="nav-link" href="#"><i class="fa fa-user"></i>My Profile</a>
-
-									<a class="nav-link" href="#"><i class="fa fa-bell-o"></i>Notifications <span class="count">13</span></a>
-
-									<a class="nav-link" href="#"><i class="fa fa-cog"></i>Settings</a>
-
-									<a class="nav-link" href="#"><i class="fa fa-power-off"></i>Logout</a>
-								</div>
-							</div> -->
-						</div>
-					</div>
-				</div>
-			</header>
+			<header id="header" class="header" th:replace="~{fragments/clientFragment::rightPanelHeader}"></header>
 			<!-- /header -->
-			<!-- Header-->
 			<div id="main" class="container" style="padding-top: 50px;">
-				<div>
-					<header id="title" th:text="|${city}·${sightName}评论分析|">哈尔滨冰雪大世界</header>
-					<div class="row" style="height:300px;">
-						<div id="pie" class="col" style="padding-left: 20px;"></div>
-						<div id="bar" class="col" style="padding-right: 20px;"></div>	
+				<header id="title" th:text="|${city}·${sightName}评论分析|">哈尔滨冰雪大世界</header>
+				<div class="row" style="height:300px;">
+					<div id="pie" class="col-sm-6 col-md-6 col-lg-6" style="padding-left: 20px;"></div>
+					<div id="bar" class="col-sm-6 col-md-6 col-lg-6" style="padding-right: 20px;"></div>
+				</div>
+				<header id="header1">好评词云</header>
+				<div class="row self-padd">
+					<div class="col-sm-6 col-md-6 col-lg-6">
+						<header class="self-sub-header">形容词</header>
+						<div id="ga" style="height: 500px;"></div>
 					</div>
-					<header id="header1">好评词云</header>
-					<div class="row self-padd">
-						<div class="col">
-							<header class="self-sub-header">形容词</header>
-							<div id="ga" style="height: 500px;"></div>
-						</div>
-						<div class="col">
-							<header class="self-sub-header">名词</header>
-							<div id="gn" style="height: 500px;"></div>
-						</div>
+					<div class="col-sm-6 col-md-6 col-lg-6">
+						<header class="self-sub-header">名词</header>
+						<div id="gn" style="height: 500px;"></div>
 					</div>
-					<header id="header2">差评词云</header>
-					<div class="row self-padd">
-						<div class="col">
-							<header class="self-sub-header">形容词</header>
-							<div id="ba" style="height: 500px;"></div>
-						</div>
-						<div class="col">
-							<header class="self-sub-header">名词</header>
-							<div id="bn" style="height: 500px;"></div>
-						</div>
+				</div>
+				<header id="header2">差评词云</header>
+				<div class="row self-padd">
+					<div class="col-sm-6 col-md-6 col-lg-6">
+						<header class="self-sub-header">形容词</header>
+						<div id="ba" style="height: 500px;"></div>
+					</div>
+					<div class="col-sm-6 col-md-6 col-lg-6">
+						<header class="self-sub-header">名词</header>
+						<div id="bn" style="height: 500px;"></div>
 					</div>
 				</div>
 			</div>
-		</div><!-- /#right-panel -->
-
+		</div>
 		<!-- Right Panel -->
 
 		<!-- Scripts -->
-		<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+		<th:block th:replace="~{fragments/clientFragment::js}"></th:block>
 		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/dist/echarts.js"></script>
 		<script src="../../static/js/word-cloud.js" th:src="@{/js/word-cloud.js}"></script>
 
 		<script type="text/javascript" th:inline="javascript">
 			var maskImage = new Image();
-			maskImage.src="img/chinamap.jpg";
+			maskImage.src = "img/chinamap.jpg";
 
-			function generatePie(data){
+			function generatePie(data) {
 				//生成饼图
 				var pie = echarts.init(document.getElementById('pie'));
-				pieOption =   {
+				pieOption = {
 					title: {
 						text: '各评论比例',
 						left: 'center'
@@ -167,30 +68,40 @@
 						left: '20%',
 						data: ['好评', '差评', '其他']
 					},
-					series: [
-						{
-							name: '访问来源',
-							type: 'pie',
-							radius: '70%',
-							center: ['50%', '60%'],
-							data: [
-								{value: data.goodCommentAmount, name: '好评'},
-								{value: data.badCommentAmount, name: '差评'},
-								{value: (data.sumAmount-data.goodCommentAmount-data.badCommentAmount), name: '其他'}
-							],
-							emphasis: {
-								itemStyle: {
-									shadowBlur: 20,
-									shadowOffsetX: 5,
-									shadowColor: 'rgba(0, 0, 0, 0.5)'
-								}
+					series: [{
+						name: '访问来源',
+						type: 'pie',
+						radius: '70%',
+						center: ['50%', '60%'],
+						data: [{
+								value: data.goodCommentAmount,
+								name: '好评'
+							},
+							{
+								value: data.badCommentAmount,
+								name: '差评'
+							},
+							{
+								value: (data.sumAmount - data.goodCommentAmount - data.badCommentAmount),
+								name: '其他'
+							}
+						],
+						emphasis: {
+							itemStyle: {
+								shadowBlur: 20,
+								shadowOffsetX: 5,
+								shadowColor: 'rgba(0, 0, 0, 0.5)'
 							}
 						}
-					]
+					}]
 				};
 				pie.setOption(pieOption);
+				window.addEventListener("resize", function() {
+					pie.resize();
+				});
 			}
-			function generateBar(data){
+
+			function generateBar(data) {
 				//生成柱状图
 				var bar = echarts.init(document.getElementById('bar'));
 				barOption = {
@@ -207,41 +118,41 @@
 						data: ['好评', '差评', '其他评论']
 					},
 					yAxis: {
-						name:'数量',
+						name: '数量',
 						type: 'value'
 					},
 					series: [{
 						data: [{
-							value:data.goodCommentAmount,
-							label:{
-								show:'true',
+							value: data.goodCommentAmount,
+							label: {
+								show: 'true',
 								position: 'top'
 							},
-							itemStyle:{
+							itemStyle: {
 								// color:'	#B22222'
 							}
-						},{
-							value:data.badCommentAmount,
-							label:{
-								show:'true',
+						}, {
+							value: data.badCommentAmount,
+							label: {
+								show: 'true',
 								position: 'top'
 							},
-							itemStyle:{
-								color:'#528B8B'
+							itemStyle: {
+								color: '#528B8B'
 							}
-						},{
-							value:(data.sumAmount-data.goodCommentAmount-data.badCommentAmount),
-							label:{
-								show:'true',
+						}, {
+							value: (data.sumAmount - data.goodCommentAmount - data.badCommentAmount),
+							label: {
+								show: 'true',
 								position: 'top'
 							},
-							itemStyle:{
-								color:'#36648B'
+							itemStyle: {
+								color: '#36648B'
 							}
 						}],
 						type: 'bar',
 						showBackground: true,
-						barMaxWidth:'50%',
+						barMaxWidth: '50%',
 						backgroundStyle: {
 							color: 'rgba(220, 220, 220, 0.8)'
 						}
@@ -249,8 +160,12 @@
 				};
 
 				bar.setOption(barOption);
+				window.addEventListener("resize", function() {
+					bar.resize();
+				});
 			}
-			function generateWordCloud(data1,canvasId){
+
+			function generateWordCloud(data1, canvasId) {
 				var canvas = echarts.init(document.getElementById(canvasId));
 				var option = {
 					tooltip: {
@@ -259,7 +174,6 @@
 					series: [{
 						type: "wordCloud",
 						gridSize: 8,
-						// shape:'diamond',
 						maskImage: maskImage,
 						sizeRange: [15, 50],
 						shape: 'pentagon',
@@ -267,7 +181,7 @@
 						height: 500,
 						textStyle: {
 							normal: {
-								color: function () {
+								color: function() {
 									return 'rgb(' + [
 										Math.round(Math.random() * 160),
 										Math.round(Math.random() * 160),
@@ -284,54 +198,57 @@
 					}]
 				};
 				canvas.setOption(option);
+				window.addEventListener("resize", function() {
+					canvas.resize();
+				});
 			}
-			$(function(){
-				maskImage.onload=function () {
-					var urlForPicture="/detail/picture/"+/*[[${sightId}]]*/ "";
+			$(function() {
+				maskImage.onload = function() {
+					var urlForPicture = "/detail/picture/" + /*[[${sightId}]]*/ "";
 					//请求好评形容词词云
 					$.ajax({
-						async:true,
-						type:'post',
-						url:urlForPicture+"/1",
-						success :function(result,status,xhr){
-							generateWordCloud(result,'ga');
+						async: true,
+						type: 'post',
+						url: urlForPicture + "/1",
+						success: function(result, status, xhr) {
+							generateWordCloud(result, 'ga');
 						}
 					});
 					//请求好评名词词云
 					$.ajax({
-						async:true,
-						type:'post',
-						url:urlForPicture+"/2",
-						success :function(result,status,xhr){
-							generateWordCloud(result,'gn');
+						async: true,
+						type: 'post',
+						url: urlForPicture + "/2",
+						success: function(result, status, xhr) {
+							generateWordCloud(result, 'gn');
 						}
 					});
 					//请求差评形容词词云
 					$.ajax({
-						async:true,
-						type:'post',
-						url:urlForPicture+"/3",
-						success :function(result,status,xhr){
-							generateWordCloud(result,'ba');
+						async: true,
+						type: 'post',
+						url: urlForPicture + "/3",
+						success: function(result, status, xhr) {
+							generateWordCloud(result, 'ba');
 						}
 					});
 					//请求差评名词词云
 					$.ajax({
-						async:true,
-						type:'post',
-						url:urlForPicture+"/4",
-						success :function(result,status,xhr){
-							generateWordCloud(result,'bn');
+						async: true,
+						type: 'post',
+						url: urlForPicture + "/4",
+						success: function(result, status, xhr) {
+							generateWordCloud(result, 'bn');
 						}
 					});
 				};
 				//请求评论数据
-				var urlForData="/detail/"+/*[[${sightId}]]*/ "";
+				var urlForData = "/detail/" + /*[[${sightId}]]*/ "";
 				$.ajax({
-					async:true,
-					type:'get',
-					url:urlForData,
-					success :function(result,status,xhr){
+					async: true,
+					type: 'get',
+					url: urlForData,
+					success: function(result, status, xhr) {
 						generatePie(result);
 						generateBar(result);
 					}
