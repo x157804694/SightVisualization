@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxufe.sight.mapper.SightCommentsInfoMapper">
+<!--    <select id="findOne" resultType="SightCommentsInfoVO" parameterType="string">-->
+<!--        SELECT tg.sightId as sightId,tg.content_n as good_n,tg.content_a as good_a,tb.content_n as bad_n,tb.content_a as bad_a,ts.sumAmount as sumAmount,ts.goodCommentAmount as goodCommentAmount,ts.badCommentAmount as badCommentAmount-->
+<!--        FROM t_goodcomments as tg INNER JOIN t_badcomments as tb on tg.sightId=tb.sightId INNER JOIN t_sightupdateinfo as ts on tb.sightId=ts.sightId-->
+<!--        WHERE tg.sightId=#{sightId}-->
+<!--    </select>-->
+    <select id="findContent" resultType="SightCommentsInfoVO" parameterType="string">
+        SELECT tg.sightId as sightId,tg.content_n as good_n,tg.content_a as good_a,tb.content_n as bad_n,tb.content_a as bad_a
+        FROM t_goodcomments as tg INNER JOIN t_badcomments as tb on tg.sightId=tb.sightId
+        WHERE tg.sightId=#{sightId}
+    </select>
+
+    <select id="findDigitalData" resultType="SightCommentsInfoVO" parameterType="string">
+        SELECT * FROM t_sightupdateinfo where sightId=#{sightId}
+    </select>
+</mapper>

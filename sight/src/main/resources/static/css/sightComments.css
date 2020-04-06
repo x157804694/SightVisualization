@@ -1,0 +1,33 @@
+#header1{
+	height: 70px;
+	text-align:center;
+	line-height:30px;
+	font-size:24px;
+	font-weight:bold;
+	padding-top:40px;
+}
+#header2{
+	height: 30px;
+	text-align: center;
+	line-height: 30px;
+	font-size: 24px;
+	font-weight: bold;
+}
+.self-sub-header{
+	height: 30px;
+	text-align: center;
+	line-height: 30px;
+	font-size: 18px;
+	font-weight: bold;
+}
+.self-padd{
+	padding:20px 40px 0 40px;
+}
+#title{
+	height: 100px;
+	padding-bottom: 20px;
+	line-height: 60px;
+	font-size: 28px;
+	font-weight: bold;
+	text-align: center;
+}
