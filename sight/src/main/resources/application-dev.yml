@@ -1,8 +1,0 @@
-myself:
-  wordCloud:
-#    pyFilePath: D:/pyInterface/generateAll.py
-    pyFilePath: D:/pyInterface/generateWordcloud.py
-    picturesDirectory: D:/pyInterface/test/
-    accessPath: /wordcloud/**
-    null-picture-name: null.png
-    error-picture-name: error.png

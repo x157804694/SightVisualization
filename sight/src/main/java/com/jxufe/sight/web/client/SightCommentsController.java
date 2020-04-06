@@ -4,18 +4,17 @@ import com.jxufe.sight.bean.WordCloudsAccessPath;
 import com.jxufe.sight.properties.WordCloudProperties;
 import com.jxufe.sight.service.SightCommentsService;
 import com.jxufe.sight.utils.GenerateWordCloudUtils;
+import com.jxufe.sight.utils.GenerateWordCloudUtils2;
 import com.jxufe.sight.vo.SightCommentsInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @RequestMapping("/detail")
@@ -27,9 +26,8 @@ public class SightCommentsController {
     }
 
     @Autowired
-    public SightCommentsController(SightCommentsService sightCommentsService, WordCloudProperties wordCloudProperties) {
+    public SightCommentsController(SightCommentsService sightCommentsService) {
         this.sightCommentsService = sightCommentsService;
-        this.wordCloudProperties = wordCloudProperties;
     }
 
     @GetMapping("")
@@ -47,13 +45,23 @@ public class SightCommentsController {
         return sightCommentsInfoVO;
     }
 
-    @GetMapping("/content/{sightId}")
+    @PostMapping("/picture/{sightId}/{tag}")
     @ResponseBody
-    public SightCommentsInfoVO content(@PathVariable("sightId") String sightId){
+    public List<HashMap<String,String>> getOnepicture2(@PathVariable("sightId") String sightId, @PathVariable("tag") int tag) throws IOException, InterruptedException {
+        //tag:1,2,3,4。分别是好评形容词，好评名词，差评形容词，差评名词
         SightCommentsInfoVO sightCommentsInfoVO=sightCommentsService.findContent(sightId);
-        return sightCommentsInfoVO;
+        if(tag==1){
+            return GenerateWordCloudUtils2.generate(sightCommentsInfoVO.getGood_a());
+        }else if(tag==2){
+            return GenerateWordCloudUtils2.generate(sightCommentsInfoVO.getGood_n());
+        }else if(tag==3){
+            return GenerateWordCloudUtils2.generate(sightCommentsInfoVO.getBad_a());
+        }else{
+            return GenerateWordCloudUtils2.generate(sightCommentsInfoVO.getBad_n());
+        }
     }
 
+    //废弃代码
     @GetMapping("/picture/{sightId}/{tag}")
     @ResponseBody
     public String getOnepicture(@PathVariable("sightId") String sightId,@PathVariable("tag") int tag) throws IOException, InterruptedException {
@@ -82,6 +90,8 @@ public class SightCommentsController {
             }
         }
     }
+
+    //废弃代码
     public String getContent(SightCommentsInfoVO sightCommentsInfoVO,int tag){
         if(tag==1){
             return sightCommentsInfoVO.getGood_a();
@@ -94,6 +104,8 @@ public class SightCommentsController {
         }
     }
 
+
+    //废弃代码
     @GetMapping("/pictures/{sightId}")
     @ResponseBody
     public WordCloudsAccessPath getAllpicture(@PathVariable("sightId") String sightId) throws IOException, InterruptedException {

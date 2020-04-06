@@ -1,10 +1,8 @@
 package com.jxufe.sight.properties;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
-
-@Component
-@ConfigurationProperties(prefix = "myself.wordCloud")
+//废弃
+//@Component
+//@ConfigurationProperties(prefix = "myself.wordCloud")
 public class WordCloudProperties {
     private String pyFilePath;//指定执行的py文件
     private String picturesDirectory;//指定存放词云图片的目录

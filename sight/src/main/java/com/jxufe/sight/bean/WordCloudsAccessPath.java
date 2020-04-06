@@ -1,7 +1,7 @@
 package com.jxufe.sight.bean;
 
 import java.io.Serializable;
-
+//废弃
 public class WordCloudsAccessPath implements Serializable {
     private static final long serialVersionUID=1L;
 

@@ -1,12 +1,14 @@
 package com.jxufe.sight.web;
 
 import com.alibaba.druid.support.json.JSONUtils;
-import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jxufe.sight.mapper.SightBasicInfoMapper;
+import com.jxufe.sight.service.SightCommentsService;
 import com.jxufe.sight.utils.DefaultPageInfo;
+import com.jxufe.sight.utils.GenerateWordCloudUtils2;
 import com.jxufe.sight.vo.SightBasicInfoVO;
+import com.jxufe.sight.vo.SightCommentsInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,19 +18,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/test")
 public class TestController {
 
     private SightBasicInfoMapper sightBasicInfoMapper;
+    private SightCommentsService sightCommentsService;
 
     public TestController() {
     }
 
     @Autowired
-    public TestController(SightBasicInfoMapper sightBasicInfoMapper) {
+    public TestController(SightBasicInfoMapper sightBasicInfoMapper,SightCommentsService sightCommentsService) {
         this.sightBasicInfoMapper = sightBasicInfoMapper;
+        this.sightCommentsService=sightCommentsService;
     }
 
     @RequestMapping("/t1")
@@ -84,5 +89,20 @@ public class TestController {
     public String getSightSaleCountTop10(){
         System.out.println(sightBasicInfoMapper.getSightSaleCountTop10());
         return "data";
+    }
+    @RequestMapping("/t11")
+    public Map<String,Integer> t11(){
+        Map<String,Integer> map=new HashMap<>();
+        map.put("haha1",121);
+        map.put("haha2",122);
+        map.put("haha3",123);
+        map.put("haha4",124);
+        map.put("haha5",125);
+        return map;
+    }
+    @RequestMapping("/t12")
+    public List<HashMap<String,String>> t12() {
+        SightCommentsInfoVO sightCommentsInfoVO=sightCommentsService.findContent("3671617128");
+        return GenerateWordCloudUtils2.generate(sightCommentsInfoVO.getGood_n());
     }
 }

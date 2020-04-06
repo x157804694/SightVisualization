@@ -114,23 +114,23 @@
 					<div class="row self-padd">
 						<div class="col">
 							<header class="self-sub-header">形容词</header>
-							<a id="goodA" href="#" target="_blank"><img th:src="@{/img/timg.gif}" src="../../static/img/timg.gif" alt="图片加载失败"></a>
+							<div id="ga" style="height: 500px;"></div>
 						</div>
 						<div class="col">
 							<header class="self-sub-header">名词</header>
-							<a id="goodN" href="#" target="_blank"><img th:src="@{/img/timg.gif}" src="../../static/img/timg.gif" alt="图片加载失败"></a>
-						</div>	
+							<div id="gn" style="height: 500px;"></div>
+						</div>
 					</div>
 					<header id="header2">差评词云</header>
 					<div class="row self-padd">
 						<div class="col">
 							<header class="self-sub-header">形容词</header>
-							<a id="badA" href="#" target="_blank"><img th:src="@{/img/timg.gif}" src="../../static/img/timg.gif" alt="图片加载失败"></a>
+							<div id="ba" style="height: 500px;"></div>
 						</div>
 						<div class="col">
 							<header class="self-sub-header">名词</header>
-							<a id="badN" href="#" target="_blank"><img th:src="@{/img/timg.gif}" src="../../static/img/timg.gif" alt="图片加载失败"></a>
-						</div>	
+							<div id="bn" style="height: 500px;"></div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -144,21 +144,12 @@
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/dist/echarts.js"></script>
-		<script src="js/main.js"></script>
-		<script src="js/lib/data-table/datatables.min.js"></script>
-		<script src="js/lib/data-table/dataTables.bootstrap.min.js"></script>
-		<script src="js/lib/data-table/dataTables.buttons.min.js"></script>
-		<script src="js/lib/data-table/buttons.bootstrap.min.js"></script>
-		<script src="js/lib/data-table/jszip.min.js"></script>
-		<script src="js/lib/data-table/vfs_fonts.js"></script>
-		<script src="js/lib/data-table/buttons.html5.min.js"></script>
-		<script src="js/lib/data-table/buttons.print.min.js"></script>
-		<script src="js/lib/data-table/buttons.colVis.min.js"></script>
-		<script src="js/init/datatables-init.js"></script>
-		<!-- layui js -->
-		<script src="layui/layui.js"></script>
+		<script src="../../static/js/word-cloud.js" th:src="@{/js/word-cloud.js}"></script>
 
 		<script type="text/javascript" th:inline="javascript">
+			var maskImage = new Image();
+			maskImage.src="img/chinamap.jpg";
+
 			function generatePie(data){
 				//生成饼图
 				var pie = echarts.init(document.getElementById('pie'));
@@ -256,79 +247,84 @@
 						}
 					}]
 				};
-				
+
 				bar.setOption(barOption);
 			}
+			function generateWordCloud(data1,canvasId){
+				var canvas = echarts.init(document.getElementById(canvasId));
+				var option = {
+					tooltip: {
+						show: true
+					},
+					series: [{
+						type: "wordCloud",
+						gridSize: 8,
+						// shape:'diamond',
+						maskImage: maskImage,
+						sizeRange: [15, 50],
+						shape: 'pentagon',
+						width: 500,
+						height: 500,
+						textStyle: {
+							normal: {
+								color: function () {
+									return 'rgb(' + [
+										Math.round(Math.random() * 160),
+										Math.round(Math.random() * 160),
+										Math.round(Math.random() * 160)
+									].join(',') + ')';
+								}
+							},
+							emphasis: {
+								shadowBlur: 10,
+								shadowColor: '#333'
+							}
+						},
+						data: data1
+					}]
+				};
+				canvas.setOption(option);
+			}
 			$(function(){
-				// console.log($(window).height()+","+$('#header').height());
-				// var height=$(window).height()-$('#header').height();
-				// $('#main').height(height-50);
-				var urlForPictures="/detail/pictures/"+/*[[${sightId}]]*/ "";
-				// $.ajax({
-				// 	async:true,
-				// 	type:'get',
-				// 	url:urlForPictures,
-				// 	success :function(result,status,xhr){
-				// 		var a1=$('#goodA');
-				// 		var a2=$('#goodN');
-				// 		var a3=$('#badA');
-				// 		var a4=$('#badN');
-				// 		a1.prop('href',result.goodaPath);
-				// 		a2.prop('href',result.goodnPath);
-				// 		a3.prop('href',result.badaPath);
-				// 		a4.prop('href',result.badnPath);
-				// 		a1.children().prop('src',result.goodaPath);
-				// 		a2.children().prop('src',result.goodnPath);
-				// 		a3.children().prop('src',result.badaPath);
-				// 		a4.children().prop('src',result.badnPath);
-				// 	}
-				// });
-				var urlForPicture="/detail/picture/"+/*[[${sightId}]]*/ "";
-				//请求好评形容词词云
-				$.ajax({
-					async:true,
-					type:'get',
-					url:urlForPicture+"/1",
-					success :function(result,status,xhr){
-						var a1=$('#goodA');
-						a1.prop('href',result.goodaPath);
-						a1.children().prop('src',result);
-					}
-				});
-				//请求好评名词词云
-				$.ajax({
-					async:true,
-					type:'get',
-					url:urlForPicture+"/2",
-					success :function(result,status,xhr){
-						var a2=$('#goodN');
-						a2.prop('href',result);
-						a2.children().prop('src',result);
-					}
-				});
-				//请求差评形容词词云
-				$.ajax({
-					async:true,
-					type:'get',
-					url:urlForPicture+"/3",
-					success :function(result,status,xhr){
-						var a3=$('#badA');
-						a3.prop('href',result);
-						a3.children().prop('src',result);
-					}
-				});
-				//请求差评名词词云
-				$.ajax({
-					async:true,
-					type:'get',
-					url:urlForPicture+"/4",
-					success :function(result,status,xhr){
-						var a4=$('#badN');
-						a4.prop('href',result);
-						a4.children().prop('src',result);
-					}
-				});
-
+				maskImage.onload=function () {
+					var urlForPicture="/detail/picture/"+/*[[${sightId}]]*/ "";
+					//请求好评形容词词云
+					$.ajax({
+						async:true,
+						type:'post',
+						url:urlForPicture+"/1",
+						success :function(result,status,xhr){
+							generateWordCloud(result,'ga');
+						}
+					});
+					//请求好评名词词云
+					$.ajax({
+						async:true,
+						type:'post',
+						url:urlForPicture+"/2",
+						success :function(result,status,xhr){
+							generateWordCloud(result,'gn');
+						}
+					});
+					//请求差评形容词词云
+					$.ajax({
+						async:true,
+						type:'post',
+						url:urlForPicture+"/3",
+						success :function(result,status,xhr){
+							generateWordCloud(result,'ba');
+						}
+					});
+					//请求差评名词词云
+					$.ajax({
+						async:true,
+						type:'post',
+						url:urlForPicture+"/4",
+						success :function(result,status,xhr){
+							generateWordCloud(result,'bn');
+						}
+					});
+				};
 				//请求评论数据
 				var urlForData="/detail/"+/*[[${sightId}]]*/ "";
 				$.ajax({

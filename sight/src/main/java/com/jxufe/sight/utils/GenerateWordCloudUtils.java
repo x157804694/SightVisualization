@@ -7,6 +7,9 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.util.*;
 
+/**
+ * 废弃
+ */
 public class GenerateWordCloudUtils {
     private static Logger logger= LoggerFactory.getLogger(GenerateWordCloudUtils.class);
     public static int generate(String words, String baseFileName,WordCloudProperties properties) throws IOException, InterruptedException {
