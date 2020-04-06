@@ -1,5 +1,7 @@
 package com.jxufe.sight;
 
+import com.jxufe.sight.mapper.SightCommentsInfoMapper;
+import com.jxufe.sight.properties.WordCloudProperties;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,10 @@ import java.sql.SQLException;
 public class TestDataSource {
     @Autowired
     DataSource dataSource;
+    @Autowired
+    WordCloudProperties properties;
+    @Autowired
+    SightCommentsInfoMapper sightCommentsInfoMapper;
 
     @Test
     public void t1() throws SQLException {

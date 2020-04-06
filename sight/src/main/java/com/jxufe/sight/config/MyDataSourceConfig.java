@@ -25,7 +25,7 @@ public class MyDataSourceConfig {
      */
     @ConfigurationProperties(prefix = "spring.datasource")
     @Bean
-    public DataSource c3p0DataSource(){
+    public DataSource druidDataSource(){
         return new DruidDataSource();
     }
 

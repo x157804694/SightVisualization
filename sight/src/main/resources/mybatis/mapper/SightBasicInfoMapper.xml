@@ -19,8 +19,14 @@
         <if test="province != '全国'">
             and province=#{province}
         </if>
-        <if test="start != null">
+        <if test="start != null and end != null">
             and qunarPrice BETWEEN #{start} AND #{end}
+        </if>
+        <if test="start != null and end == null">
+            and qunarPrice &gt;= #{start}
+        </if>
+        <if test="start == null and end != null">
+            and qunarPrice &lt;= #{end}
         </if>
         <if test="order != null">
             <choose>
