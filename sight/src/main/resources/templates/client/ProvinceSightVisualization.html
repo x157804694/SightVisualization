@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<title>全国景区可视化分析</title>
+		<link th:href="@{/css/SightVisualization.css}" rel="stylesheet" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+		<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/dist/echarts.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/china.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/anhui.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/aomen.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/beijing.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/chongqing.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/fujian.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/gansu.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/guangdong.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/guangxi.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/guizhou.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/hainan.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/hebei.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/heilongjiang.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/henan.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/hubei.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/hunan.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/jiangsu.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/jiangxi.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/jilin.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/liaoning.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/neimenggu.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/ningxia.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/qinghai.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/shandong.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/shanghai.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/shanxi.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/shanxi1.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/sichuan.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/taiwan.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/tianjin.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/xianggang.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/xizang.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/xinjiang.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/yunnan.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/province/zhejiang.js"></script>
+	</head>
+	<body>
+		<div id="header">
+			<div id="selectBox" >
+				<select id="selectProvince" style="left: 15%;">
+					<option selected disabled hidden value="北京">选择省份</option>
+					<option th:each="test:${AllProvince}" th:text="${test}" th:value="${test}">选择省份</option>
+				</select>
+				<select id="selectMonth" style="left: 58%;">
+					<option selected disabled hidden>选择月份</option>
+					<option value="3">3月</option>
+					<option value="4">4月</option>
+					<option value="5">5月</option>
+				</select>
+			</div>
+			<div id="title"></div>
+			<div id="exit">
+				<a th:href="@{/}"> <i class="fa fa-reply"></i>返回首页</a>
+			</div>
+			<div id="time">
+				<span id="nowTime"></span>
+			</div>
+		</div>
+		<div id="left1">
+			<div class="chartsArea">
+				<div id="tableTitle" class="left1Title text-center"></div>
+				<table class="table1 text-center" id="sightTable">
+<!--					<thead>-->
+<!--						<tr class="text-info">-->
+<!--							<th>景区名称</th>-->
+<!--							<th>景区等级</th>-->
+<!--							<th>所在城市</th>-->
+<!--							<th>月销量</th>-->
+<!--						</tr>-->
+<!--					</thead>-->
+<!--					<tbody>-->
+<!--						<tr th:each="sight:${SightOfProvinceSaleCountTop10}">-->
+<!--							<td th:text="${sight.getSightName()}"></td>-->
+<!--							<td th:text="${sight.getStar()==null?'其它':sight.getStar()}"></td>-->
+<!--							<td th:text="${sight.getCity()}"></td>-->
+<!--							<td th:text="${sight.getSaleCount()}"></td>-->
+<!--						</tr>-->
+<!--					</tbody>-->
+				</table>
+			</div>
+
+		</div>
+		<div id="left2">
+			<div th:replace="~{fragments/sightVisualizationFragment::borderBox}"></div>
+			<div class="chartsArea">
+				<div id="pie1" style="width: 50%;">扇形图1</div>
+				<div id="pie2" style="width: 50%;left:50%;">扇形图2</div>				
+			</div>
+		</div>
+		<div id="center1">
+		</div>
+		<div id="center2">
+			<div th:replace="~{fragments/sightVisualizationFragment::borderBox}"></div>
+			<div id="right3chartArea" class="chartsArea" style="width: 80%;"></div>
+			<div id="sumOfSaleCount" class="text-center">
+			</div>
+		</div>
+		<div id="right1" style="height: 42.5%;top:15%">
+			<div th:replace="~{fragments/sightVisualizationFragment::borderBox}"></div>
+			<div id="right1chartArea" class="chartsArea"></div>
+		</div>
+		<div id="right2" style="height: 42.5%;top:57.5%">
+			<div th:replace="~{fragments/sightVisualizationFragment::borderBox}"></div>
+			<div id="right2chartArea" class="chartsArea"></div>
+		</div>
+		<script type="text/javascript" th:src="@{/js/echarts/SightVisualization.js}"></script>
+	</body>
+</html>
