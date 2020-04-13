@@ -4,6 +4,14 @@ $(function () {
     setInterval(function () {
         getTime();
     }, 1000);
+    // 只初始化一次，如果初始化多次会报警告，代价太高
+    var pie1chart = echarts.init(document.getElementById("pie1"));
+    var pie2chart = echarts.init(document.getElementById("pie2"));
+    var mapEchart = echarts.init(document.getElementById('center1'));
+    var right1chart = echarts.init(document.getElementById('right1chartArea'));
+    var right2chart = echarts.init(document.getElementById('right2chartArea'));
+    var center2chart = echarts.init(document.getElementById('right3chartArea'));
+
     pie1("北京");
     Map("北京");
     pie2("北京");
@@ -53,9 +61,12 @@ $(function () {
                 star.innerHTML = '景区等级';
                 city.innerHTML = '所在城市';
                 saleCount.innerHTML = '月销量';
-                t.appendChild(tr);
+                tr.className = 'text-info';
+                var thead = t.createTHead();
+                thead.appendChild(tr);
+                t.appendChild(thead);
 
-                for(var i=1;i<Data.length;i++){
+                for(var i=0;i<Data.length;i++){
                     tr = t.insertRow(i);
                     sightName = tr.insertCell(0);
                     star = tr.insertCell(1);
@@ -73,8 +84,6 @@ $(function () {
     }
 
     function pie1(province) {
-        var p1 = document.getElementById("pie1");
-        var pie1 = echarts.init(p1);
         $.get("/ProvinceVisualization/getStarOfSight/" + province, function (jsonData) {
             var data = [
                 {
@@ -224,16 +233,16 @@ $(function () {
                     }
                 }]
             };
-            pie1.setOption(option);
+            pie1chart.clear();
+            pie1chart.setOption(option);
             window.addEventListener("resize", function () {
-                pie1.resize();
+                pie1chart.resize();
             });
         });
     }
 
     function pie2(province) {
-        var p2 = document.getElementById("pie2");
-        var pie2 = echarts.init(p2);
+
         $.get("/ProvinceVisualization/getSightPrice/" + province, function (jsonData) {
             var data = [{
                 value: 335,
@@ -417,16 +426,16 @@ $(function () {
                     }
                 }
             };
-
-            pie2.setOption(option);
+            pie2chart.clear();
+            pie2chart.setOption(option);
             window.addEventListener("resize", function () {
-                pie2.resize();
+                pie2chart.resize();
             });
         });
     }
 
     function right1(province) {
-        var right1 = echarts.init(document.getElementById('right1chartArea'));
+
         $.get("/ProvinceVisualization/getCitySightNumTop5/" + province, function (jsonData) {
             var newSeries = [{
                 name: '5A级景区',
@@ -575,15 +584,16 @@ $(function () {
                 option["yAxis"].data.push(city);
             }
             // 使用刚指定的配置项和数据显示图表。
-            right1.setOption(option);
+            right1chart.clear();
+            right1chart.setOption(option);
             window.addEventListener("resize", function () {
-                right1.resize();
+                right1chart.resize();
             });
         });
     }
 
     function right2(province) {
-        var right2 = echarts.init(document.getElementById('right2chartArea'));
+
         $.get("/ProvinceVisualization/getCitySaleTop5/" + province, function (jsonData) {
             var option = {
                 title: {
@@ -664,16 +674,16 @@ $(function () {
                 option["yAxis"].data.push(CitySaleCountTop5[i].city);
                 option["series"].data.push(CitySaleCountTop5[i].value);
             }
-
-            right2.setOption(option);
+            right2chart.clear();
+            right2chart.setOption(option);
             window.addEventListener("resize", function () {
-                right2.resize();
+                right2chart.resize();
             });
         });
     }
 
     function right3(province) {
-        var center2 = echarts.init(document.getElementById('right3chartArea'));
+
         $.get("/ProvinceVisualization/getSaleCountSumGroupByStar/" + province, function (jsonData) {
 
             var data = [
@@ -840,10 +850,10 @@ $(function () {
                     data: data
                 }
             };
-
-            center2.setOption(option);
+            center2chart.clear();
+            center2chart.setOption(option);
             window.addEventListener("resize", function () {
-                center2.resize();
+                center2chart.resize();
             });
         });
 
@@ -854,12 +864,18 @@ $(function () {
         //处理数据函数
         var convertData = function (data) {
             var res = [];
-            console.log(data.length);
+            // console.log(data.length);
             for (var i = 0; i < data.length; i++) {
                 var sightName = data[i].sightName;
                 for (var j = 0; j < geoCoordMap.length; j++) {
                     if (geoCoordMap[j].sightName == sightName) {
                         var values = (geoCoordMap[j].value).split("，");
+                        if (data[i].star==undefined){
+                            data[i].star = "其它";
+                        }
+                        if (data[i].value==0){
+                            data[i].value = 1;
+                        }
                         res.push({
                             name: sightName,
                             name: values.concat(data[i].sightName, data[i].star),
@@ -873,14 +889,14 @@ $(function () {
             console.log(res);
             return res;
         };
-        // 基于准备好的dom，初始化echarts实例
-        var mapEchart = echarts.init(document.getElementById('center1'));
+        // 清除之前的数据
+        mapEchart.clear();
         var data;
         var geoCoordMap;
         // 旅游城市分布图
         $.get("/ProvinceVisualization/getCityCoordOfProvince/" + provinceValue, function (jsonData) {
             geoCoordMap = JSON.parse(jsonData);
-            console.log(geoCoordMap);
+            // console.log(geoCoordMap);
         });
         $.get("/ProvinceVisualization/getCitySightNumOfProvince/" + provinceValue, function (jsonData) {
             data = JSON.parse(jsonData);
