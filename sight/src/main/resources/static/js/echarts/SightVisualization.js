@@ -504,7 +504,7 @@ $(function () {
                     label: {
                         normal: {
                             show: true,
-                            position: 'insideTop'
+                            position: 'inside'
                         }
                     },
                     data: [],
@@ -897,154 +897,154 @@ $(function () {
         $.get("/ProvinceVisualization/getCityCoordOfProvince/" + provinceValue, function (jsonData) {
             geoCoordMap = JSON.parse(jsonData);
             // console.log(geoCoordMap);
-        });
-        $.get("/ProvinceVisualization/getCitySightNumOfProvince/" + provinceValue, function (jsonData) {
-            data = JSON.parse(jsonData);
-            option = {
-                title: {
-                    text: provinceValue + '省热门旅游景点分布图',
-                    subtext: 'data from qunar',
-                    left: 'center',
-                    top: 15,
-                    textStyle: {
-                        fontWeight: 'lighter',
-                        color: '#fff'
-                    }
-                },
-                tooltip: {
-                    trigger: 'item'
-                },
-                legend: {
-                    icon: 'circle',
-                    orient: 'vertical',
-                    y: 'bottom',
-                    x: 'right',
-                    data: ['散点图', '热力图'],
-                    textStyle: {
-                        color: '#fff'
-                    },
-                    selected: {
-                        '散点图': true,
-                        'Top 10': true,
-                        '热力图': false
-                    }
-                },
-                geo: {
-                    map: provinceValue,
-                    label: {
-                        normal: {
-                            show: false,
-                            color: "#fff"
-                        },
-                        emphasis: {
-                            show: true,
-                            color: "#fff"
-                        }
-                    },
-                    roam: true,
-                    scaleLimit: {
-                        min: 0.5,
-                        max: 25,
-                    },
-                    itemStyle: {
-                        normal: {
-                            borderColor: 'rgba(147, 235, 248, 1)',
-                            borderWidth: 1,
-                            areaColor: {
-                                type: 'radial',
-                                x: 0.5,
-                                y: 0.5,
-                                r: 0.5,
-                                colorStops: [{
-                                    offset: 0,
-                                    color: 'rgba(147, 235, 248, 0)' // 0% 处的颜色
-                                }, {
-                                    offset: 1,
-                                    color: 'rgba(147, 235, 248, .2)' // 100% 处的颜色
-                                }],
-
-                            },
-                        },
-                        emphasis: {
-                            areaColor: '#278aa8'
-                        }
-                    }
-                },
-                visualMap: {
-                    min: 1,
-                    max: 20,
-                    pieces: [{
-                        min: 80
-                    },
-                        {
-                            min: 50,
-                            max: 80
-                        },
-                        {
-                            min: 25,
-                            max: 50
-                        },
-                        {
-                            min: 15,
-                            max: 25
-                        },
-                        {
-                            min: 5,
-                            max: 15
-                        },
-                        {
-                            max: 5
-                        }
-                    ],
-                    inRange: {
-                        color: ['#22e5e8', '#eac736', '#f15769']
-                    },
-                    textStyle: {
-                        color: '#fff'
-                    }
-                },
-                series: [{
-                    name: '散点图',
-                    type: 'scatter',
-                    coordinateSystem: 'geo',
-                    data: convertData(data),
-                    symbolSize: function (val) {
-                        return (5 + Math.log2(val[2]));
-                    },
-                    // label: {
-                    //     normal: {
-                    //         formatter: '{b}',
-                    //         position: 'right',
-                    //         show: false
-                    //     },
-                    //     emphasis: {
-                    //         show: true
-                    //     }
-                    // },
-                    itemStyle: {
-                        normal: {
-                            color: 'rgba(255,255,0,0.8)'
+            $.get("/ProvinceVisualization/getCitySightNumOfProvince/" + provinceValue, function (jsonData) {
+                data = JSON.parse(jsonData);
+                option = {
+                    title: {
+                        text: provinceValue + '省热门旅游景点分布图',
+                        subtext: 'data from qunar',
+                        left: 'center',
+                        top: 15,
+                        textStyle: {
+                            fontWeight: 'lighter',
+                            color: '#fff'
                         }
                     },
                     tooltip: {
-                        trigger: 'item',
-                        formatter: function (params) {
-                            return params.name[2] + '(' + params.name[3] + '): ' + params.value[2];
+                        trigger: 'item'
+                    },
+                    legend: {
+                        icon: 'circle',
+                        orient: 'vertical',
+                        y: 'bottom',
+                        x: 'right',
+                        data: ['散点图', '热力图'],
+                        textStyle: {
+                            color: '#fff'
+                        },
+                        selected: {
+                            '散点图': true,
+                            'Top 10': true,
+                            '热力图': false
                         }
                     },
-                },
-                    {
-                        name: '热力图',
-                        type: 'heatmap',
+                    geo: {
+                        map: provinceValue,
+                        label: {
+                            normal: {
+                                show: false,
+                                color: "#fff"
+                            },
+                            emphasis: {
+                                show: true,
+                                color: "#fff"
+                            }
+                        },
+                        roam: true,
+                        scaleLimit: {
+                            min: 0.5,
+                            max: 25,
+                        },
+                        itemStyle: {
+                            normal: {
+                                borderColor: 'rgba(147, 235, 248, 1)',
+                                borderWidth: 1,
+                                areaColor: {
+                                    type: 'radial',
+                                    x: 0.5,
+                                    y: 0.5,
+                                    r: 0.5,
+                                    colorStops: [{
+                                        offset: 0,
+                                        color: 'rgba(147, 235, 248, 0)' // 0% 处的颜色
+                                    }, {
+                                        offset: 1,
+                                        color: 'rgba(147, 235, 248, .2)' // 100% 处的颜色
+                                    }],
+
+                                },
+                            },
+                            emphasis: {
+                                areaColor: '#278aa8'
+                            }
+                        }
+                    },
+                    visualMap: {
+                        min: 1,
+                        max: 20,
+                        pieces: [{
+                            min: 80
+                        },
+                            {
+                                min: 50,
+                                max: 80
+                            },
+                            {
+                                min: 25,
+                                max: 50
+                            },
+                            {
+                                min: 15,
+                                max: 25
+                            },
+                            {
+                                min: 5,
+                                max: 15
+                            },
+                            {
+                                max: 5
+                            }
+                        ],
+                        inRange: {
+                            color: ['#22e5e8', '#eac736', '#f15769']
+                        },
+                        textStyle: {
+                            color: '#fff'
+                        }
+                    },
+                    series: [{
+                        name: '散点图',
+                        type: 'scatter',
                         coordinateSystem: 'geo',
-                        data: convertData(data)
-                    }
-                ]
-            };
-            // 使用制定的配置项和数据显示图表
-            mapEchart.setOption(option);
-            window.addEventListener("resize", function () {
-                mapEchart.resize();
+                        data: convertData(data),
+                        symbolSize: function (val) {
+                            return (5 + Math.log2(val[2]));
+                        },
+                        // label: {
+                        //     normal: {
+                        //         formatter: '{b}',
+                        //         position: 'right',
+                        //         show: false
+                        //     },
+                        //     emphasis: {
+                        //         show: true
+                        //     }
+                        // },
+                        itemStyle: {
+                            normal: {
+                                color: 'rgba(255,255,0,0.8)'
+                            }
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: function (params) {
+                                return params.name[2] + '(' + params.name[3] + '): ' + params.value[2];
+                            }
+                        },
+                    },
+                        {
+                            name: '热力图',
+                            type: 'heatmap',
+                            coordinateSystem: 'geo',
+                            data: convertData(data)
+                        }
+                    ]
+                };
+                // 使用制定的配置项和数据显示图表
+                mapEchart.setOption(option);
+                window.addEventListener("resize", function () {
+                    mapEchart.resize();
+                });
             });
         });
     }
