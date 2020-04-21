@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SightCommentsServiceImp implements SightCommentsService {
+
     private SightCommentsInfoMapper sightCommentsInfoMapper;
 
     public SightCommentsServiceImp() {

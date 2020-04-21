@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxufe.sight.mapper.UserVoteMapper">
+    <select id="findVoteNum" parameterType="Long" resultType="Long">
+        select count(*) from t_user_vote where vote_id = #{voteId}
+    </select>
+    <insert id="saveUserVote" parameterType="Long">
+        insert into t_user_vote(id,user_id,vote_id) values (null,#{userId},#{voteId})
+    </insert>
+    <select id="findUserVote" parameterType="Long" resultType="UserVote">
+        select * from t_user_vote where user_id = #{userId}
+    </select>
+    <select id="findUser" parameterType="Long" resultType="UserVote">
+        select * from t_user_vote where user_id = #{userId} and vote_id = #{voteId}
+    </select>
+</mapper>

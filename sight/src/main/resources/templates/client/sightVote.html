@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+	<head th:replace="~{fragments/clientFragment::head('eTravel')}"></head>
+	<body>
+		<!-- Left Panel 左边的菜单栏 -->
+		<aside id="left-panel" class="left-panel" th:fragment="aside">
+			<nav class="navbar navbar-expand-sm navbar-default">
+
+				<div id="main-menu" class="main-menu collapse navbar-collapse">
+					<ul class="nav navbar-nav">
+						<li class="menu-title">主菜单</li>
+						<li>
+							<a href="#" th:href="@{/}" class="dropdown-toggle"> <i class="menu-icon fa fa-server"></i>浏览景区</a>
+						</li>
+						<li class="menu-item-has-children dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-area-chart"></i>景区分析</a>
+							<ul class="sub-menu children dropdown-menu">
+								<li><i class="menu-icon fa fa-bar-chart"></i><a th:href="@{/SightVisualization/全国}" target="_blank">全国热门景区分析</a></li>
+								<li><i class="menu-icon fa fa-line-chart"></i><a th:href="@{/SightVisualization/北京}" target="_blank">各省热门景区分析</a></li>
+							</ul>
+						</li>
+						<li>
+							<a href="#"> <i class="menu-icon fa fa-file-word-o"></i>撰写游记 </a>
+						</li>
+						<li>
+							<a href="#"> <i class="menu-icon fa fa-thumbs-up "></i>投出一票 </a>
+						</li>
+					</ul>
+				</div><!-- /.navbar-collapse -->
+			</nav>
+		</aside>
+		<!-- Left Panel -->
+		<!-- Right Panel 右半边界面 -->
+		<div id="right-panel" class="right-panel">
+			<!-- Header 头顶的菜单栏 -->
+			<header id="header" class="header" th:replace="~{fragments/clientFragment::rightPanelHeader}"></header>
+			<!-- Header -->
+			<!-- 写代码的容器 -->
+			<div th:each="vote : ${Vote}">
+				<div class="vote-box" th:attr="data-Id=${vote.getId()}">
+					<div class="container">
+						<div class="row">
+							<div class="col-lg-3" style="margin-top: 20px; margin-left: 20px">
+								<div class="usr-avatar">
+									<img src="../../static/img/20190626030223.png" th:src="@{${vote.userInfoVO.avatar}}"/>
+								</div>
+								<div class="usr-nickname">
+									<div class="row" th:text="${vote.userInfoVO.nickname}">杜老师</div>
+									<div class="row" style="font-size: 10px" th:text="${#dates.format(vote.create_time,'yyyy-MM-dd HH:mm')}">2020-4-10 23:30</div>
+								</div>
+							</div>
+							<div class="col-lg-9"></div>
+						</div>
+					</div>
+					<div class="container vote-option self-container one-vote">
+						<div class="row">
+							<div class="col-lg-12 text-center vote-title" th:text="${vote.title}">大家觉得哪个景区最美，欢迎投票!</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-2"></div>
+							<div class="col-lg-8 text-center vote-content" th:text="${vote.description}">大家觉得哪个景区最美，欢迎投票!</div>
+						</div>
+
+						<div class="row option-content" th:if="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd HH:mm:ss') <= #dates.format(vote.end_time,'yyyy-MM-dd HH:mm:ss') && session.user!=null && !#lists.contains(userVoteList,vote.id)}" th:each="voteOption : ${vote.voteOptions}">
+							<div class="col-lg-2"></div>
+							<div class="col-lg-8 vote-btn" th:attr="data-Id=${voteOption.getId()}">
+								<button type="button" class="btn btn-info btn-block" th:text="|${voteOption.option_name}|">选项1</button>
+							</div>
+						</div>
+
+						<div id="result-content-model" class="result-content" style="display: none;">
+							<div class="one-result-model" style="display: none;">
+								<div class="progress">
+									<div class="progress-bar" style="width: 40%;">
+										<span class="vote-name" style="font-size: 16px;">ooo</span>
+									</div>
+									<span class="vote-num" style="font-size: 16px; color: #0e94ea; margin-top: 5px;">118</span>
+								</div>
+								<br>
+							</div>
+						</div>
+
+						<div class="result-content" th:if="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd HH:mm:ss')>#dates.format(vote.end_time,'yyyy-MM-dd HH:mm:ss') || (session.user!=null && #lists.contains(userVoteList,vote.id))}">
+							<div th:each="voteOption : ${vote.voteOptions}">
+								<div class="progress" style="height: 30px;">
+									<div class="progress-bar" style="width: 90%;" th:styleappend="|width:${voteOption.ratio}%;|">
+										<span class="vote-name" style="font-size: 16px;" th:text="|${voteOption.option_name}|">ooo</span>
+									</div>
+									<span class="vote-num" style="font-size: 16px; color: #0e94ea; line-height: 30px; position: absolute; right: 15%" th:text="${voteOption.vote_num}">118</span>
+								</div>
+								<br>
+							</div>
+						</div>
+
+						<div class="row" th:if="${session.user}==null">
+							<div class="no-user">
+								<a class="no-login" href="#" th:href="@{/admin}">请登录后查看投票选项和投票信息</a>
+							</div>
+						</div>
+						<div class="row ppy" ></div>
+					</div>
+					<div class="container reply-commend">
+						<div class="row">
+							<div class="col-lg-4" th:if="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd HH:mm:ss') <= #dates.format(vote.end_time,'yyyy-MM-dd HH:mm:ss')}" style="margin-left: 2%; color: red;" th:text="|截止时间:${#dates.format(vote.end_time,'yyyy-MM-dd HH:mm:ss')}|"></div>
+							<div class="col-lg-4" th:if="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd HH:mm:ss') > #dates.format(vote.end_time,'yyyy-MM-dd HH:mm:ss')}" style="font-size: 20px; color: red;">该投票时间已截止</div>
+							<div class="col-lg-4"></div>
+							<div class="col-lg-1 fa fa-eye-slash btn-noview" style="display: none; font-size: 20px; cursor: pointer;"></div>
+							<div class="col-lg-1 fa fa-eye btn-view" style="font-size: 20px; cursor: pointer;"></div>
+							<div th:if="${session.user!=null && #lists.contains(userAppreciateVoteList,vote.id)}" class="col-lg-1 fa fa-thumbs-o-up btn-good" style="font-size: 20px; color: #0e94ea; cursor: pointer;"></div>
+							<div th:if="${session.user!=null && !#lists.contains(userAppreciateVoteList,vote.id)}" class="col-lg-1 fa fa-thumbs-o-up btn-bad" style="font-size: 20px; cursor: pointer;"></div>
+							<div class="col-lg-1 fa fa-thumbs-o-up btn-good1" style="font-size: 20px; color: #0e94ea; display: none; cursor: pointer;"></div>
+							<div class="col-lg-1 fa fa-thumbs-o-up btn-bad1" style="font-size: 20px; display: none; cursor: pointer;"></div>
+							<div id="appreciateNum" style="margin-left: -20px;" th:text="${vote.appreciate_num}">1156</div>
+							<div class="col-lg-1 fa fa-commenting btn-open" style="margin-left: 1%; font-size: 20px; cursor: pointer;"></div>
+							<div class="col-lg-1 fa fa-commenting btn-shut" style="margin-left: 1%; font-size: 20px; cursor: pointer; display: none;"></div>
+						</div>
+						<div class="row" style="margin-top: 10px;">
+							<div class="col-lg-1"></div>
+							<div class="col-lg-10">
+								<textarea class="form-control rpy-cmd" id="rpy-cmd" rows="5" placeholder="想对作者说点什么...."></textarea>
+							</div>
+							<div class="col-lg-1"></div>
+						</div>
+						<div class="row" style="margin-top: 5px;">
+							<div class="col-lg-9"></div>
+							<div class="btn btn-danger col-xs-1 del-comment" style="font-size: 14px;">取消评论</div>
+							<div class="btn btn-primary col-xs-1 pub-comment" style="font-size: 14px;">发表评论</div>
+						</div>
+					</div>
+					<!-- 克隆主评论模板 -->
+					<div class="container" id="root-comment" style="display: none;" >
+						<div class="row">
+							<div class="col-lg-1"></div>
+							<div class="col-lg-1 user-img">
+								<img src="../../static/img/20190626030223.png"/>
+							</div>
+							<div class="col-lg-2">
+								<div class="row user-nim">不上红名不改名</div>
+								<div class="row user-tim">2020-04-20 11:00</div>
+							</div>
+							<div class="col-lg-5"></div>
+							<div class="col-lg-1 pub-rpy" style="cursor: pointer;">回复</div>
+							<div class="col-lg-1 fid-rpy" style="cursor: pointer;">查看回复</div>
+							<div class="col-lg-1 hid-rpy" style="cursor: pointer; display: none;">收起回复</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-2"></div>
+							<div class="col-lg-10 text-left cmd-content" style="margin-left: -1%;">请问我能怎样快速达到红名水平？</div>
+						</div>
+					</div>
+					<div class="comment-box">
+						<div class="container usr-commend" style="display: none;" th:each="comment : ${vote.comments}">
+							<div class="root-cmd">
+								<div class="row">
+									<div class="col-lg-1"></div>
+									<div class="col-lg-1 user-img">
+										<img src="../../static/img/20190626030223.png" th:src="@{${comment.user.avatar}}"/>
+									</div>
+									<div class="col-lg-2 root-user">
+										<div class="row user-nim" style="color: #0e94ea;" th:if="${comment.user.nickname == vote.userInfoVO.nickname}">作者</div>
+										<div class="row user-nim" th:if="${comment.user.nickname != vote.userInfoVO.nickname}" th:text="${comment.user.nickname}">不上红名不改名</div>
+										<div class="row user-tim" th:text="${#dates.format(comment.create_time,'yyyy-MM-dd HH:mm')}">2020-4-11 12:00</div>
+									</div>
+									<div class="col-lg-5"></div>
+									<div class="col-lg-1 pub-rpy" style="cursor: pointer;" th:attr="data-commentid=${comment.id},data-commentnickname=${comment.user.nickname}">回复</div>
+									<div class="col-lg-1 fid-rpy" style="cursor: pointer; display: none;">查看回复</div>
+									<div class="col-lg-1 hid-rpy" style="cursor: pointer;">收起回复</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-2"></div>
+									<div class="col-lg-10 text-left" style="margin-left: -1%;" th:text="${comment.comment}">请问我能怎样快速达到红名水平？</div>
+								</div>
+							</div>
+							<div class="reply-root">
+								<div th:attr="data-commentId=${comment.id}" th:each="reply : ${comment.replyComments}">
+									<div class="row usr-reply" style="margin-top: 20px;">
+										<div class="col-lg-2"></div>
+										<div class="col-lg-1 user-img">
+											<img src="../../static/img/20190626030223.png" th:src="@{${reply.from_user_avatar}}"/>
+										</div>
+										<div class="col-lg-1">
+											<div class="row user-nim" style="color: #0e94ea;" th:if="${reply.from_user_nickname == vote.userInfoVO.nickname}">作者</div>
+											<div class="row user-nim" th:if="${reply.from_user_nickname != vote.userInfoVO.nickname}" th:text="${reply.from_user_nickname}">tourist</div>
+										</div>
+										<div class="col-lg-1 text-left" style="color: #999999;">回复</div>
+										<div class="col-lg-2">
+											<div class="row user-nim" style="color: #0e94ea;" th:if="${reply.to_user_nickname == vote.userInfoVO.nickname}">作者</div>
+											<div class="row user-nim" th:if="${reply.to_user_nickname != vote.userInfoVO.nickname}" th:text="${reply.to_user_nickname}">不上红名不改名</div>
+										</div>
+										<div class="col-lg-2 user-tim" style="margin-left: -10%;" th:text="${#dates.format(reply.create_time,'yyyy-MM-dd HH:mm')}">2020-4-11 12:00</div>
+										<div class="col-lg-2 usr-rpy" style="cursor: pointer;" th:attr="data-commentid=${reply.id},data-commentnickname=${reply.from_user_nickname}">回复</div>
+									</div>
+									<div class="row usr-reply" >
+										<div class="col-lg-3"></div>
+										<div class="col-lg-9 text-left" style="margin-left: -1%;" th:text="${reply.reply}">上红名很简单，刷个一万题肯定没问题</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 克隆回复评论的模板 -->
+					<div id="reply-root" style="display: none;">
+						<div class="row usr-reply" style="margin-top: 20px;">
+							<div class="col-lg-2"></div>
+							<div class="col-lg-1 user-img">
+								<img src="../../static/img/20190626030223.png"/>
+							</div>
+							<div class="col-lg-1">
+								<div class="row user-nim from_user">tourist</div>
+							</div>
+							<div class="col-lg-1 text-left" style="color: #999999;">回复</div>
+							<div class="col-lg-2">
+								<div class="row user-nim to_user">不上红名不改名</div>
+							</div>
+							<div class="col-lg-2 user-tim" style="margin-left: -10%;">2020-4-11 12:00</div>
+							<div class="col-lg-2 usr-rpy" style="cursor: pointer;">回复</div>
+						</div>
+						<div class="row usr-reply" >
+							<div class="col-lg-3"></div>
+							<div class="col-lg-9 text-left reply-cmd" style="margin-left: -1%;">上红名很简单，刷个一万题肯定没问题</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="container" style="height: 30px; background-color: white;"></div>
+		</div>
+		<!-- Right Panel -->
+	</body>
+	<th:block th:replace="~{fragments/clientFragment::js}"></th:block>
+</html>

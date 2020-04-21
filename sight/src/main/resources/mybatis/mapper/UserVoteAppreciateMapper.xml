@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxufe.sight.mapper.UserVoteAppreciateMapper">
+    <insert id="saveUserVoteAppreciate" parameterType="Long">
+        insert into t_user_appreciatevote(id,user_id,appreciatevote_id) values (null,#{userId},#{voteId})
+    </insert>
+    <delete id="deleteUserVoteAppreciate" parameterType="Long">
+        delete from t_user_appreciatevote where user_id = #{userId} and appreciatevote_id = #{voteId}
+    </delete>
+    <select id="findAllUserVoteAppreciate" parameterType="Long" resultType="UserVoteAppreciate">
+        select * from t_user_appreciatevote where user_id = #{userId}
+    </select>
+</mapper>

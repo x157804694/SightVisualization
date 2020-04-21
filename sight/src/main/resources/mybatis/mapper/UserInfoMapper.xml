@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxufe.sight.mapper.UserInfoMapper">
+    <select id="findUser" resultType="UserInfoVO" parameterType="string">
+        SELECT * FROM t_user where username = #{username} and password = #{password}
+    </select>
+    <select id="findUserById" resultType="UserInfoVO" parameterType="Long">
+        SELECT * FROM t_user where id = #{id}
+    </select>
+    <select id="findUserByName" resultType="UserInfoVO" parameterType="string">
+        SELECT * FROM t_user WHERE username = #{username}
+    </select>
+    <select id="addUser" resultType="UserInfoVO" parameterType="string">
+        insert into t_user(id,avatar,username,password,nickname) values(null,"https://unsplash.it/100/100?image=1005",#{username},#{password},#{nickname})
+    </select>
+</mapper>

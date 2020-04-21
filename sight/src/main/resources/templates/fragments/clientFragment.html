@@ -22,6 +22,8 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
     <!-- sightComments CSS  -->
     <link rel="stylesheet" href="../../static/css/sightComments.css" th:href="@{/css/sightComments.css}">
+    <link rel="stylesheet" href="../../static/css/sightvote.css" th:href="@{/css/sightvote.css}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
 </head>
 <body>
     <aside id="left-panel" class="left-panel" th:fragment="aside">
@@ -44,7 +46,7 @@
                         <a href="#"> <i class="menu-icon fa fa-file-word-o"></i>撰写游记 </a>
                     </li>
                     <li>
-                        <a href="#"> <i class="menu-icon fa fa-thumbs-up "></i>投出一票 </a>
+                        <a href="#" th:href="@{/sightvote}"> <i class="menu-icon fa fa-thumbs-up "></i>投出一票 </a>
                     </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -73,21 +75,27 @@
                             </form>
                         </div>
 
-                        <!-- <div class="user-area dropdown float-right">
+                        <div class="user-area dropdown float-right" th:if="${session.user}==null">
+                            <a style="text-decoration: none; font-size: 16px;" th:href="@{/admin}">登录/注册</a>
+                        </div>
+
+                        <div class="user-area dropdown float-right" th:if="${session.user}!=null">
                             <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
+                                <img class="user-avatar rounded-circle" th:src="@{${session.user.avatar}}" alt="User Avatar">
                             </a>
 
                             <div class="user-menu dropdown-menu">
-                                <a class="nav-link" href="#"><i class="fa fa-user"></i>My Profile</a>
+                                <a class="nav-link" href="#"><i class="fa fa-user"></i>个人信息</a>
 
-                                <a class="nav-link" href="#"><i class="fa fa-bell-o"></i>Notifications <span class="count">13</span></a>
+                                <a class="nav-link" href="#"><i class="fa fa-bell-o"></i>消息通知 <span class="count">13</span></a>
 
-                                <a class="nav-link" href="#"><i class="fa fa-cog"></i>Settings</a>
+                                <a class="nav-link" href="#" th:href="@{/admin/t_votes}"><i class="fa fa-cog"></i>发起投票</a>
 
-                                <a class="nav-link" href="#"><i class="fa fa-power-off"></i>Logout</a>
+                                <a class="nav-link" href="#"><i class="fa fa-cog"></i>撰写游记</a>
+
+                                <a class="nav-link" href="#" th:href="@{/admin/logout}"><i class="fa fa-power-off"></i>注销登录</a>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -116,7 +124,10 @@
     <script src="../../static/js/init/datatables-init.js" th:src="@{/js/init/datatables-init.js}"></script>
     <!-- layui js -->
     <script src="../../static/layui/layui.js" th:src="@{/layui/layui.js}"></script>
-
+    <script src="../../static/js/sightvote.js" th:src="@{/js/sightvote.js}"></script>
+    <script src="../../static/js/semantic.min.js" th:src="@{/js/semantic.min.js}"></script>
+    <script src="../../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+    <script src="../../static/js/jquery.scrollTo.min.js" th:src="@{/js/jquery.scrollTo.min.js}"></script>
 </th:block>
 
 

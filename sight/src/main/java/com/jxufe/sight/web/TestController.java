@@ -5,10 +5,12 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jxufe.sight.mapper.SightBasicInfoMapper;
 import com.jxufe.sight.service.SightCommentsService;
+import com.jxufe.sight.service.VoteService;
 import com.jxufe.sight.utils.DefaultPageInfo;
 import com.jxufe.sight.utils.GenerateWordCloudUtils2;
 import com.jxufe.sight.vo.SightBasicInfoVO;
 import com.jxufe.sight.vo.SightCommentsInfoVO;
+import com.jxufe.sight.vo.VoteInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +28,9 @@ public class TestController {
 
     private SightBasicInfoMapper sightBasicInfoMapper;
     private SightCommentsService sightCommentsService;
+
+    @Autowired
+    private VoteService voteService;
 
     public TestController() {
     }
@@ -104,5 +109,13 @@ public class TestController {
     public List<HashMap<String,String>> t12() {
         SightCommentsInfoVO sightCommentsInfoVO=sightCommentsService.findContent("3671617128");
         return GenerateWordCloudUtils2.generate(sightCommentsInfoVO.getGood_n());
+    }
+    @RequestMapping("/t13")
+    public void t13(){
+        List<VoteInfoVO> voteInfoVOList = voteService.findAllVote();
+        for (VoteInfoVO vote : voteInfoVOList){
+            System.out.println(vote.getTitle());
+            System.out.println(vote.getVoteOptions());
+        }
     }
 }

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div th:each="vote : ${Vote}">
+        <h1>你好，测试</h1>
+        <div th:text="${vote.voteOptions}"></div>
+    </div>
+</body>
+</html>

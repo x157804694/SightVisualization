@@ -1477,11 +1477,11 @@ header .form-inline .search-form.close {
 	background: #49a342;
 }
 
-.
-/* dropdown-menu {
-  border-radius: 0;
-  -webkit-transform: none !important;
-          transform: none !important; } */
+.dropdown-menu {
+	border-radius: 0;
+	-webkit-transform: none !important;
+	transform: none !important;
+}
 
 .for-notification .dropdown-menu .dropdown-item {
 	padding: 5px 15px !important;

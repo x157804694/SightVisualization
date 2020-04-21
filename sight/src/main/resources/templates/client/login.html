@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>登陆页面</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Trendy Tab Login Form template Responsive, Login form web template,Flat Pricing tables,Flat Drop downs  Sign up Web Templates, Flat Web Templates, Login sign up Responsive web template, SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- Custom Theme files -->
+<link th:href="@{/css/style1.css}" rel="stylesheet" type="text/css" media="all" />
+<!-- //Custom Theme files -->
+<!-- web font -->
+<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'><!--web font-->
+<!-- //web font -->
+<!-- js -->
+<script src="js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script src="js/easyResponsiveTabs.js" th:src="@{/js/easyResponsiveTabs.js}" type="text/javascript"></script>
+<!-- //js -->
+</head>
+<body>
+	<!-- main -->
+	<div class="main">
+		<h1>Trendy Tab Login Form</h1>
+		<div class="login-form">
+			<div class="sap_tabs w3ls-tabs">
+				<div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
+					<ul class="resp-tabs-list">
+						<li class="resp-tab-item" aria-controls="tab_item-0" role="tab"><span>Login</span></li> 
+						<li class="resp-tab-item" aria-controls="tab_item-1" role="tab"><label>/</label><span>Sign up</span></li>
+					</ul>	
+					<div class="clear"> </div>
+					<div class="resp-tabs-container">
+						<div class="tab-1 resp-tab-content" aria-labelledby="tab_item-0">
+							<div class="login-agileits-top"> 
+								<form action="#" method="post" th:action="@{/admin/login}">
+									<p>User Name </p>
+									<input type="text" name="username" required=""/>
+									<p>Password</p>
+									<input type="password" name="password" required=""/>
+									<input type="checkbox" id="brand" value="">
+									<label for="brand"><span></span> Remember me ?</label> 
+									<input type="submit" value="LOGIN">
+								</form>
+							</div>
+							<div class="login-agileits-bottom">
+								<div style="color: red; font-size: 20px;" th:unless="${#strings.isEmpty(message)}" th:text="${message}">用户名或密码错误</div>
+							</div>
+						</div>
+						<div class="tab-1 resp-tab-content" aria-labelledby="tab_item-1">
+							<div class="login-agileits-top sign-up"> 
+								<form action="#" method="post" th:action="@{/admin/register}">
+									<p>User Name </p>
+									<input type="text" name="username"  required=""/>
+									<p>Your NickName </p>
+									<input type="text" name="nickname"  required=""/>
+									<p>Password</p>
+									<input type="password" name="password" placeholder="" required=""/>
+									<input type="checkbox" id="brand1" value="">
+									<label for="brand1"><span></span>I accept the terms Use</label> 
+									<input type="submit" value="SIGN UP">
+								</form>
+								<div style="color: red; text-align: center; font-size: 20px;" th:unless="${#strings.isEmpty(message)}" th:text="${message}">用户名或密码错误</div>
+							</div>
+						</div>
+					</div>							
+				</div>	 
+			</div> 
+			<!-- ResponsiveTabs js -->
+			<script type="text/javascript">
+				$(document).ready(function () {
+					$('#horizontalTab').easyResponsiveTabs({
+						type: 'default', //Types: default, vertical, accordion           
+						width: 'auto', //auto or any width like 600px
+						fit: true   // 100% fit in a container
+					});
+				});
+			</script>
+			<!-- //ResponsiveTabs js -->
+		</div>	
+	</div>	
+</body>
+</html>

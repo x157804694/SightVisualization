@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxufe.sight.mapper.VoteOptionMapper">
+    <insert id="saveVoteOption" parameterType="VoteOption" useGeneratedKeys="true" keyProperty="id">
+        insert into t_vote_option(id,option_name,vote_num,vote_id)
+            values
+                (null,#{voteOption.option_name},#{voteOption.vote_num},#{voteOption.voteInfoVO.id})
+    </insert>
+    <update id="updateVoteOption" parameterType="VoteOption">
+        update t_vote_option set option_name=#{voteOption.option_name},vote_num=#{voteOption.vote_num},vote_id=#{voteOption.voteInfoVO.id} where id = #{voteOption.id}
+    </update>
+    <select id="getVoteOption" resultType="VoteOption" parameterType="VoteOption">
+        select * from t_vote_option where id = #{id}
+    </select>
+    <select id="listVoteOption" resultType="VoteOption" parameterType="VoteOption">
+        select * from t_vote_option where vote_id = #{vote_id}
+    </select>
+    <delete id="deleteVoteOption">
+        delete from t_vote_option where id = #{id}
+    </delete>
+    <select id="findVoteOptionNum" parameterType="Long" resultType="Long">
+        select vote_id from t_vote_option where id = #{id}
+    </select>
+</mapper>

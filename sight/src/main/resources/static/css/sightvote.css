@@ -1,0 +1,140 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+	background-color: #ffffff;
+}
+.vote-box{
+	width: 100%;
+	margin-top:50px;
+	overflow-y: auto;
+}
+.container{
+	width: 100%;
+	margin-top: 20px;
+}
+div.container div.row div {
+	text-align:center;
+}
+.usr-avatar{
+	width: 50px;
+	height: 50px;
+	float: left;
+	margin-left: 10px;
+	border-radius: 50%;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+}
+.usr-avatar>img{
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+}
+.usr-nickname{
+	width: 40%;
+	height: 25px;
+	line-height: 25px;
+	font-weight: bold;
+	font-size: 16px;
+	float: left;
+	margin-left: 13%;
+}
+.vote-title{
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	font-size: 20px;
+	font-weight: bold;
+}
+.vote-content{
+	width: 100%;
+	height: 100px;
+	font-size: 16px;
+}
+.vote-area{
+	height: 50px;
+	margin-top: 15px;
+}
+.sight-name{
+	font-size: 16px;
+	line-height: 28px;
+	font-weight: bold;
+}
+.sight-vote{
+	width: 100%;
+	height: 30px;
+	float: left;
+	cursor: pointer;
+	background-color: white;
+}
+.vote-recover{
+	width: 0%;
+	line-height: 30px;
+}
+.vote-ratio{
+	margin-top: 5px;
+	color: #0e94ea;
+	display: none;
+}
+.add-vote{
+	text-decoration: none;
+	font-size: 14px;
+	width: 10px;
+	height: 30px;
+	line-height: 18px;
+	font-weight: bold;
+}
+.user-img{
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+}
+.user-img>img{
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+}
+.user-nim{
+	height: 20px;
+	line-height: 20px;
+	font-weight: bold;
+}
+.user-tim{
+	height: 20px;
+	font-size: 10px;
+	font-weight: bold;
+}
+.usr-commend{
+	width: 100%;
+	/*background-color: #0e94ea;*/
+	/*display: none;*/
+}
+.root-cmd{
+	width: 100%;
+	/*background-color: #00F7DE;*/
+}
+.no-user{
+	width: 100%;
+	height: 100px;
+	line-height: 100px;
+	text-align: center;
+}
+.no-login{
+	font-size: 25px;
+	color: red;
+}
+.self-container{
+	max-width: 99%;
+	margin: auto;
+	padding: 10px;
+}
+.result-content{
+	max-width: 68%;
+	margin: auto;
+	padding: 10px;
+}
+.btn-block{
+	display: block;
+	margin-top: 5px;
+}

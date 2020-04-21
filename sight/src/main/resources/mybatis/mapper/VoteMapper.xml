@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxufe.sight.mapper.VoteMapper">
+    <insert id="saveVote" parameterType="VoteInfoVo" useGeneratedKeys="true" keyProperty="id">
+        insert into t_vote(id,title,description,create_time,end_time,appreciate_num,user_id)
+            values (null,#{voteInfoVO.title},#{voteInfoVO.description},#{voteInfoVO.create_time},
+            #{voteInfoVO.end_time},#{voteInfoVO.appreciate_num},#{voteInfoVO.userInfoVO.id})
+    </insert>
+    <select id="getVote" parameterType="Long" resultType="VoteInfoVo">
+        select * from t_vote where id = #{id}
+    </select>
+    <select id="findAllVote" resultType="VoteInfoVo">
+        select * from t_vote order by create_time desc
+    </select>
+    <select id="findAppreciateNum" parameterType="Long" resultType="Long">
+        select appreciate_num from t_vote where id = #{voteId}
+    </select>
+    <update id="saveAppreciateNum" parameterType="Long">
+        update t_vote set appreciate_num = #{appreciateNum} where id = #{voteId}
+    </update>
+</mapper>
