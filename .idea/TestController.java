@@ -8,7 +8,6 @@ import com.jxufe.sight.mapper.SightBasicInfoMapper;
 import com.jxufe.sight.service.SightCommentsService;
 import com.jxufe.sight.service.VoteService;
 import com.jxufe.sight.utils.DefaultPageInfo;
-import com.jxufe.sight.utils.GenerateWordCloudUtils2;
 import com.jxufe.sight.vo.SightBasicInfoVO;
 import com.jxufe.sight.vo.SightCommentsInfoVO;
 import com.jxufe.sight.vo.VoteInfoVO;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/test")
@@ -31,8 +29,6 @@ public class TestController {
 
     @Autowired
     private VoteService voteService;
-    @Autowired
-    private SightCommentsService sightCommentsService;
 
     public TestController() {
     }

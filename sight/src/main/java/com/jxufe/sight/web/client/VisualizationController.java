@@ -9,6 +9,7 @@
  */
 package com.jxufe.sight.web.client;
 
+import com.jxufe.sight.service.ProvinceVisualizationService;
 import com.jxufe.sight.service.SightBasicInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,8 @@ public class VisualizationController {
 
     @Autowired
     private SightBasicInfoService sightBasicInfoService;
+    @Autowired
+    private ProvinceVisualizationService provinceVisualizationService;
 
     @RequestMapping("/{province}")
     public String SightVisualization(@PathVariable String province, Model model){
@@ -34,7 +37,9 @@ public class VisualizationController {
         }
         //把省份信息传到前端，前端再用ajax读取
         else{
-            model.addAttribute("province",province);
+            model.addAttribute("SightOfProvinceSaleCountTop10",provinceVisualizationService.getProvinceSaleCountTop10(province));
+            model.addAttribute("AllProvince",sightBasicInfoService.getAllProvince());
+            model.addAttribute("Month","三月");
             return "client/ProvinceSightVisualization";
         }
     }

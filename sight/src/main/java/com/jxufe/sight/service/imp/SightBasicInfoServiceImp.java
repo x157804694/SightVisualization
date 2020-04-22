@@ -83,4 +83,9 @@ public class SightBasicInfoServiceImp implements SightBasicInfoService {
     public Integer getSumSaleCount() {
         return sightBasicInfoMapper.getSumSaleCount();
     }
+
+    @Override
+    public List<String> getAllProvince() {
+        return sightBasicInfoMapper.getAllProvince();
+    }
 }

@@ -44,6 +44,7 @@ public class VisualizationInfoController {
         ClassPathResource geoCoordRes = new ClassPathResource("static/js/echarts/json/cityCoords.json");
         File geoCoordFile = geoCoordRes.getFile();
         String geoCoord = FileUtils.readFileToString(geoCoordFile);
+        System.out.println(geoCoord);
         return geoCoord;
     }
     //查询景区月销量top10

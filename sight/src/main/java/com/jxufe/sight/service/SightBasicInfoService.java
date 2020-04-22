@@ -14,6 +14,7 @@ public interface SightBasicInfoService {
     List<HashMap<String, Integer>> getDiffPriceRangeNum();
     List<HashMap<String, String>> getCitySightNumTop5();
     List<HashMap<String, String>> getCitySaleCountTop5();
+    List<String> getAllProvince();
     List<SightBasicInfoVO> getSightSaleCountTop10();
     Integer getSumSaleCount();
 }

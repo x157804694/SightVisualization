@@ -28,6 +28,7 @@ public interface SightBasicInfoMapper {
     Integer getDiffPriceRangeNum(@Param("start") Double start,@Param("end") Double end);
     // 查询景区数量前五的城市中各等级景区数量及总数
     List<HashMap<String, String>> getCitySightNumTop5();
+    List<HashMap<String, String>> getCitySightNumTop5(@Param("province") String province);
     // 查询月销量前五的城市及销量
     List<HashMap<String, String>> getCitySaleCountTop5();
 }

@@ -68,7 +68,11 @@
         WHERE qunarPrice BETWEEN #{start} AND #{end}
     </select>
     <select id="getCitySightNumTop5" resultType="java.util.HashMap">
-        SELECT city,COUNT(CASE WHEN star is NULL THEN '1' END ) as 其它,COUNT(CASE WHEN star='3A' THEN '1' END ) as 3A,COUNT(CASE WHEN star='4A' THEN '1' END ) as 4A,COUNT(CASE WHEN star='5A' THEN '1' END ) as 5A FROM t_sightinfo GROUP BY city ORDER BY COUNT(sightId) DESC LIMIT 5
+        SELECT city,COUNT(CASE WHEN star is NULL THEN '1' END ) as 其它,
+        COUNT(CASE WHEN star='3A' THEN '1' END ) as 3A,
+        COUNT(CASE WHEN star='4A' THEN '1' END ) as 4A,
+        COUNT(CASE WHEN star='5A' THEN '1' END ) as 5A
+        FROM t_sightinfo GROUP BY city ORDER BY COUNT(sightId) DESC LIMIT 5
     </select>
     <select id="getCitySaleCountTop5" resultType="java.util.HashMap">
         SELECT city,SUM(saleCount) as value FROM t_sightinfo INNER JOIN t_sightmonthlysalecount on t_sightinfo.sightId=t_sightmonthlysalecount.sightId GROUP BY city ORDER BY SUM(saleCount) DESC LIMIT 5
