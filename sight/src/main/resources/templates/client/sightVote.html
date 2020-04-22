@@ -36,7 +36,7 @@
 			<header id="header" class="header" th:replace="~{fragments/clientFragment::rightPanelHeader}"></header>
 			<!-- Header -->
 			<!-- 写代码的容器 -->
-			<div th:each="vote : ${Vote}">
+			<div th:each="vote : ${Vote}" style="background-color: white;">
 				<div class="vote-box" th:attr="data-Id=${vote.getId()}">
 					<div class="container">
 						<div class="row">
@@ -74,7 +74,7 @@
 									<div class="progress-bar" style="width: 40%;">
 										<span class="vote-name" style="font-size: 16px;">ooo</span>
 									</div>
-									<span class="vote-num" style="font-size: 16px; color: #0e94ea; margin-top: 5px;">118</span>
+									<span class="vote-num" style="font-size: 16px; color: #0e94ea; line-height: 30px; position: absolute; right: 15%">118</span>
 								</div>
 								<br>
 							</div>
@@ -128,24 +128,30 @@
 						</div>
 					</div>
 					<!-- 克隆主评论模板 -->
-					<div class="container" id="root-comment" style="display: none;" >
-						<div class="row">
-							<div class="col-lg-1"></div>
-							<div class="col-lg-1 user-img">
-								<img src="../../static/img/20190626030223.png"/>
+					<div class="container usr-commend" id="root-comment" style="display: none;">
+						<div class="root-cmd">
+							<div class="row">
+								<div class="col-lg-1"></div>
+								<div class="col-lg-1 user-img">
+									<img src="../../static/img/20190626030223.png"/>
+								</div>
+								<div class="col-lg-2 root-user">
+									<div class="row user-nim">不上红名不改名</div>
+									<div class="row user-tim">2020-4-11 12:00</div>
+								</div>
+								<div class="col-lg-5"></div>
+								<!-- 这里需要两个自定义属性：data-commentid,data-commentnickname -->
+								<div class="col-lg-1 pub-rpy" style="cursor: pointer;">回复</div>
+								<div class="col-lg-1 fid-rpy" style="cursor: pointer; display: none;">查看回复</div>
+								<div class="col-lg-1 hid-rpy" style="cursor: pointer;">收起回复</div>
 							</div>
-							<div class="col-lg-2">
-								<div class="row user-nim">不上红名不改名</div>
-								<div class="row user-tim">2020-04-20 11:00</div>
+							<div class="row">
+								<div class="col-lg-2"></div>
+								<div class="col-lg-10 text-left cmd-content" style="margin-left: -1%;">请问我能怎样快速达到红名水平？</div>
 							</div>
-							<div class="col-lg-5"></div>
-							<div class="col-lg-1 pub-rpy" style="cursor: pointer;">回复</div>
-							<div class="col-lg-1 fid-rpy" style="cursor: pointer;">查看回复</div>
-							<div class="col-lg-1 hid-rpy" style="cursor: pointer; display: none;">收起回复</div>
 						</div>
-						<div class="row">
-							<div class="col-lg-2"></div>
-							<div class="col-lg-10 text-left cmd-content" style="margin-left: -1%;">请问我能怎样快速达到红名水平？</div>
+						<div class="reply-root">
+
 						</div>
 					</div>
 					<div class="comment-box">
@@ -157,8 +163,7 @@
 										<img src="../../static/img/20190626030223.png" th:src="@{${comment.user.avatar}}"/>
 									</div>
 									<div class="col-lg-2 root-user">
-										<div class="row user-nim" style="color: #0e94ea;" th:if="${comment.user.nickname == vote.userInfoVO.nickname}">作者</div>
-										<div class="row user-nim" th:if="${comment.user.nickname != vote.userInfoVO.nickname}" th:text="${comment.user.nickname}">不上红名不改名</div>
+										<div class="row user-nim" th:text="${comment.user.nickname}">不上红名不改名</div>
 										<div class="row user-tim" th:text="${#dates.format(comment.create_time,'yyyy-MM-dd HH:mm')}">2020-4-11 12:00</div>
 									</div>
 									<div class="col-lg-5"></div>
@@ -179,13 +184,11 @@
 											<img src="../../static/img/20190626030223.png" th:src="@{${reply.from_user_avatar}}"/>
 										</div>
 										<div class="col-lg-1">
-											<div class="row user-nim" style="color: #0e94ea;" th:if="${reply.from_user_nickname == vote.userInfoVO.nickname}">作者</div>
-											<div class="row user-nim" th:if="${reply.from_user_nickname != vote.userInfoVO.nickname}" th:text="${reply.from_user_nickname}">tourist</div>
+											<div class="row user-nim" th:text="${reply.from_user_nickname}">tourist</div>
 										</div>
 										<div class="col-lg-1 text-left" style="color: #999999;">回复</div>
 										<div class="col-lg-2">
-											<div class="row user-nim" style="color: #0e94ea;" th:if="${reply.to_user_nickname == vote.userInfoVO.nickname}">作者</div>
-											<div class="row user-nim" th:if="${reply.to_user_nickname != vote.userInfoVO.nickname}" th:text="${reply.to_user_nickname}">不上红名不改名</div>
+											<div class="row user-nim" th:text="${reply.to_user_nickname}">不上红名不改名</div>
 										</div>
 										<div class="col-lg-2 user-tim" style="margin-left: -10%;" th:text="${#dates.format(reply.create_time,'yyyy-MM-dd HH:mm')}">2020-4-11 12:00</div>
 										<div class="col-lg-2 usr-rpy" style="cursor: pointer;" th:attr="data-commentid=${reply.id},data-commentnickname=${reply.from_user_nickname}">回复</div>
@@ -206,13 +209,14 @@
 								<img src="../../static/img/20190626030223.png"/>
 							</div>
 							<div class="col-lg-1">
-								<div class="row user-nim from_user">tourist</div>
+								<div class="row user-nim from_user">作者</div>
 							</div>
 							<div class="col-lg-1 text-left" style="color: #999999;">回复</div>
 							<div class="col-lg-2">
-								<div class="row user-nim to_user">不上红名不改名</div>
+								<div class="row user-nim to_user">作者</div>
 							</div>
 							<div class="col-lg-2 user-tim" style="margin-left: -10%;">2020-4-11 12:00</div>
+							<!-- 这里也需要设置自定义属性：data-commentid,data-commentnickname -->
 							<div class="col-lg-2 usr-rpy" style="cursor: pointer;">回复</div>
 						</div>
 						<div class="row usr-reply" >
@@ -222,7 +226,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="container" style="height: 30px; background-color: white;"></div>
+			<div style="width:100%; height: 50px; background-color: #ffffff;"></div>
 		</div>
 		<!-- Right Panel -->
 	</body>

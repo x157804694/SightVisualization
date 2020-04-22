@@ -3,9 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jxufe.sight.mapper.CommentMapper">
-    <insert id="saveVoteComment" parameterType="Comment">
-        insert into t_comment(id,comment,create_time,from_uid,vote_id)
-            values (null,#{comment.comment},#{comment.create_time},#{comment.from_uid},#{comment.vote_id})
+    <insert id="saveVoteComment" parameterType="Comment" useGeneratedKeys="true" keyProperty="id">
+        insert into t_comment(id,comment,from_uid,vote_id)
+            values (null,#{comment.comment},#{comment.from_uid},#{comment.vote_id})
     </insert>
     <select id="findAllComment" parameterType="Long" resultType="Comment">
         select * from t_comment where vote_id = #{voteId} order by create_time desc
@@ -16,9 +16,9 @@
     <select id="findCommentById" parameterType="Long" resultType="Comment">
         select * from t_comment where id = #{id}
     </select>
-    <insert id="saveReplyComment" parameterType="ReplyComment">
-        insert into t_reply(id,reply,create_time,from_user_avatar,from_user_nickname,to_user_nickname,comment_id)
-        values (null,#{replyComment.reply},#{replyComment.create_time},#{replyComment.from_user_avatar},#{replyComment.from_user_nickname},#{replyComment.to_user_nickname},#{replyComment.comment_id})
+    <insert id="saveReplyComment" parameterType="ReplyComment" useGeneratedKeys="true" keyProperty="id">
+        insert into t_reply(id,reply,from_user_avatar,from_user_nickname,to_user_nickname,comment_id)
+        values (null,#{replyComment.reply},#{replyComment.from_user_avatar},#{replyComment.from_user_nickname},#{replyComment.to_user_nickname},#{replyComment.comment_id})
     </insert>
     <select id="findReplyComment" parameterType="Long" resultType="ReplyComment">
         select * from t_reply where id = #{id}

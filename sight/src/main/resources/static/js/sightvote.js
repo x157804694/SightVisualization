@@ -23,12 +23,12 @@ $(function(){
 	$('.btn-open').click(function(){
 		$(this).hide();
 		$(this).siblings('.btn-shut').show();
-		$(this).parent().parent().parent().find('.usr-commend').show();
+		$(this).parent().parent().next().next().find('.usr-commend').show();
 	});
 	$('.btn-shut').click(function(){
 		$(this).hide();
 		$(this).siblings('.btn-open').show();
-		$(this).parent().parent().parent().find('.usr-commend').hide();
+		$(this).parent().parent().next().next().find('.usr-commend').hide();
 	});
 
 	//查看回复与收起回复
@@ -67,6 +67,36 @@ $(function(){
 		$(this).parent().parent().parent().parent().parent().siblings('.reply-commend').find('.rpy-cmd').attr("placeholder", "@"+commentNickname).focus();
 	});
 
+	//参数是克隆的评论盒子
+	function setClickEventForComment(obj,commentnickname,commentid){
+		var pubRpyBtn=obj.find(".pub-rpy");
+		pubRpyBtn.click(function () {
+			console.log("nihaozhangtao");
+			console.log(commentnickname);
+			console.log(commentid);
+			var commentNickname = commentnickname; //$(this).data("commentnickname");
+			commentId = commentid; //$(this).data("commentid");
+			currentDiv = $(this).parent().parent().next();
+			$(window).scrollTo($(this).parent().parent().parent().parent().siblings('.one-vote').find('.ppy'),500);
+			$(this).parent().parent().parent().parent().siblings('.reply-commend').find('.rpy-cmd').attr("placeholder", "@"+commentNickname).focus();
+		});
+	}
+
+	//参数是克隆的回复盒子
+	function setClickEventForReply(obj,commentnickname,commentid){
+		var usrRpyBtn=obj.find('.usr-rpy');
+		usrRpyBtn.click(function () {
+			console.log("ohozhangtao");
+			var commentNickname = commentnickname; //$(this).data("commentnickname");
+			currentDiv = $(this).parent().parent().parent();
+			commentId = commentid; //$(this).data("commentid");
+			console.log(commentNickname);
+			console.log(commentId);
+			$(window).scrollTo($(this).parent().parent().parent().parent().parent().siblings('.one-vote').find('.ppy'),500);
+			$(this).parent().parent().parent().parent().parent().siblings('.reply-commend').find('.rpy-cmd').attr("placeholder", "@"+commentNickname).focus();
+		});
+	}
+
 	//格式时间
 	function formatDate() {
 		var date = new Date();
@@ -81,7 +111,7 @@ $(function(){
 		var second = date.getSeconds();
 		minute = minute < 10 ? ('0' + minute) : minute;
 		second = second < 10 ? ('0' + second) : second;
-		return y + '-' + m + '-' + d+' '+h+':'+minute;
+		return y + '-' + m + '-' + d+' '+h+':' + minute;
 	}
 
 	//评论
@@ -98,20 +128,18 @@ $(function(){
 					$(that).parent().parent().find('#rpy-cmd').val('');
 					var comment = $('#root-comment').clone(true);
 					comment.removeAttr('id');
-					comment.addClass('root-cmd');
 					comment.css({'display':'block','margin-top':'20px','margin-bottom':'20px'});
-
 					comment.find('img').prop('src',data.user.avatar);
 					comment.find('.user-nim').text(data.user.nickname);
 					comment.find('.cmd-content').text(data.comment);
 					comment.find('.user-tim').text(formatDate());
+					setClickEventForComment(comment,data.user.nickname,data.id);
 					var parent = $(that).parent().parent().next().next();
 					console.log(parent);
 					parent.prepend(comment);
 					console.log(data);
 				}
 			});
-
 		} else {
 			console.log("根与回复 或 回复与回复");
 			$.ajax({
@@ -129,6 +157,7 @@ $(function(){
 					comment.find('.to_user').text(data.to_user_nickname);
 					comment.find('.reply-cmd').text(data.reply);
 					comment.find('.user-tim').text(formatDate());
+					setClickEventForReply(comment,data.from_user_nickname,data.id);
 					currentDiv.prepend(comment);
 					console.log(data);
 				}

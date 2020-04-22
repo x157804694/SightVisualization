@@ -7,7 +7,6 @@ import com.jxufe.sight.vo.ReplyComment;
 import com.jxufe.sight.vo.UserInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,6 +29,7 @@ public class CommentController {
         comment.setUser(user);
         comment.setFrom_uid(user.getId());
         commentService.saveVoteComment(comment);
+        comment.setId(comment.getId());
         return comment;
     }
 
@@ -49,6 +49,7 @@ public class CommentController {
             replyComment.setComment_id(commentService.findReplyComment(replyComment.getComment_id()).getComment_id());
         }
         commentService.saveReplyComment(replyComment);
+        replyComment.setId(replyComment.getId());
         return replyComment;
     }
 }
