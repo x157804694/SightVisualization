@@ -1,20 +1,27 @@
 $(function(){
 	
 	//控制查看数据的开关
+	$('.btn-no-user').click(function () {
+		$(this).parent().parent().prev().find('.btn-no-login').hide();
+		$(this).parent().parent().prev().find('.vote-no-login').show();
+		$(this).siblings('.btn-no-user-view').show();
+		$(this).hide();
+	});
+	$('.btn-no-user-view').click(function () {
+		$(this).parent().parent().prev().find('.btn-no-login').show();
+		$(this).parent().parent().prev().find('.vote-no-login').hide();
+		$(this).siblings('.btn-no-user').show();
+		$(this).hide();
+	});
 	$('.btn-view').click(function () {
-		$(this).parent().parent().prev().find('.vote-recover').each(function(index,element){
-			$(element).animate({width:$(element).attr('progress-width')},'fast');
-		});
-		$(this).parent().parent().prev().find('.vote-ratio').show();
+		$(this).parent().parent().prev().find('.vote-login').hide();
+		$(this).parent().parent().prev().find('.btn-login').show();
 		$(this).siblings('.btn-noview').show();
 		$(this).hide();
 	});
 	$('.btn-noview').click(function () {
-		console.log("aaaaaaaaaaaaaa");
-		$(this).parent().parent().prev().find('.vote-recover').each(function(index,element){
-			$(element).animate({width:0},'fast');
-		});
-		$(this).parent().parent().prev().find('.vote-ratio').hide();
+		$(this).parent().parent().prev().find('.vote-login').show();
+		$(this).parent().parent().prev().find('.btn-login').hide();
 		$(this).siblings('.btn-view').show();
 		$(this).hide();
 	});
@@ -137,6 +144,9 @@ $(function(){
 					var parent = $(that).parent().parent().next().next();
 					console.log(parent);
 					parent.prepend(comment);
+					$(that).parent().parent().next().next().find('.usr-commend').show();
+					$(that).parent().parent().find('.btn-open').hide();
+					$(that).parent().parent().find('.btn-shut').show();
 					console.log(data);
 				}
 			});

@@ -61,7 +61,8 @@
 							<div class="col-lg-8 text-center vote-content" th:text="${vote.description}">大家觉得哪个景区最美，欢迎投票!</div>
 						</div>
 
-						<div class="row option-content" th:if="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd HH:mm:ss') <= #dates.format(vote.end_time,'yyyy-MM-dd HH:mm:ss') && session.user!=null && !#lists.contains(userVoteList,vote.id)}" th:each="voteOption : ${vote.voteOptions}">
+						<!-- 登录后 -->
+						<div class="row option-content vote-login" th:if="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd HH:mm:ss') <= #dates.format(vote.end_time,'yyyy-MM-dd HH:mm:ss') && session.user!=null && !#lists.contains(userVoteList,vote.id)}" th:each="voteOption : ${vote.voteOptions}">
 							<div class="col-lg-2"></div>
 							<div class="col-lg-8 vote-btn" th:attr="data-Id=${voteOption.getId()}">
 								<button type="button" class="btn btn-info btn-block" th:text="|${voteOption.option_name}|">选项1</button>
@@ -92,11 +93,37 @@
 							</div>
 						</div>
 
-						<div class="row" th:if="${session.user}==null">
-							<div class="no-user">
-								<a class="no-login" href="#" th:href="@{/admin}">请登录后查看投票选项和投票信息</a>
+						<div class="result-content btn-login" style="display: none;" th:if="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd HH:mm:ss') <= #dates.format(vote.end_time,'yyyy-MM-dd HH:mm:ss') && session.user!=null && !#lists.contains(userVoteList,vote.id)}">
+							<div th:each="voteOption : ${vote.voteOptions}">
+								<div class="progress" style="height: 30px;">
+									<div class="progress-bar" style="width: 90%;" th:styleappend="|width:${voteOption.ratio}%;|">
+										<span class="vote-name" style="font-size: 16px;" th:text="|${voteOption.option_name}|">ooo</span>
+									</div>
+									<span class="vote-num" style="font-size: 16px; color: #0e94ea; line-height: 30px; position: absolute; right: 15%" th:text="${voteOption.vote_num}">118</span>
+								</div>
+								<br>
 							</div>
 						</div>
+
+						<!-- 未登陆 -->
+						<div class="row option-content vote-no-login" th:if="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd HH:mm:ss') <= #dates.format(vote.end_time,'yyyy-MM-dd HH:mm:ss') && session.user==null}" th:each="voteOption : ${vote.voteOptions}">
+							<div class="col-lg-2"></div>
+							<div class="col-lg-8 vote-btn" th:attr="data-Id=${voteOption.getId()}">
+								<button type="button" class="btn btn-info btn-block" th:text="|${voteOption.option_name}|">选项1</button>
+							</div>
+						</div>
+						<div class="result-content btn-no-login" style="display: none;" th:if="${session.user==null && #dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd HH:mm:ss')<=#dates.format(vote.end_time,'yyyy-MM-dd HH:mm:ss')}">
+							<div th:each="voteOption : ${vote.voteOptions}">
+								<div class="progress" style="height: 30px;">
+									<div class="progress-bar" style="width: 90%;" th:styleappend="|width:${voteOption.ratio}%;|">
+										<span class="vote-name" style="font-size: 16px;" th:text="|${voteOption.option_name}|">ooo</span>
+									</div>
+									<span class="vote-num" style="font-size: 16px; color: #0e94ea; line-height: 30px; position: absolute; right: 15%" th:text="${voteOption.vote_num}">118</span>
+								</div>
+								<br>
+							</div>
+						</div>
+
 						<div class="row ppy" ></div>
 					</div>
 					<div class="container reply-commend">
@@ -104,12 +131,15 @@
 							<div class="col-lg-4" th:if="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd HH:mm:ss') <= #dates.format(vote.end_time,'yyyy-MM-dd HH:mm:ss')}" style="margin-left: 2%; color: red;" th:text="|截止时间:${#dates.format(vote.end_time,'yyyy-MM-dd HH:mm:ss')}|"></div>
 							<div class="col-lg-4" th:if="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd HH:mm:ss') > #dates.format(vote.end_time,'yyyy-MM-dd HH:mm:ss')}" style="font-size: 20px; color: red;">该投票时间已截止</div>
 							<div class="col-lg-4"></div>
-							<div class="col-lg-1 fa fa-eye-slash btn-noview" style="display: none; font-size: 20px; cursor: pointer;"></div>
-							<div class="col-lg-1 fa fa-eye btn-view" style="font-size: 20px; cursor: pointer;"></div>
+							<div th:if="${session.user!=null}" class="col-lg-1 fa fa-eye-slash btn-noview" style="display: none; font-size: 20px; cursor: pointer;"></div>
+							<div th:if="${session.user!=null}" class="col-lg-1 fa fa-eye btn-view" style="font-size: 20px; cursor: pointer;"></div>
+							<div th:if="${session.user==null}" class="col-lg-1 fa fa-eye-slash btn-no-user" style="display: none; font-size: 20px; cursor: pointer;"></div>
+							<div th:if="${session.user==null}" class="col-lg-1 fa fa-eye btn-no-user-view" style="font-size: 20px; cursor: pointer;"></div>
 							<div th:if="${session.user!=null && #lists.contains(userAppreciateVoteList,vote.id)}" class="col-lg-1 fa fa-thumbs-o-up btn-good" style="font-size: 20px; color: #0e94ea; cursor: pointer;"></div>
 							<div th:if="${session.user!=null && !#lists.contains(userAppreciateVoteList,vote.id)}" class="col-lg-1 fa fa-thumbs-o-up btn-bad" style="font-size: 20px; cursor: pointer;"></div>
 							<div class="col-lg-1 fa fa-thumbs-o-up btn-good1" style="font-size: 20px; color: #0e94ea; display: none; cursor: pointer;"></div>
 							<div class="col-lg-1 fa fa-thumbs-o-up btn-bad1" style="font-size: 20px; display: none; cursor: pointer;"></div>
+							<div th:if="${session.user==null}" class="col-lg-1 fa fa-thumbs-o-up" style="font-size: 20px; cursor: pointer;"></div>
 							<div id="appreciateNum" style="margin-left: -20px;" th:text="${vote.appreciate_num}">1156</div>
 							<div class="col-lg-1 fa fa-commenting btn-open" style="margin-left: 1%; font-size: 20px; cursor: pointer;"></div>
 							<div class="col-lg-1 fa fa-commenting btn-shut" style="margin-left: 1%; font-size: 20px; cursor: pointer; display: none;"></div>
