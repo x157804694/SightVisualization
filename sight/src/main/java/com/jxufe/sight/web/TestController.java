@@ -1,7 +1,6 @@
 package com.jxufe.sight.web;
 
 import com.alibaba.druid.support.json.JSONUtils;
-import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jxufe.sight.mapper.SightBasicInfoMapper;
@@ -26,7 +25,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/test")
 public class TestController {
-
+    @Autowired
     private SightBasicInfoMapper sightBasicInfoMapper;
 
     @Autowired
