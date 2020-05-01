@@ -4,17 +4,43 @@ $(function () {
     setInterval(function () {
         getTime();
     }, 1000);
+
+    // 基于准备好的dom，初始化echarts实例
+    var mapEchart = echarts.init(document.getElementById('center1'));
+    var pie1chart = echarts.init(document.getElementById("pie1"));
+    var pie2chart = echarts.init(document.getElementById("pie2"));
+    var right1chart = echarts.init(document.getElementById('right1chartArea'));
+    var right2chart = echarts.init(document.getElementById('right2chartArea'));
+    var right3chart = echarts.init(document.getElementById('right3chartArea'));
+    var left2chart = echarts.init(document.getElementById('left2chartArea'));
     chinaMap();
     pie1();
     pie2();
     right1();
-    right2();
-    right3();
-    left2();
+    right2(4);
+    right3(4);
+    left2(4);
 
+    $('#selectMonth').change(function () {
+        var month = $("#selectMonth").find("option:selected").val();
+        updateSumSaleCount(month);
+        left1(month);
+        left2(month);
+        right2(month);
+        right3(month);
+    });
+    function left1(month) {
+        var url = "/SightVisualization/updateSightSaleCountTop10/"+month;
+        // console.log(url);
+        $("#top10").load(url);
+    }
+    function updateSumSaleCount(month) {
+        var url = "/SightVisualization/updateSumSaleCount/"+month;
+        // console.log(url);
+        $("#sumOfSaleCountDiv").load(url);
+    }
     function pie1() {
-        var p1 = document.getElementById("pie1");
-        var pie1 = echarts.init(p1);
+
         $.get("/visualization/getDiffStarNum", function (jsonData) {
             var data = [
                 {
@@ -164,16 +190,15 @@ $(function () {
                     }
                 }]
             };
-            pie1.setOption(option);
+            pie1chart.setOption(option);
             window.addEventListener("resize", function () {
-                pie1.resize();
+                pie1chart.resize();
             });
         });
     }
 
     function pie2() {
-        var p2 = document.getElementById("pie2");
-        var pie2 = echarts.init(p2);
+
         $.get("/visualization/getDiffPriceRangeNum", function (jsonData) {
             var data = [{
                 value: 335,
@@ -358,15 +383,15 @@ $(function () {
                 }
             };
 
-            pie2.setOption(option);
+            pie2chart.setOption(option);
             window.addEventListener("resize", function () {
-                pie2.resize();
+                pie2chart.resize();
             });
         });
     }
 
     function right1() {
-        var right1 = echarts.init(document.getElementById('right1chartArea'));
+
         $.get("/visualization/getCitySightNumTop5", function (jsonData) {
             var newSeries = [{
                 name: '5A级景区',
@@ -515,16 +540,15 @@ $(function () {
                 option["yAxis"].data.push(city);
             }
             // 使用刚指定的配置项和数据显示图表。
-            right1.setOption(option);
+            right1chart.setOption(option);
             window.addEventListener("resize", function () {
-                right1.resize();
+                right1chart.resize();
             });
         });
     }
 
-    function right2() {
-        var right2 = echarts.init(document.getElementById('right2chartArea'));
-        $.get("/visualization/getCitySaleCountTop5", function (jsonData){
+    function right2(month) {
+        $.get("/visualization/getCitySaleCountTop5/"+month, function (jsonData){
             var option = {
                 title: {
                     text: '城市月销量top5',
@@ -603,120 +627,125 @@ $(function () {
                 option["yAxis"].data.push(CitySaleCountTop5[i].city);
                 option["series"].data.push(CitySaleCountTop5[i].value);
             }
-
-            right2.setOption(option);
+            right2chart.clear();
+            right2chart.setOption(option);
             window.addEventListener("resize", function () {
-                right2.resize();
+                right2chart.resize();
             });
         });
     }
 
-    function right3() {
-        var right3 = echarts.init(document.getElementById('right3chartArea'));
-
-        option = {
-            title: {
-                text: '各地区月销量情况',
-                top: '1%',
-                left: 'center',
-                textStyle: {
-                    fontSize: '14',
-                    fontWeight: 'lighter',
-                    color: '#fff'
-                }
-            },
-            color: "#3cefff",
-            tooltip: {},
-            grid: {
-                left: '2%',
-                right: '7%',
-                top: '15%',
-                bottom: '3%',
-                containLabel: true
-            },
-            xAxis: [{
-                type: "category",
-                data: ["华中", "华北", "华南", "华东", "东北", "西北", "西南"],
-                axisTick: {
-                    alignWithLabel: true
-                },
-                nameTextStyle: {
-                    color: "#82b0ec"
-                },
-                axisLine: {
-                    lineStyle: {
-                        color: "#82b0ec"
+    function right3(month) {
+        $.get("/visualization/getZoneSaleCount/"+month,function (jsonData) {
+            var option = {
+                title: {
+                    text: '各地区月销量情况',
+                    top: '1%',
+                    left: 'center',
+                    textStyle: {
+                        fontSize: '14',
+                        fontWeight: 'lighter',
+                        color: '#fff'
                     }
                 },
-                axisLabel: {
-                    textStyle: {
-                        color: "#82b0ec"
-                    }
-                }
-            }],
-            yAxis: [{
-                type: "value",
-                axisLabel: {
-                    textStyle: {
+                color: "#3cefff",
+                tooltip: {},
+                grid: {
+                    left: '2%',
+                    right: '7%',
+                    top: '15%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: [{
+                    type: "category",
+                    data: ["东北", "华东", "华中", "华北", "华南", "西北", "西南"],
+                    axisTick: {
+                        alignWithLabel: true
+                    },
+                    nameTextStyle: {
                         color: "#82b0ec"
                     },
-                    formatter: "{value}"
-                },
-                splitLine: {
-                    lineStyle: {
-                        color: "#0c2c5a"
-                    }
-                },
-                axisLine: {
-                    show: false
-                }
-            }],
-            series: [{
-                type: "pictorialBar",
-                // 尺寸 x方向 y方向
-                symbolSize: [20, 10],
-                // 左右上下偏移
-                symbolOffset: [0, -5],
-                symbolPosition: "end",
-                label: {
-                    normal: {
-                        show: true,
-                        position: "top",
-                        formatter: "{c}"
-                    }
-                },
-
-                data: [24697, 27223, 39607, 73333, 15731, 24084, 42434]
-            },
-                {
-                    type: "pictorialBar",
-                    symbolSize: [20, 10],
-                    symbolOffset: [0, 5],
-
-                    data: [24697, 27223, 39607, 73333, 15731, 24084, 42434]
-                },
-                {
-                    type: "bar",
-                    itemStyle: {
-                        normal: {
-                            opacity: 0.6
+                    axisLine: {
+                        lineStyle: {
+                            color: "#82b0ec"
                         }
                     },
-                    barWidth: 20,
-                    data: [24697, 27223, 39607, 73333, 15731, 24084, 42434]
-                },
-            ]
-        }
+                    axisLabel: {
+                        textStyle: {
+                            color: "#82b0ec"
+                        }
+                    }
+                }],
+                yAxis: [{
+                    type: "value",
+                    axisLabel: {
+                        textStyle: {
+                            color: "#82b0ec"
+                        },
+                        formatter: "{value}"
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: "#0c2c5a"
+                        }
+                    },
+                    axisLine: {
+                        show: false
+                    }
+                }],
+                series: [{
+                    type: "pictorialBar",
+                    // 尺寸 x方向 y方向
+                    symbolSize: [20, 10],
+                    // 左右上下偏移
+                    symbolOffset: [0, -5],
+                    symbolPosition: "end",
+                    label: {
+                        normal: {
+                            show: true,
+                            position: "top",
+                            formatter: "{c}"
+                        }
+                    },
 
-        right3.setOption(option);
-        window.addEventListener("resize", function () {
-            right3.resize();
+                    data: []
+                },
+                    {
+                        type: "pictorialBar",
+                        symbolSize: [20, 10],
+                        symbolOffset: [0, 5],
+
+                        data: []
+                    },
+                    {
+                        type: "bar",
+                        itemStyle: {
+                            normal: {
+                                opacity: 0.6
+                            }
+                        },
+                        barWidth: 20,
+                        data: []
+                    },
+                ]
+            }
+            var ZoneSaleCount = JSON.parse(jsonData);
+            for (var i = 0; i < ZoneSaleCount.length; i++){
+                option["series"][0].data.push(ZoneSaleCount[i].value);
+                option["series"][1].data.push(ZoneSaleCount[i].value);
+                option["series"][2].data.push(ZoneSaleCount[i].value);
+            }
+            right3chart.clear();
+            right3chart.setOption(option);
+            window.addEventListener("resize", function () {
+                right3chart.resize();
+            });
         });
     }
 
-    function left2() {
-        var left2 = echarts.init(document.getElementById('left2chartArea'));
-        $.get("/visualization/getDiffStarSaleCount", function (jsonData) {
+    function left2(month) {
+        $.get("/visualization/getDiffStarSaleCount/"+month, function (jsonData) {
 
             var data = [
                 {
@@ -882,10 +911,10 @@ $(function () {
                     data: data
                 }
             };
-
-            left2.setOption(option);
+            left2chart.clear();
+            left2chart.setOption(option);
             window.addEventListener("resize", function () {
-                left2.resize();
+                left2chart.resize();
             });
         });
     }
@@ -908,8 +937,6 @@ $(function () {
             console.log(res);
             return res;
         };
-        // 基于准备好的dom，初始化echarts实例
-        var mapEchart = echarts.init(document.getElementById('center1'));
         var data;
         var geoCoordMap;
         // 旅游城市分布图

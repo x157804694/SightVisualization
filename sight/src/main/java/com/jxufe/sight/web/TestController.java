@@ -77,7 +77,7 @@ public class TestController {
     }
     @RequestMapping("/t7")
     public String getDiffStarSaleCount(){
-        String data = JSONUtils.toJSONString(sightBasicInfoMapper.getDiffStarSaleCount());
+        String data = JSONUtils.toJSONString(sightBasicInfoMapper.getDiffStarSaleCount(4));
         return data;
     }
     @RequestMapping("/t8")
@@ -92,7 +92,7 @@ public class TestController {
     }
     @RequestMapping("/t10")
     public String getSightSaleCountTop10(){
-        System.out.println(sightBasicInfoMapper.getSightSaleCountTop10());
+        System.out.println(sightBasicInfoMapper.getSightSaleCountTop10(4));
         return "data";
     }
     @RequestMapping("/t11")

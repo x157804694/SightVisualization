@@ -15,10 +15,10 @@
 		<div id="header">
 			<div id="selectMonthBox">
 				<select id="selectMonth">
-					<option selected disabled hidden>选择月份</option>
-					<option>3月</option>
-					<option>4月</option>
-					<option>5月</option>
+<!--					<option selected disabled hidden>选择月份</option>-->
+					<option th:value="3">3月</option>
+					<option th:value="4" selected>4月</option>
+					<option th:value="5">5月</option>
 				</select>
 			</div>
 			<div id="title">全国景区可视化分析</div>
@@ -34,7 +34,7 @@
 				<div class="left1Title text-center">
 					全国景区月销量排行榜top10
 				</div>
-				<table class="table1 text-center">
+				<table class="table1 text-center" id="top10" th:fragment="table">
 					<thead>
 						<tr class="text-info">
 							<th>景区名称</th>
@@ -66,7 +66,8 @@
 			<div class="chartsArea">
 				<div id="pie1">扇形图1</div>
 				<div id="pie2">扇形图2</div>
-				<div id="sumOfSaleCount" class="text-center" th:text="'本月总销量'+${SumSaleCount}">
+				<div id="sumOfSaleCountDiv">
+					<div id="sumOfSaleCount" class="text-center" th:text="'本月总销量'+${SumSaleCount}" th:fragment="sumOfSaleCount"></div>
 				</div>
 			</div>
 		</div>
@@ -82,6 +83,6 @@
 			<div th:replace="~{fragments/sightVisualizationFragment::borderBox}"></div>
 			<div id="right3chartArea" class="chartsArea"></div>
 		</div>
-		<script type="text/javascript" th:src="@{/js/echarts/CNSightVisualization.js}"></script>
+		<script type="text/javascript" th:src="@{/js/echarts/CNSightVisualization.js}" th:inline="javascript"></script>
 	</body>
 </html>
