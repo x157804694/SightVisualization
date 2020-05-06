@@ -37,7 +37,7 @@ public class VisualizationController {
         }
         //把省份信息传到前端，前端再用ajax读取
         else {
-            model.addAttribute("SightOfProvinceSaleCountTop10", provinceVisualizationService.getProvinceSaleCountTop10(province));
+            model.addAttribute("SightOfProvinceSaleCountTop10", provinceVisualizationService.getProvinceSaleCountTop10("北京",3));
             model.addAttribute("AllProvince", sightBasicInfoService.getAllProvince());
             model.addAttribute("Month", "三月");
             return "client/ProvinceSightVisualization";
