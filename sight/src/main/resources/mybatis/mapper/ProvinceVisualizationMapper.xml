@@ -51,11 +51,13 @@
         and MONTH(t_sightmonthlysalecount.createDate)=#{month} GROUP BY star
     </select>
     <select id="getSightCommentNumTop5" resultType="java.util.HashMap" parameterType="string">
-        SELECT t.sightName,ts.goodCommentAmount,ts.badCommentAmount
-        FROM t_sightinfo as t LEFT OUTER JOIN t_sightupdateinfo as ts
-        on t.province=#{province} and t.sightId=ts.sightId
-        GROUP BY t.sightName
-        ORDER BY ts.sumAmount DESC LIMIT 5
+        SELECT
+	t.sightName,
+	ts.goodCommentAmount,
+	ts.badCommentAmount
+	FROM t_sightinfo AS t INNER JOIN t_sightupdateinfo AS ts ON t.province = #{province}
+    AND t.sightId = ts.sightId
+    ORDER BY ts.sumAmount DESC LIMIT 5
     </select>
     <select id="getSightSaleOfMonth" resultType="java.util.HashMap" parameterType="string">
         SELECT MONTH(t_sightmonthlysalecount.createDate) as month,SUM(saleCount) as value
