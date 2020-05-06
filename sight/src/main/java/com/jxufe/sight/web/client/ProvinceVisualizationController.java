@@ -21,9 +21,9 @@ public class ProvinceVisualizationController {
     @Autowired
     ProvinceVisualizationService provinceVisualizationService;
 
-    @GetMapping("/getProvinceSaleCountTop10/{province}")
-    public List<ProvinceVisualizationVO> getProvinceSaleCountTop10(@PathVariable String province) {
-        List<ProvinceVisualizationVO> provinceVisualizationVOS = provinceVisualizationService.getProvinceSaleCountTop10(province);
+    @GetMapping("/getProvinceSaleCountTop10/{province}/{month}")
+    public List<ProvinceVisualizationVO> getProvinceSaleCountTop10(@PathVariable String province,@PathVariable Integer month) {
+        List<ProvinceVisualizationVO> provinceVisualizationVOS = provinceVisualizationService.getProvinceSaleCountTop10(province,month);
         return provinceVisualizationVOS;
     }
 
@@ -32,14 +32,14 @@ public class ProvinceVisualizationController {
         return provinceValue;
     }
 
-    @GetMapping("/getProvinceSaleCount/{province}")
-    public Integer getProvince(@PathVariable String province) {
-        Integer sale = provinceVisualizationService.getSumSaleCount(province);
+    @GetMapping("/getProvinceSaleCount/{province}/{month}")
+    public Integer getProvinceSaleCount(@PathVariable String province,@PathVariable Integer month) {
+        Integer sale = provinceVisualizationService.getSumSaleCount(province,month);
         return sale;
     }
 
     @GetMapping("/getSightPrice/{province}")
-    public String getSightPrice(@PathVariable String province) {
+    public String getSightPrice(@PathVariable String province){
         List<HashMap<String,Integer>> price = provinceVisualizationService.getPriceOfSight(province);
         return JSONUtils.toJSONString(price);
     }
@@ -49,16 +49,10 @@ public class ProvinceVisualizationController {
         return JSONUtils.toJSONString(provinceVisualizationService.getCityCoord(province));
     }
 
-    @GetMapping("/getCitySightNumOfProvince/{province}")
-    public String getCitySightNumOfProvince(@PathVariable String province) {
-        List<HashMap<String,Integer>> num = provinceVisualizationService.getCitySightNum(province);
+    @GetMapping("/getCitySightSaleCountOfProvince/{province}/{month}")
+    public String getCitySightSaleCountOfProvince(@PathVariable String province,@PathVariable Integer month) {
+        List<HashMap<String,Integer>> num = provinceVisualizationService.getCitySightSaleCount(province,month);
         return JSONUtils.toJSONString(num);
-    }
-
-    @GetMapping("/getMonthSaleSum/{province}")
-    public String getMonthSaleSum(@PathVariable String province) {
-        Integer saleSum = provinceVisualizationService.getSumSaleCount(province);
-        return JSONUtils.toJSONString(saleSum);
     }
 
     @GetMapping("/getStarOfSight/{province}")
@@ -68,9 +62,9 @@ public class ProvinceVisualizationController {
         return JSONUtils.toJSONString(stars);
     }
 
-    @GetMapping("/getSaleCountSumGroupByStar/{province}")
-    public String getSaleCountSumGroupByStar(@PathVariable String province) {
-        List<HashMap<String, Integer>> counts = provinceVisualizationService.getSumSaleCountGroupByStar(province);
+    @GetMapping("/getSaleCountSumGroupByStar/{province}/{month}")
+    public String getSaleCountSumGroupByStar(@PathVariable String province,@PathVariable Integer month) {
+        List<HashMap<String, Integer>> counts = provinceVisualizationService.getSumSaleCountGroupByStar(province,month);
         return JSONUtils.toJSONString(counts);
     }
 
@@ -80,9 +74,22 @@ public class ProvinceVisualizationController {
         return JSONUtils.toJSONString(nums);
     }
 
-    @GetMapping("/getCitySaleTop5/{province}")
-    public String getCitySaleTop5(@PathVariable String province) {
-        List<HashMap<String, Integer>> sales = provinceVisualizationService.getCitySaleCountTop5(province);
+    @GetMapping("/getCitySaleTop5/{province}/{month}")
+    public String getCitySaleTop5(@PathVariable String province,@PathVariable Integer month) {
+        List<HashMap<String, Integer>> sales = provinceVisualizationService.getCitySaleCountTop5(province,month);
         return JSONUtils.toJSONString(sales);
+    }
+
+    //直辖市，经济特区评论总数Top5
+    @GetMapping("/getSightCommentNumTop5/{province}")
+    public String getSightCommentNumTop5(@PathVariable String province) {
+        List<HashMap<String, String>> comNum = provinceVisualizationService.getSightCommentNumTop5(province);
+        return JSONUtils.toJSONString(comNum);
+    }
+    //直辖市，经济特区好评数Top5
+    @GetMapping("/getSightSaleOfMonth/{province}")
+    public String getSightSaleOfMonth(@PathVariable String province) {
+        List<HashMap<String, Integer>> goodComNum = provinceVisualizationService.getSightSaleOfMonth(province);
+        return JSONUtils.toJSONString(goodComNum);
     }
 }
