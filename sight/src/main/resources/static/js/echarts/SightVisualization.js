@@ -389,7 +389,7 @@ $(function () {
             }
             var option = {
                 title: {
-                    text: '全国景区价格区间',
+                    text: province+'省景区价格区间',
                     top: '2%',
                     left: 'center',
                     textStyle: {
