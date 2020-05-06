@@ -25,8 +25,8 @@ public class ProvinceVisualizationServiceImp implements ProvinceVisualizationSer
     }
 
     @Override
-    public List<ProvinceVisualizationVO> getProvinceSaleCountTop10(String province) {
-        return provinceVisualizationMapper.getProvinceSaleCountTop10(province);
+    public List<ProvinceVisualizationVO> getProvinceSaleCountTop10(String province,Integer month) {
+        return provinceVisualizationMapper.getProvinceSaleCountTop10(province,month);
     }
 
     @Override
@@ -50,8 +50,8 @@ public class ProvinceVisualizationServiceImp implements ProvinceVisualizationSer
     }
 
     @Override
-    public List<HashMap<String, Integer>> getCitySightNum(String province) {
-        return provinceVisualizationMapper.getCitySightNum(province);
+    public List<HashMap<String, Integer>> getCitySightSaleCount(String province,Integer month) {
+        return provinceVisualizationMapper.getCitySightSaleCount(province,month);
     }
 
     @Override
@@ -78,17 +78,27 @@ public class ProvinceVisualizationServiceImp implements ProvinceVisualizationSer
     }
 
     @Override
-    public Integer getSumSaleCount(String province) {
-        return provinceVisualizationMapper.getSumSaleCount(province);
+    public Integer getSumSaleCount(String province,Integer month) {
+        return provinceVisualizationMapper.getSumSaleCount(province,month);
     }
 
     @Override
-    public List<HashMap<String, Integer>> getSumSaleCountGroupByStar(String province) {
-        return provinceVisualizationMapper.getSumSaleCountGroupByStar(province);
+    public List<HashMap<String, Integer>> getSumSaleCountGroupByStar(String province,Integer month) {
+        return provinceVisualizationMapper.getSumSaleCountGroupByStar(province,month);
     }
 
     @Override
-    public List<HashMap<String, Integer>> getCitySaleCountTop5(String province) {
-        return provinceVisualizationMapper.getCitySaleCountTop5(province);
+    public List<HashMap<String, Integer>> getCitySaleCountTop5(String province,Integer month) {
+        return provinceVisualizationMapper.getCitySaleCountTop5(province,month);
+    }
+
+    @Override
+    public List<HashMap<String, Integer>> getSightSaleOfMonth(String province) {
+        return provinceVisualizationMapper.getSightSaleOfMonth(province);
+    }
+
+    @Override
+    public List<HashMap<String, String>> getSightCommentNumTop5(String province) {
+        return provinceVisualizationMapper.getSightCommentNumTop5(province);
     }
 }
