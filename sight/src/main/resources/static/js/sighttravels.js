@@ -2,6 +2,7 @@ $(function(){
 
     //µãÔÞ¹¦ÄÜ
     $('.btn-travel-bad').click(function () {
+
         var that = this;
         $(this).hide();
         $(this).siblings('.btn-travel-good1').show();
