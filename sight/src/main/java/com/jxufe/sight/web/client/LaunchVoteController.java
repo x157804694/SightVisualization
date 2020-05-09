@@ -8,6 +8,7 @@ import com.jxufe.sight.vo.VoteOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
@@ -26,8 +27,9 @@ public class LaunchVoteController {
         return "client/t_votes";
     }
 
-    @RequestMapping("/launchVote")
+    @PostMapping("/launchVote")
     public String launchVote(VoteInfoVO voteInfoVO, HttpSession session){
+        System.out.println("999999999999999999999999999999");
         voteInfoVO.setUserInfoVO((UserInfoVO) session.getAttribute("user"));
         Long voteId = voteService.saveVote(voteInfoVO);
         voteId = voteInfoVO.getId();

@@ -20,7 +20,7 @@
 							</ul>
 						</li>
 						<li>
-							<a href="#"> <i class="menu-icon fa fa-file-word-o"></i>撰写游记 </a>
+							<a href="#" th:href="@{/sighttravels}"> <i class="menu-icon fa fa-file-word-o"></i>撰写游记 </a>
 						</li>
 						<li>
 							<a href="#"> <i class="menu-icon fa fa-thumbs-up "></i>投出一票 </a>
@@ -133,6 +133,8 @@
 							<div class="col-lg-4"></div>
 							<div th:if="${session.user!=null}" class="col-lg-1 fa fa-eye-slash btn-noview" style="display: none; font-size: 20px; cursor: pointer;"></div>
 							<div th:if="${session.user!=null}" class="col-lg-1 fa fa-eye btn-view" style="font-size: 20px; cursor: pointer;"></div>
+							<div th:if="${session.user!=null}" class="col-lg-1 fa fa-eye btn-no-view" style="display: none; font-size: 20px; cursor: pointer;"></div>
+							<div th:if="${session.user!=null}" class="col-lg-1 fa fa-eye-slash btn-no-no-view" style="display: none; font-size: 20px; cursor: pointer;"></div>
 							<div th:if="${session.user==null}" class="col-lg-1 fa fa-eye-slash btn-no-user" style="display: none; font-size: 20px; cursor: pointer;"></div>
 							<div th:if="${session.user==null}" class="col-lg-1 fa fa-eye btn-no-user-view" style="font-size: 20px; cursor: pointer;"></div>
 							<div th:if="${session.user!=null && #lists.contains(userAppreciateVoteList,vote.id)}" class="col-lg-1 fa fa-thumbs-o-up btn-good" style="font-size: 20px; color: #0e94ea; cursor: pointer;"></div>

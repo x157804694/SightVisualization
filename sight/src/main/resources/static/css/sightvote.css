@@ -7,7 +7,6 @@ body{
 }
 .vote-box{
 	width: 100%;
-	margin-top:50px;
 	overflow-y: auto;
 }
 .container{
@@ -137,4 +136,11 @@ div.container div.row div {
 .btn-block{
 	display: block;
 	margin-top: 5px;
+}
+.carousel-inner img {
+	width:100%;
+}
+div#demo{
+	width:80%;
+	margin:0 auto;
 }

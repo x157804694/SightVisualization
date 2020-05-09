@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxufe.sight.mapper.TravelMapper">
+    <insert id="saveTravel" parameterType="TravelInfoVO" useGeneratedKeys="true" keyProperty="id">
+        insert into t_travel(id,title,description,appreciate_num,user_id)
+            values (null,#{travelInfoVO.title},#{travelInfoVO.description},
+            #{travelInfoVO.appreciate_num},#{travelInfoVO.userInfoVO.id})
+    </insert>
+    <select id="getTravel" parameterType="Long" resultType="TravelInfoVO">
+        select * from t_travel where id = #{id}
+    </select>
+    <select id="findAllTravel" resultType="TravelInfoVO">
+        select * from t_travel order by create_time desc
+    </select>
+    <select id="findAppreciateNum" parameterType="Long" resultType="Long">
+        select appreciate_num from t_travel where id = #{travelId}
+    </select>
+    <update id="saveAppreciateNum" parameterType="Long">
+        update t_travel set appreciate_num = #{appreciateNum} where id = #{travelId}
+    </update>
+</mapper>

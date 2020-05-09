@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxufe.sight.mapper.TravelImgMapper">
+    <insert id="savetravelImg" parameterType="TravelImgs" useGeneratedKeys="true" keyProperty="id">
+        insert into t_travel_imgs(id,travel_id,img_url)
+            values (null,#{travelImgs.travel_id},#{travelImgs.img_url})
+    </insert>
+    <select id="findAllTravelImg" parameterType="Long" resultType="TravelImgs">
+        select * from t_travel_imgs where travel_id = #{travelId}
+    </select>
+</mapper>

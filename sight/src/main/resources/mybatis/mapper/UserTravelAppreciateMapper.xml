@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxufe.sight.mapper.UserTravelAppreciateMapper">
+    <insert id="saveUserTravelAppreciate" parameterType="Long">
+        insert into t_user_appreciatetravel(id,user_id,appreciatetravel_id) values (null,#{userId},#{travelId})
+    </insert>
+    <delete id="deleteUserTravelAppreciate" parameterType="Long">
+        delete from t_user_appreciatetravel where user_id = #{userId} and appreciatetravel_id = #{travelId}
+    </delete>
+    <select id="findAllUserTravelAppreciate" parameterType="Long" resultType="UserTravelAppreciate">
+        select * from t_user_appreciatetravel where user_id = #{userId}
+    </select>
+</mapper>

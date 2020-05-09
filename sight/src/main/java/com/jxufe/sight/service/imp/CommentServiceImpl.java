@@ -8,12 +8,13 @@ import com.jxufe.sight.vo.ReplyComment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
 public class CommentServiceImpl implements CommentService {
 
-    @Autowired
+    @Resource
     private CommentMapper commentMapper;
     @Override
     public void saveVoteComment(Comment comment) {

@@ -14,6 +14,7 @@ $(function(){
 		$(this).hide();
 	});
 	$('.btn-view').click(function () {
+		console.log("查看数据!!!");
 		$(this).parent().parent().prev().find('.vote-login').hide();
 		$(this).parent().parent().prev().find('.btn-login').show();
 		$(this).siblings('.btn-noview').show();
@@ -25,6 +26,14 @@ $(function(){
 		$(this).siblings('.btn-view').show();
 		$(this).hide();
 	});
+	$('.btn-no-view').click(function () {
+		$(this).hide();
+		$(this).siblings('.btn-no-no-view').show();
+	});
+	$('.btn-no-no-view').click(function () {
+		$(this).hide();
+		$(this).siblings('.btn-no-view').show();
+	})
 
 	//控制评论的开关
 	$('.btn-open').click(function(){
@@ -68,6 +77,7 @@ $(function(){
 	$('.usr-rpy').click(function () {
 		console.log("bbbbbbbbbbbbbbb");
 		var commentNickname = $(this).data("commentnickname");
+		console.log(commentNickname);
 		currentDiv = $(this).parent().parent().parent();
 		commentId = $(this).data("commentid");
 		$(window).scrollTo($(this).parent().parent().parent().parent().parent().siblings('.one-vote').find('.ppy'),500);
@@ -283,6 +293,7 @@ $(function(){
 	}
 	$('.vote-btn').click(function(){
 		console.log('触发');
+		var that = this;
 		var currentVoteDiv=$(this).parents(".one-vote");
 		console.log("currentVoteId="+currentVoteDiv.attr('data-voteId'));
 		//触发ajax请求
@@ -293,6 +304,8 @@ $(function(){
 			dataType: 'json',
 			success: function(data) {
 				console.log(data);
+				$(that).parent().parent().next().find('.btn-view').hide();
+				$(that).parent().parent().next().find('.btn-no-view').show();
 				showResult(data,currentVoteDiv);
 			}
 		});
