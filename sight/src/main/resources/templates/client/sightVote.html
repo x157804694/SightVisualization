@@ -3,7 +3,7 @@
 	<head th:replace="~{fragments/clientFragment::head('eTravel')}"></head>
 	<body>
 		<!-- Left Panel 左边的菜单栏 -->
-		<aside id="left-panel" class="left-panel" th:fragment="aside">
+		<aside id="left-panel" class="left-panel" th:replace="~{fragments/clientFragment::aside}">
 			<nav class="navbar navbar-expand-sm navbar-default">
 
 				<div id="main-menu" class="main-menu collapse navbar-collapse">
@@ -20,10 +20,13 @@
 							</ul>
 						</li>
 						<li>
+							<a href="/tourismVisualization"> <i class="menu-icon fa fa-line-chart"></i>中国旅游业分析及预测</a>
+						</li>
+						<li>
 							<a href="#" th:href="@{/sighttravels}"> <i class="menu-icon fa fa-file-word-o"></i>撰写游记 </a>
 						</li>
 						<li>
-							<a href="#"> <i class="menu-icon fa fa-thumbs-up "></i>投出一票 </a>
+							<a href="#" th:href="@{/sightvote}"> <i class="menu-icon fa fa-thumbs-up "></i>投出一票 </a>
 						</li>
 					</ul>
 				</div><!-- /.navbar-collapse -->

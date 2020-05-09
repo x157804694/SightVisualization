@@ -11,12 +11,12 @@
         select t1.id as id,t1.sightId as sightId,t1.*,t2.* from t_sightinfo as t1 join t_sightupdateinfo as t2 on t1.sightId=t2.sightId
         where t1.sightId=#{sightId}
     </select>
-    <select id="getProvinceSaleCountTop10" resultType="ProvinceVisualizationVO" parameterType="string">
+    <select id="getProvinceSaleCountTop10" resultType="ProvinceVisualizationVO">
         SELECT sightName,star,city,saleCount FROM t_sightinfo as t1 INNER JOIN t_sightmonthlysalecount as t2 on t1.sightId=t2.sightId
-        where t1.province=#{province} ORDER BY saleCount DESC LIMIT 10
+        where MONTH(t2.createDate)=#{month} and t1.province=#{province} ORDER BY saleCount DESC LIMIT 10
     </select>
-    <select id="getCitySightNum" resultType="java.util.HashMap">
-        SELECT t1.sightName as sightName,t1.star as star,t2.saleCount as value FROM t_sightinfo as t1 INNER JOIN t_sightmonthlysalecount as t2 on t1.sightId=t2.sightId where province=#{province}
+    <select id="getCitySightSaleCount" resultType="java.util.HashMap">
+        SELECT t1.sightName as sightName,t1.star as star,t2.saleCount as value FROM t_sightinfo as t1 INNER JOIN t_sightmonthlysalecount as t2 on t1.sightId=t2.sightId where MONTH(t2.createDate)=#{month} and t1.province=#{province}
     </select>
     <select id="getCityCoord" resultType="java.util.HashMap">
         SELECT sightName,point as value FROM t_sightinfo where province=#{province}
@@ -35,17 +35,32 @@
         COUNT(CASE WHEN star='5A' THEN '1' END ) as 5A
         FROM t_sightinfo where province=#{province} GROUP BY city ORDER BY COUNT(sightId) DESC LIMIT 5
     </select>
-    <select id="getSumSaleCount" resultType="java.lang.Integer" parameterType="string">
+    <select id="getSumSaleCount" resultType="java.lang.Integer">
         SELECT SUM(saleCount) as value FROM t_sightmonthlysalecount
-        where t_sightmonthlysalecount.sightId in (select  sightId from t_sightinfo where t_sightinfo.province=#{province})
+        where MONTH(t_sightmonthlysalecount.createDate)=#{month} and t_sightmonthlysalecount.sightId in (select  sightId from t_sightinfo where t_sightinfo.province=#{province})
     </select>
-    <select id="getCitySaleCountTop5" resultType="java.util.HashMap" parameterType="string">
+    <select id="getCitySaleCountTop5" resultType="java.util.HashMap">
         SELECT city,SUM(saleCount) as value FROM t_sightinfo INNER JOIN t_sightmonthlysalecount
         on t_sightinfo.sightId=t_sightmonthlysalecount.sightId and t_sightinfo.province=#{province}
+        and MONTH(t_sightmonthlysalecount.createDate)=#{month}
         GROUP BY city ORDER BY SUM(saleCount) DESC LIMIT 5
     </select>
-    <select id="getSumSaleCountGroupByStar" resultType="java.util.HashMap" parameterType="string">
+    <select id="getSumSaleCountGroupByStar" resultType="java.util.HashMap">
         SELECT star,SUM(saleCount) as value FROM t_sightinfo INNER JOIN t_sightmonthlysalecount
-        on t_sightinfo.sightId=t_sightmonthlysalecount.sightId and t_sightinfo.province=#{province} GROUP BY star
+        on t_sightinfo.sightId=t_sightmonthlysalecount.sightId and t_sightinfo.province=#{province}
+        and MONTH(t_sightmonthlysalecount.createDate)=#{month} GROUP BY star
+    </select>
+    <select id="getSightCommentNumTop5" resultType="java.util.HashMap" parameterType="string">
+        SELECT t.sightName,ts.goodCommentAmount,ts.badCommentAmount
+        FROM t_sightinfo as t LEFT OUTER JOIN t_sightupdateinfo as ts
+        on t.province=#{province} and t.sightId=ts.sightId
+        GROUP BY t.sightName
+        ORDER BY ts.sumAmount DESC LIMIT 5
+    </select>
+    <select id="getSightSaleOfMonth" resultType="java.util.HashMap" parameterType="string">
+        SELECT MONTH(t_sightmonthlysalecount.createDate) as month,SUM(saleCount) as value
+        FROM t_sightinfo INNER JOIN t_sightmonthlysalecount
+        on t_sightinfo.sightId=t_sightmonthlysalecount.sightId and t_sightinfo.province=#{province}
+        GROUP BY MONTH(t_sightmonthlysalecount.createDate)
     </select>
 </mapper>

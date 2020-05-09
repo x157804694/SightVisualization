@@ -16,6 +16,7 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -48,15 +49,15 @@ public class VisualizationInfoController {
         return geoCoord;
     }
     //查询景区月销量top10
-    @GetMapping("/getSightSaleCountTop10")
-    public String querySightSaleCountTop10(){
-        List<SightBasicInfoVO> SightSaleCountTop10 = sightBasicInfoService.getSightSaleCountTop10();
+    @GetMapping("/getSightSaleCountTop10/{month}")
+    public String querySightSaleCountTop10(@PathVariable Integer month){
+        List<SightBasicInfoVO> SightSaleCountTop10 = sightBasicInfoService.getSightSaleCountTop10(month);
         return JSONUtils.toJSONString(SightSaleCountTop10);
     }
     //查询本月总销量
-    @GetMapping("/getSumSaleCount")
-    public String getSumSaleCount(){
-        int SumSaleCount = sightBasicInfoService.getSumSaleCount();
+    @GetMapping("/getSumSaleCount/{month}")
+    public String getSumSaleCount(@PathVariable Integer month){
+        int SumSaleCount = sightBasicInfoService.getSumSaleCount(month);
         return JSONUtils.toJSONString(SumSaleCount);
     }
     //查询不同等级景区数量
@@ -66,9 +67,9 @@ public class VisualizationInfoController {
         return JSONUtils.toJSONString(DiffStarNum);
     }
     //查询不同等级景区月销量
-    @GetMapping("/getDiffStarSaleCount")
-    public String getDiffStarSaleCount(){
-        List<HashMap<String, Integer>> DiffStarSaleCount = sightBasicInfoService.getDiffStarSaleCount();
+    @GetMapping("/getDiffStarSaleCount/{month}")
+    public String getDiffStarSaleCount(@PathVariable Integer month){
+        List<HashMap<String, Integer>> DiffStarSaleCount = sightBasicInfoService.getDiffStarSaleCount(month);
         return JSONUtils.toJSONString(DiffStarSaleCount);
     }
     //查询不同价格区间的景区数量
@@ -83,11 +84,16 @@ public class VisualizationInfoController {
         List<HashMap<String, String>> CitySightNumTop5 = sightBasicInfoService.getCitySightNumTop5();
         return JSONUtils.toJSONString(CitySightNumTop5);
     }
-    //查询景区数量前五的城市中各等级景区数量及总数
-    @GetMapping("/getCitySaleCountTop5")
-    public String getCitySaleCountTop5(){
-        List<HashMap<String, String>> CitySaleCountTop5 = sightBasicInfoService.getCitySaleCountTop5();
+    //查询景区月销量前五的城市及销量
+    @GetMapping("/getCitySaleCountTop5/{month}")
+    public String getCitySaleCountTop5(@PathVariable Integer month){
+        List<HashMap<String, String>> CitySaleCountTop5 = sightBasicInfoService.getCitySaleCountTop5(month);
         return JSONUtils.toJSONString(CitySaleCountTop5);
     }
-
+    //查询七大地区月销量
+    @GetMapping("/getZoneSaleCount/{month}")
+    public String getZoneSaleCount(@PathVariable Integer month){
+        List<HashMap<String, String>> ZoneSaleCount = sightBasicInfoService.getZoneSaleCount(month);
+        return JSONUtils.toJSONString(ZoneSaleCount);
+    }
 }

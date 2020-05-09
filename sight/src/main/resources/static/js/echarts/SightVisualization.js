@@ -13,35 +13,52 @@ $(function () {
     var center2chart = echarts.init(document.getElementById('right3chartArea'));
 
     pie1("北京");
-    Map("北京");
+    Map("北京", 3);
     pie2("北京");
     right1("北京");
-    right2("北京");
-    right3("北京");
-    insertText("北京");
+    right2("北京", 3);
+    right3("北京", 3);
+    insertText("北京", 3);
 
     document.getElementById("selectProvince").onchange = function () {
         var selectProvince = document.getElementById("selectProvince");
+        var selectMonth = document.getElementById("selectMonth");
         var province = (selectProvince.options)[selectProvince.selectedIndex].value;
+        var month = (selectMonth.options)[selectMonth.selectedIndex].value;
         if (province == undefined) province = "北京";
+        if (month == undefined) month = "3";
         pie1(province);
-        Map(province);
+        Map(province, month);
         pie2(province);
         right1(province);
-        right2(province);
-        right3(province);
-        insertText(province);
-    }
+        right2(province, month);
+        right3(province, month);
+        insertText(province, month);
+    };
 
-    function insertText(province) {
+    document.getElementById("selectMonth").onchange = function () {
+        var selectProvince = document.getElementById("selectProvince");
+        var selectMonth = document.getElementById("selectMonth");
+        var province = (selectProvince.options)[selectProvince.selectedIndex].value;
+        var month = (selectMonth.options)[selectMonth.selectedIndex].value;
+        if (province == undefined) province = "北京";
+        if (month == undefined) month = "3";
+
+        Map(province, month);
+        right2(province, month);
+        right3(province, month);
+        insertText(province, month);
+    };
+
+    function insertText(province, month) {
         $.get("/ProvinceVisualization/getProvinceValue", function (Data) {
             document.getElementById("title").innerText = Data + "省景区可视化分析";
-            document.getElementById("tableTitle").innerText = Data + "省景区三月销量排行榜TOP10";
+            document.getElementById("tableTitle").innerText = Data + "省景区" + month + "月销量排行榜TOP10";
         })
-        $.get("/ProvinceVisualization/getProvinceSaleCount/" + province, function (Data) {
-            document.getElementById("sumOfSaleCount").innerText = "本月总销量" + Data;
+        $.get("/ProvinceVisualization/getProvinceSaleCount/" + province + "/" + month, function (Data) {
+            document.getElementById("sumOfSaleCount").innerText = province + "省" + month +"月总销量"+ Data;
         })
-        $.get("/ProvinceVisualization/getProvinceSaleCountTop10/" + province, function (Data) {
+        $.get("/ProvinceVisualization/getProvinceSaleCountTop10/" + province + "/" + month, function (Data) {
             console.log(Data);
             var t = document.getElementById("sightTable");
             var length = t.rows.length;
@@ -66,7 +83,7 @@ $(function () {
                 thead.appendChild(tr);
                 t.appendChild(thead);
 
-                for(var i=0;i<Data.length;i++){
+                for (var i = 0; i < Data.length; i++) {
                     tr = t.insertRow(i);
                     sightName = tr.insertCell(0);
                     star = tr.insertCell(1);
@@ -74,7 +91,7 @@ $(function () {
                     saleCount = tr.insertCell(3);
 
                     sightName.innerHTML = Data[i].sightName;
-                    star.innerHTML = (Data[i].star == null)?'其他':Data[i].star;
+                    star.innerHTML = (Data[i].star == null) ? '其他' : Data[i].star;
                     city.innerHTML = Data[i].city;
                     saleCount.innerHTML = Data[i].saleCount;
                     t.appendChild(tr);
@@ -372,7 +389,7 @@ $(function () {
             }
             var option = {
                 title: {
-                    text: '全国景区价格区间',
+                    text: province+'省景区价格区间',
                     top: '2%',
                     left: 'center',
                     textStyle: {
@@ -435,256 +452,491 @@ $(function () {
     }
 
     function right1(province) {
+        var arr = ['北京', '上海', '天津', '重庆', '香港', '澳门'];
 
-        $.get("/ProvinceVisualization/getCitySightNumTop5/" + province, function (jsonData) {
-            var newSeries = [{
-                name: '5A级景区',
-                type: 'bar',
-                stack: '总量',
-                barWidth: '70%',
-                itemStyle: {
-                    normal: {
-                        color: '#04b1a9',
-                    }
-                },
-                label: {
-                    normal: {
-                        show: false,
-                        position: 'inside',
-                    }
-                },
-                data: []
-            },
-                {
-                    name: '4A级景区',
+        if (arr.indexOf(province) != -1) {
+            $.get("/ProvinceVisualization/getSightCommentNumTop5/" + province, function (jsonData) {
+                var newSeries = [{
+                    name: '好评数',
                     type: 'bar',
                     stack: '总量',
                     barWidth: '70%',
                     itemStyle: {
                         normal: {
-                            color: '#ccc904',
+                            color: '#04b1a9',
                         }
                     },
                     label: {
                         normal: {
                             show: false,
-                            position: 'inside'
-                        }
-                    },
-                    data: [],
-                },
-                {
-                    name: '3A级景区',
-                    type: 'bar',
-                    stack: '总量',
-                    barWidth: '70%',
-                    itemStyle: {
-                        normal: {
-                            color: '#2c61a2',
-                        }
-                    },
-                    label: {
-                        normal: {
-                            show: false,
-                            position: 'inside'
-                        }
-                    },
-                    data: [],
-                },
-                {
-                    name: '其它景区',
-                    type: 'bar',
-                    stack: '总量',
-                    barWidth: '70%',
-                    itemStyle: {
-                        normal: {
-                            color: '#ff5624',
-                        }
-                    },
-                    label: {
-                        normal: {
-                            show: true,
-                            position: 'inside'
-                        }
-                    },
-                    data: [],
-                },
-            ];
-            var option = {
-                title: {
-                    text: '城市景区数量top5',
-                    top: '1%',
-                    left: 'center',
-                    textStyle: {
-                        fontSize: '14',
-                        fontWeight: 'lighter',
-                        color: '#fff'
-                    }
-                },
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: { // 坐标轴指示器，坐标轴触发有效
-                        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-                    }
-                },
-                legend: {
-                    type: 'scroll',
-                    top: '10%',
-                    left: 'center',
-                    data: ['5A级景区', '4A级景区', '3A级景区', '其它景区'],
-                    textStyle: {
-                        color: 'rgba(46, 213, 208, 1)'
-                    }
-                },
-                grid: {
-                    left: '2%',
-                    right: '5%',
-                    top: '23%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                xAxis: {
-                    type: 'value',
-                    // max: 250,
-                    axisLine: {
-                        lineStyle: {
-                            color: '#fff',
-                        }
-                    }
-                },
-                yAxis: {
-                    type: 'category',
-                    data: [],
-                    splitLine: {
-                        show: false
-                    },
-                    axisLine: {
-                        lineStyle: {
-                            color: '#8bbdf9',
-                        }
-                    },
-                    axisLabel: {
-                        color: '#8bbdf9'
-                    }
-                },
-                series: newSeries
-            };
-
-            var CitySightNumTop5 = JSON.parse(jsonData);
-            for (var i = CitySightNumTop5.length - 1; i >= 0; i--) {
-                var city = CitySightNumTop5[i].city;
-                var a5 = CitySightNumTop5[i]["5A"];
-                var a4 = CitySightNumTop5[i]["4A"];
-                var a3 = CitySightNumTop5[i]["3A"];
-                var a0 = CitySightNumTop5[i]["other"];
-                newSeries[0].data.push(a5);
-                newSeries[1].data.push(a4);
-                newSeries[2].data.push(a3);
-                newSeries[3].data.push(a0);
-                option["yAxis"].data.push(city);
-            }
-            // 使用刚指定的配置项和数据显示图表。
-            right1chart.clear();
-            right1chart.setOption(option);
-            window.addEventListener("resize", function () {
-                right1chart.resize();
-            });
-        });
-    }
-
-    function right2(province) {
-
-        $.get("/ProvinceVisualization/getCitySaleTop5/" + province, function (jsonData) {
-            var option = {
-                title: {
-                    text: '城市月销量top5',
-                    top: '2%',
-                    left: 'center',
-                    textStyle: {
-                        fontSize: '14',
-                        fontWeight: 'lighter',
-                        color: '#fff'
-                    }
-                },
-                tooltip: {
-                    trigger: 'item',
-                    // axisPointer: { // 坐标轴指示器，坐标轴触发有效
-                    // 	type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-                    // }
-                },
-                grid: {
-                    left: '2%',
-                    right: '7%',
-                    top: '15%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                xAxis: {
-                    type: 'value',
-                    // max: 15000,
-                    splitLine: {
-                        show: false
-                    },
-                    axisLine: {
-                        show: false
-                    },
-                    axisLabel: {
-                        show: false
-                    }
-                },
-                yAxis: {
-                    type: 'category',
-                    data: [],
-                    splitLine: {
-                        show: false
-                    },
-                    axisLine: {
-                        show: false
-                    },
-                    axisLabel: {
-                        textStyle: {
-                            color: "#8bbdf9"
-                        }
-                    },
-
-                },
-                series: {
-                    name: '月销量',
-                    type: 'bar',
-                    stack: '总量',
-                    barWidth: '70%',
-                    itemStyle: {
-                        normal: {
-                            color: 'rgba(41, 203, 198, 204)',
-                            barBorderRadius: [20, 20, 20, 20],
-                        }
-                    },
-                    label: {
-                        normal: {
-                            show: true,
-                            position: 'insideRight'
+                            position: 'inside',
                         }
                     },
                     data: []
-                }
-            };
+                },
+                    {
+                        name: '差评数',
+                        type: 'bar',
+                        stack: '总量',
+                        barWidth: '70%',
+                        itemStyle: {
+                            normal: {
+                                color: '#ff5624',
+                            }
+                        },
+                        label: {
+                            normal: {
+                                show: false,
+                                position: 'inside'
+                            }
+                        },
+                        data: [],
+                    },
+                    // {
+                    //     name: '总数',
+                    //     type: 'bar',
+                    //     stack: '总量',
+                    //     barWidth: '70%',
+                    //     itemStyle: {
+                    //         normal: {
+                    //             color: '#2c61a2',
+                    //         }
+                    //     },
+                    //     label: {
+                    //         normal: {
+                    //             show: true,
+                    //             position: 'inside'
+                    //         }
+                    //     },
+                    //     data: [],
+                    // },
+                ];
+                var option = {
+                    title: {
+                        text: province + '最热景区top5',
+                        top: '1%',
+                        left: 'center',
+                        textStyle: {
+                            fontSize: '14',
+                            fontWeight: 'lighter',
+                            color: '#fff'
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                        }
+                    },
+                    legend: {
+                        type: 'scroll',
+                        top: '10%',
+                        left: 'center',
+                        data: ['总数', '好评数', '差评数'],
+                        textStyle: {
+                            color: 'rgba(46, 213, 208, 1)'
+                        }
+                    },
+                    grid: {
+                        left: '2%',
+                        right: '5%',
+                        top: '23%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    yAxis: {
+                        type: 'value',
+                        // max: 250,
+                        axisLine: {
+                            lineStyle: {
+                                color: '#fff',
 
-            var CitySaleCountTop5 = JSON.parse(jsonData);
-            for (var i = CitySaleCountTop5.length - 1; i >= 0; i--) {
-                option["yAxis"].data.push(CitySaleCountTop5[i].city);
-                option["series"].data.push(CitySaleCountTop5[i].value);
-            }
-            right2chart.clear();
-            right2chart.setOption(option);
-            window.addEventListener("resize", function () {
-                right2chart.resize();
+                            }
+                        },
+                        axisLabel: {
+                            color: '#fff',
+                            fontSize: 14,
+                            formatter: function (value, index) {
+                                if (value >= 1000) {
+                                    value = value / 1000 + 'k';
+                                } else if (value < 1000) {
+                                    value = value;
+                                }
+                                return value
+                            }
+                        }
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: [],
+                        splitLine: {
+                            show: false
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: '#8bbdf9',
+                            }
+                        },
+                        axisLabel: {
+                            color: '#8bbdf9',
+                            fontSize: '50%',
+                            interval: 0
+                        }
+                    },
+                    series: newSeries
+                };
+
+                var getSightCommentNumTop5 = JSON.parse(jsonData);
+                for (var i = 0; i <= getSightCommentNumTop5.length - 1; i++) {
+                    var sight = getSightCommentNumTop5[i].sightName;
+                    option["xAxis"].data.push(sight);
+                    var good = getSightCommentNumTop5[i]["goodCommentAmount"];
+                    var bad = getSightCommentNumTop5[i]["badCommentAmount"];
+
+                    newSeries[0].data.push(good);
+                    newSeries[1].data.push(bad);
+                }
+                // 使用刚指定的配置项和数据显示图表。
+                right1chart.clear();
+                right1chart.setOption(option);
+                window.addEventListener("resize", function () {
+                    right1chart.resize();
+                });
             });
-        });
+        } else {
+            $.get("/ProvinceVisualization/getCitySightNumTop5/" + province, function (jsonData) {
+                var newSeries = [{
+                    name: '5A级景区',
+                    type: 'bar',
+                    stack: '总量',
+                    barWidth: '70%',
+                    itemStyle: {
+                        normal: {
+                            color: '#04b1a9',
+                        }
+                    },
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'inside',
+                        }
+                    },
+                    data: []
+                },
+                    {
+                        name: '4A级景区',
+                        type: 'bar',
+                        stack: '总量',
+                        barWidth: '70%',
+                        itemStyle: {
+                            normal: {
+                                color: '#ccc904',
+                            }
+                        },
+                        label: {
+                            normal: {
+                                show: false,
+                                position: 'inside'
+                            }
+                        },
+                        data: [],
+                    },
+                    {
+                        name: '3A级景区',
+                        type: 'bar',
+                        stack: '总量',
+                        barWidth: '70%',
+                        itemStyle: {
+                            normal: {
+                                color: '#2c61a2',
+                            }
+                        },
+                        label: {
+                            normal: {
+                                show: false,
+                                position: 'inside'
+                            }
+                        },
+                        data: [],
+                    },
+                    {
+                        name: '其它景区',
+                        type: 'bar',
+                        stack: '总量',
+                        barWidth: '70%',
+                        itemStyle: {
+                            normal: {
+                                color: '#ff5624',
+                            }
+                        },
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'inside'
+                            }
+                        },
+                        data: [],
+                    },
+                ];
+                var option = {
+                    title: {
+                        text: province + '景区数量top5',
+                        top: '1%',
+                        left: 'center',
+                        textStyle: {
+                            fontSize: '14',
+                            fontWeight: 'lighter',
+                            color: '#fff'
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                        }
+                    },
+                    legend: {
+                        type: 'scroll',
+                        top: '10%',
+                        left: 'center',
+                        data: ['5A级景区', '4A级景区', '3A级景区', '其它景区'],
+                        textStyle: {
+                            color: 'rgba(46, 213, 208, 1)'
+                        }
+                    },
+                    grid: {
+                        left: '2%',
+                        right: '5%',
+                        top: '23%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'value',
+                        // max: 250,
+                        axisLine: {
+                            lineStyle: {
+                                color: '#fff',
+                            }
+                        }
+                    },
+                    yAxis: {
+                        type: 'category',
+                        data: [],
+                        splitLine: {
+                            show: false
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: '#8bbdf9',
+                            }
+                        },
+                        axisLabel: {
+                            color: '#8bbdf9'
+                        }
+                    },
+                    series: newSeries
+                };
+
+                var CitySightNumTop5 = JSON.parse(jsonData);
+                for (var i = CitySightNumTop5.length - 1; i >= 0; i--) {
+                    var city = CitySightNumTop5[i].city;
+                    var a5 = CitySightNumTop5[i]["5A"];
+                    var a4 = CitySightNumTop5[i]["4A"];
+                    var a3 = CitySightNumTop5[i]["3A"];
+                    var a0 = CitySightNumTop5[i]["other"];
+                    newSeries[0].data.push(a5);
+                    newSeries[1].data.push(a4);
+                    newSeries[2].data.push(a3);
+                    newSeries[3].data.push(a0);
+                    option["yAxis"].data.push(city);
+                }
+                // 使用刚指定的配置项和数据显示图表。
+                right1chart.clear();
+                right1chart.setOption(option);
+                window.addEventListener("resize", function () {
+                    right1chart.resize();
+                });
+            });
+        }
     }
 
-    function right3(province) {
+    function right2(province, month) {
+        var arr = ['北京', '上海', '天津', '重庆', '香港', '澳门'];
 
-        $.get("/ProvinceVisualization/getSaleCountSumGroupByStar/" + province, function (jsonData) {
+        if (arr.indexOf(province) != -1) {
+            $.get("/ProvinceVisualization/getSightSaleOfMonth/" + province, function (Data) {
+                    var option = {
+                        title: {
+                            text: province + '景区月销量变化图',
+                            top: '2%',
+                            left: 'center',
+                            textStyle: {
+                                fontSize: '12',
+                                fontWeight: 'lighter',
+                                color: '#fff'
+                            }
+                        },
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {
+                                type: 'cross',
+                                label: {
+                                    backgroundColor: '#6a7985'
+                                }
+                            }
+                        },
+                        toolbox: {
+                            feature: {
+                                saveAsImage: {}
+                            }
+                        },
+
+                        xAxis: {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: [],
+                            axisLine: {
+                                lineStyle: {
+                                    color: '#fff',
+                                }
+                            }
+                        },
+                        yAxis: {
+                            type: 'value',
+                            axisLine: {
+                                lineStyle: {
+                                    color: '#fff',
+                                }
+                            },
+                            axisLabel: {
+                                color: '#fff',
+                                fontSize: 14,
+                                formatter: function (value, index) {
+                                    if (value >= 1000) {
+                                        value = value / 1000 + 'k';
+                                    } else if (value < 1000) {
+                                        value = value;
+                                    }
+                                    return value
+                                }
+                            }
+                        },
+                        series: {
+                            name: '总销量',
+                            data: [],
+                            type: 'line',
+                            areaStyle: {}
+                        }
+                    };
+
+                    var saleOfMonth = JSON.parse(Data);
+                    for (var i = 0; i < saleOfMonth.length; i++) {
+                        option["xAxis"].data.push(saleOfMonth[i].month);
+                        option["series"].data.push(saleOfMonth[i].value);
+                    }
+
+                    right2chart.clear();
+                    right2chart.setOption(option);
+                    window.addEventListener("resize", function () {
+                        right2chart.resize();
+                    });
+
+                }
+            )
+        } else {
+            $.get("/ProvinceVisualization/getCitySaleTop5/" + province + "/" + month, function (jsonData) {
+                var option = {
+                    title: {
+                        text: province + '城市月销量top5',
+                        top: '2%',
+                        left: 'center',
+                        textStyle: {
+                            fontSize: '14',
+                            fontWeight: 'lighter',
+                            color: '#fff'
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        // axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                        // 	type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                        // }
+                    },
+                    grid: {
+                        left: '2%',
+                        right: '7%',
+                        top: '15%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'value',
+                        // max: 15000,
+                        splitLine: {
+                            show: false
+                        },
+                        axisLine: {
+                            show: false
+                        },
+                        axisLabel: {
+                            show: false
+                        }
+                    },
+                    yAxis: {
+                        type: 'category',
+                        data: [],
+                        splitLine: {
+                            show: false
+                        },
+                        axisLine: {
+                            show: false
+                        },
+                        axisLabel: {
+                            textStyle: {
+                                color: "#8bbdf9"
+                            }
+                        },
+
+                    },
+                    series: {
+                        name: '月销量',
+                        type: 'bar',
+                        stack: '总量',
+                        barWidth: "70%",
+                        itemStyle: {
+                            normal: {
+                                color: 'rgba(41, 203, 198, 204)',
+                                barBorderRadius: [20, 20, 20, 20],
+                            }
+                        },
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'insideRight'
+                            }
+                        },
+                        data: []
+                    }
+                };
+
+                var CitySaleCountTop5 = JSON.parse(jsonData);
+                for (var i = CitySaleCountTop5.length - 1; i >= 0; i--) {
+                    option["yAxis"].data.push(CitySaleCountTop5[i].city);
+                    option["series"].data.push(CitySaleCountTop5[i].value);
+                }
+                right2chart.clear();
+                right2chart.setOption(option);
+                window.addEventListener("resize", function () {
+                    right2chart.resize();
+                });
+            });
+        }
+    }
+
+    function right3(province, month) {
+
+        $.get("/ProvinceVisualization/getSaleCountSumGroupByStar/" + province + "/" + month, function (jsonData) {
 
             var data = [
                 {
@@ -860,7 +1112,7 @@ $(function () {
 
     }
 
-    function Map(provinceValue) {
+    function Map(provinceValue, monthValue) {
         //处理数据函数
         var convertData = function (data) {
             var res = [];
@@ -870,10 +1122,10 @@ $(function () {
                 for (var j = 0; j < geoCoordMap.length; j++) {
                     if (geoCoordMap[j].sightName == sightName) {
                         var values = (geoCoordMap[j].value).split("，");
-                        if (data[i].star==undefined){
+                        if (data[i].star == undefined) {
                             data[i].star = "其它";
                         }
-                        if (data[i].value==0){
+                        if (data[i].value == 0) {
                             data[i].value = 1;
                         }
                         res.push({
@@ -897,8 +1149,9 @@ $(function () {
         $.get("/ProvinceVisualization/getCityCoordOfProvince/" + provinceValue, function (jsonData) {
             geoCoordMap = JSON.parse(jsonData);
             // console.log(geoCoordMap);
-            $.get("/ProvinceVisualization/getCitySightNumOfProvince/" + provinceValue, function (jsonData) {
+            $.get("/ProvinceVisualization/getCitySightSaleCountOfProvince/" + provinceValue + "/" + monthValue, function (jsonData) {
                 data = JSON.parse(jsonData);
+                console.log(data);
                 option = {
                     title: {
                         text: provinceValue + '省热门旅游景点分布图',

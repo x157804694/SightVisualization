@@ -40,8 +40,8 @@ public class SightBasicInfoServiceImp implements SightBasicInfoService {
     }
 
     @Override
-    public List<HashMap<String, Integer>> getDiffStarSaleCount() {
-        return sightBasicInfoMapper.getDiffStarSaleCount();
+    public List<HashMap<String, Integer>> getDiffStarSaleCount(Integer month) {
+        return sightBasicInfoMapper.getDiffStarSaleCount(month);
     }
 
     @Override
@@ -70,18 +70,23 @@ public class SightBasicInfoServiceImp implements SightBasicInfoService {
     }
 
     @Override
-    public List<HashMap<String, String>> getCitySaleCountTop5() {
-        return  sightBasicInfoMapper.getCitySaleCountTop5();
+    public List<HashMap<String, String>> getCitySaleCountTop5(Integer month) {
+        return  sightBasicInfoMapper.getCitySaleCountTop5(month);
     }
 
     @Override
-    public List<SightBasicInfoVO> getSightSaleCountTop10() {
-        return sightBasicInfoMapper.getSightSaleCountTop10();
+    public List<HashMap<String, String>> getZoneSaleCount(Integer month) {
+        return sightBasicInfoMapper.getZoneSaleCount(month);
     }
 
     @Override
-    public Integer getSumSaleCount() {
-        return sightBasicInfoMapper.getSumSaleCount();
+    public List<SightBasicInfoVO> getSightSaleCountTop10(Integer month) {
+        return sightBasicInfoMapper.getSightSaleCountTop10(month);
+    }
+
+    @Override
+    public Integer getSumSaleCount(Integer month) {
+        return sightBasicInfoMapper.getSumSaleCount(month);
     }
 
     @Override

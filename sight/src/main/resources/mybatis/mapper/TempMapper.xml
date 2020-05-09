@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxufe.sight.updateDatabase.mapper.TempMapper">
+    <update id="updateInfo">
+        update t_temp set qunarPrice=#{qunarPrice},saleCount=#{saleCount} where sightId=#{sightId}
+    </update>
+
+    <select id="selectBySightId" parameterType="string" resultType="int">
+        SELECT count(*) FROM t_sightinfo where sightId=#{sightId}
+    </select>
+
+    <insert id="insertSightInfo" parameterType="com.jxufe.sight.updateDatabase.bean.SightInfoBean">
+        insert into t_sightinfo(sightId,sightName,intro,address,star,point,sightImgURL,province,city)
+        values(#{sightInfoBean.sightId},#{sightInfoBean.sightName},
+                #{sightInfoBean.intro},#{sightInfoBean.address},
+                #{sightInfoBean.star},#{sightInfoBean.point},
+                #{sightInfoBean.sightImgURL},#{sightInfoBean.province},
+                #{sightInfoBean.city})
+    </insert>
+
+    <insert id="insertSightUpdateInfo" parameterType="com.jxufe.sight.updateDatabase.bean.SightInfoBean">
+        insert into t_sightupdateinfo(sightId,qunarPrice,saleCount)
+        values(#{sightInfoBean.sightId},#{sightInfoBean.qunarPrice},
+                #{sightInfoBean.saleCount})
+    </insert>
+
+    <insert id="insertMonthlysalecount">
+        insert into t_sightmonthlysalecount(sightId,saleCount,createDate)
+        values(#{sightInfoBean.sightId},#{sightInfoBean.saleCount},
+                #{createDate})
+    </insert>
+
+    <update id="updateSightUpdateInfo" parameterType="com.jxufe.sight.updateDatabase.bean.SightInfoBean">
+        update t_sightupdateinfo set qunarPrice=#{sightInfoBean.qunarPrice},saleCount=#{sightInfoBean.saleCount} where sightId=#{sightInfoBean.sightId}
+    </update>
+
+    <update id="updateGoodcomments">
+        update t_goodcomments set content_n=#{content_n},content_a=#{content_a} where sightId=#{sightId}
+    </update>
+
+    <insert id="insertGoodcomments">
+        insert into t_goodcomments(sightId,content_n,content_a) values(#{sightId},#{content_n},#{content_a})
+    </insert>
+
+    <update id="updateBadcomments">
+        update t_badcomments set content_n=#{content_n},content_a=#{content_a} where sightId=#{sightId}
+    </update>
+
+    <insert id="insertBadcomments">
+        insert into t_badcomments(sightId,content_n,content_a) values(#{sightId},#{content_n},#{content_a})
+    </insert>
+
+    <update id="updateSightUpdateInfoForCommentCount">
+        update t_sightupdateinfo
+        set goodCommentAmount=#{goodCommentAmount},badCommentAmount=#{badCommentAmount},sumAmount=#{sumAmount}
+        where sightId=#{sightId}
+    </update>
+</mapper>

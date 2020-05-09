@@ -28,19 +28,31 @@ public class VisualizationController {
     private ProvinceVisualizationService provinceVisualizationService;
 
     @RequestMapping("/{province}")
-    public String SightVisualization(@PathVariable String province, Model model){
-        if (province.equals("全国")){
+    public String SightVisualization(@PathVariable String province, Model model) {
+        if (province.equals("全国")) {
             //把月销量前10的景区信息和本月总销量添加到Model 用thymeleaf表达式填充表格
-            model.addAttribute("SightSaleCountTop10",sightBasicInfoService.getSightSaleCountTop10());
-            model.addAttribute("SumSaleCount",sightBasicInfoService.getSumSaleCount());
+            model.addAttribute("SightSaleCountTop10", sightBasicInfoService.getSightSaleCountTop10(4));
+            model.addAttribute("SumSaleCount", sightBasicInfoService.getSumSaleCount(4));
             return "client/CNSightVisualization";
         }
         //把省份信息传到前端，前端再用ajax读取
-        else{
-            model.addAttribute("SightOfProvinceSaleCountTop10",provinceVisualizationService.getProvinceSaleCountTop10(province));
-            model.addAttribute("AllProvince",sightBasicInfoService.getAllProvince());
-            model.addAttribute("Month","三月");
+        else {
+            model.addAttribute("SightOfProvinceSaleCountTop10", provinceVisualizationService.getProvinceSaleCountTop10("北京",3));
+            model.addAttribute("AllProvince", sightBasicInfoService.getAllProvince());
+            model.addAttribute("Month", "三月");
             return "client/ProvinceSightVisualization";
         }
+    }
+
+    @RequestMapping("/updateSightSaleCountTop10/{month}")
+    public String updateSightSaleCountTop10(@PathVariable int month, Model model) {
+        model.addAttribute("SightSaleCountTop10", sightBasicInfoService.getSightSaleCountTop10(month));
+        model.addAttribute("SumSaleCount", sightBasicInfoService.getSumSaleCount(month));
+        return "client/CNSightVisualization::table";
+    }
+    @RequestMapping("/updateSumSaleCount/{month}")
+    public String updateSumSaleCount(@PathVariable int month, Model model) {
+        model.addAttribute("SumSaleCount", sightBasicInfoService.getSumSaleCount(month));
+        return "client/CNSightVisualization::sumOfSaleCount";
     }
 }

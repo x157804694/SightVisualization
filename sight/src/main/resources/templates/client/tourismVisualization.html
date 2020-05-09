@@ -1,0 +1,33 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/clientFragment::head('eTravel')}"></head>
+<body>
+<!-- Left Panel -->
+<aside th:replace="~{fragments/clientFragment::aside}"></aside>
+<!-- Left Panel -->
+
+<!-- Right Panel -->
+<div id="right-panel" class="right-panel">
+    <!-- Header-->
+    <header id="header" class="header" th:replace="~{fragments/clientFragment::rightPanelHeader}"></header>
+    <!-- /header -->
+    <div class="container" style="padding-top: 40px">
+        <div style="background-color: white;">
+            <h2 class="text-center" style="padding-top: 30px"><strong>中国旅游业数据分析及预测</strong></h2>
+            <div class="row">
+                <div id="numOfTourists" class="col-md-12" style="padding-top: 60px;height: 500px;">国内游客数量</div>
+                <div id="avgCost4Travel" class="col-md-12" style="padding-top: 60px;height: 500px;">国内旅游人均花费</div>
+                <div id="appHeat" class="col-md-12" style="padding-top: 60px;height: 500px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- right-panel -->
+
+<!-- Scripts -->
+<th:block th:replace="~{fragments/clientFragment::js}"></th:block>
+<script th:src="@{/js/tourismVisualization.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/dist/echarts.js"></script>
+</body>
+</html>

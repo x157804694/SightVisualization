@@ -12,13 +12,15 @@ import java.util.List;
 public interface ProvinceVisualizationMapper {
     ProvinceVisualizationVO findById(long id);
     ProvinceVisualizationVO findBySightId(String sightId);
-    List<ProvinceVisualizationVO> getProvinceSaleCountTop10(@Param("province") String province);
+    List<ProvinceVisualizationVO> getProvinceSaleCountTop10(@Param("province") String province,@Param("month") Integer month);
     Integer getPriceOfSight(@Param("start") Double start,@Param("end") Double end,@Param("province") String province);
     List<HashMap<String, String>> getStarOfSight(@Param("province") String province);
     List<HashMap<String, String>> getCitySightNumTop5(@Param("province") String province);
     List<HashMap<String, ArrayList>> getCityCoord(@Param("province") String province);
-    Integer getSumSaleCount(@Param("province") String province);
-    List<HashMap<String, Integer>> getCitySightNum(@Param("province") String province);
-    List<HashMap<String, Integer>> getSumSaleCountGroupByStar(@Param("province") String province);
-    List<HashMap<String, Integer>> getCitySaleCountTop5(@Param("province") String province);
+    Integer getSumSaleCount(@Param("province") String province,@Param("month") Integer month);
+    List<HashMap<String, Integer>> getCitySightSaleCount(@Param("province") String province,@Param("month") Integer month);
+    List<HashMap<String, Integer>> getSumSaleCountGroupByStar(@Param("province") String province,@Param("month") Integer month);
+    List<HashMap<String, Integer>> getCitySaleCountTop5(@Param("province") String province,@Param("month") Integer month);
+    List<HashMap<String, Integer>> getSightSaleOfMonth(@Param("province") String province);
+    List<HashMap<String, String>> getSightCommentNumTop5(@Param("province") String province);
 }

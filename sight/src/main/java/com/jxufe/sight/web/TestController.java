@@ -1,7 +1,6 @@
 package com.jxufe.sight.web;
 
 import com.alibaba.druid.support.json.JSONUtils;
-import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jxufe.sight.mapper.SightBasicInfoMapper;
@@ -26,7 +25,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/test")
 public class TestController {
-
+    @Autowired
     private SightBasicInfoMapper sightBasicInfoMapper;
 
     @Autowired
@@ -78,7 +77,7 @@ public class TestController {
     }
     @RequestMapping("/t7")
     public String getDiffStarSaleCount(){
-        String data = JSONUtils.toJSONString(sightBasicInfoMapper.getDiffStarSaleCount());
+        String data = JSONUtils.toJSONString(sightBasicInfoMapper.getDiffStarSaleCount(4));
         return data;
     }
     @RequestMapping("/t8")
@@ -93,7 +92,7 @@ public class TestController {
     }
     @RequestMapping("/t10")
     public String getSightSaleCountTop10(){
-        System.out.println(sightBasicInfoMapper.getSightSaleCountTop10());
+        System.out.println(sightBasicInfoMapper.getSightSaleCountTop10(4));
         return "data";
     }
     @RequestMapping("/t11")

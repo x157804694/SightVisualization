@@ -1,5 +1,6 @@
-package com.jxufe.sight.interceptor;
+package com.jxufe.sight.config;
 
+import com.jxufe.sight.interceptor.LoginInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
