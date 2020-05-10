@@ -1,6 +1,6 @@
 $(function(){
 
-    //µãÔŞ¹¦ÄÜ
+    //ç‚¹èµåŠŸèƒ½
     $('.btn-travel-bad').click(function () {
 
         var that = this;
@@ -67,7 +67,7 @@ $(function(){
         });
     });
 
-    //¿ØÖÆÆÀÂÛµÄ¿ª¹Ø
+    //æ§åˆ¶è¯„è®ºçš„å¼€å…³
     $('.btn-travel-open').click(function(){
         $(this).hide();
         $(this).siblings('.btn-travel-shut').show();
@@ -79,7 +79,7 @@ $(function(){
         $(this).parent().parent().next().next().find('.usr-travel-commend').hide();
     });
 
-    //²é¿´»Ø¸´ÓëÊÕÆğ»Ø¸´
+    //æŸ¥çœ‹å›å¤ä¸æ”¶èµ·å›å¤
     $('.fid-travel-rpy').click(function(){
         $(this).hide();
         $(this).next().show();
@@ -94,7 +94,7 @@ $(function(){
 
     var commentId;
     var currentDiv;
-    //¸ù»Ø¸´
+    //æ ¹å›å¤
     $('.pub-travel-rpy').click(function () {
         console.log("travelaaaaaaaaaaaaaaa");
         var commentNickname = $(this).data("commentnickname");
@@ -106,7 +106,7 @@ $(function(){
         $(this).parent().parent().parent().parent().siblings('.reply-commend').find('.rpy-travel-cmd').attr("placeholder", "@"+commentNickname).focus();
     });
 
-    //×Ó»Ø¸´
+    //å­å›å¤
     $('.usr-rpy').click(function () {
         console.log("bbbbbbbbbbbbbbb");
         var commentNickname = $(this).data("commentnickname");
@@ -116,7 +116,7 @@ $(function(){
         $(this).parent().parent().parent().parent().parent().siblings('.reply-commend').find('.rpy-travel-cmd').attr("placeholder", "@"+commentNickname).focus();
     });
 
-    //²ÎÊıÊÇ¿ËÂ¡µÄÆÀÂÛºĞ×Ó
+    //å‚æ•°æ˜¯å…‹éš†çš„è¯„è®ºç›’å­
     function setClickEventForComment(obj,commentnickname,commentid){
         var pubRpyBtn=obj.find(".pub-travel-rpy");
         pubRpyBtn.click(function () {
@@ -131,7 +131,7 @@ $(function(){
         });
     }
 
-    //²ÎÊıÊÇ¿ËÂ¡µÄ»Ø¸´ºĞ×Ó
+    //å‚æ•°æ˜¯å…‹éš†çš„å›å¤ç›’å­
     function setClickEventForReply(obj,commentnickname,commentid){
         var usrRpyBtn=obj.find('.usr-rpy');
         usrRpyBtn.click(function () {
@@ -146,7 +146,7 @@ $(function(){
         });
     }
 
-    //¸ñÊ½Ê±¼ä
+    //æ ¼å¼æ—¶é—´
     function formatDate() {
         var date = new Date();
         var y = date.getFullYear();
@@ -163,7 +163,7 @@ $(function(){
         return y + '-' + m + '-' + d+' '+h+':' + minute;
     }
 
-    //ÆÀÂÛ
+    //è¯„è®º
     $('.pub-travel-comment').click(function () {
         var that = this;
         console.log("root");
@@ -196,7 +196,7 @@ $(function(){
                 }
             });
         } else {
-            console.log("¸ùÓë»Ø¸´ »ò »Ø¸´Óë»Ø¸´");
+            console.log("æ ¹ä¸å›å¤ æˆ– å›å¤ä¸å›å¤");
             $.ajax({
                 type: 'POST',
                 url: "/admin/addTravelReplyComment",
@@ -218,15 +218,15 @@ $(function(){
                 }
             });
             $(this).parent().prev().find('.rpy-travel-cmd').val('');
-            $(this).parent().prev().find('.rpy-travel-cmd').attr("placeholder", "Ïë¶Ô×÷ÕßËµµãÊ²Ã´....");
+            $(this).parent().prev().find('.rpy-travel-cmd').attr("placeholder", "æƒ³å¯¹ä½œè€…è¯´ç‚¹ä»€ä¹ˆ....");
             commentId = null;
         }
     });
 
-    //È¡ÏûÆÀÂÛ
+    //å–æ¶ˆè¯„è®º
     $('.del-travel-comment').click(function () {
         $(this).parent().prev().find('.rpy-travel-cmd').val('');
-        $(this).parent().prev().find('.rpy-travel-cmd').attr("placeholder", "Ïë¶Ô×÷ÕßËµµãÊ²Ã´....");
+        $(this).parent().prev().find('.rpy-travel-cmd').attr("placeholder", "æƒ³å¯¹ä½œè€…è¯´ç‚¹ä»€ä¹ˆ....");
         commentId = null;
     });
 })

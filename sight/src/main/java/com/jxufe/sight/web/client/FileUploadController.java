@@ -43,7 +43,7 @@ public class FileUploadController {
             System.out.println("图片名称2: " + resultMap.get("newFileName"));
             ArrayList arrayList = new ArrayList();
             ArrayList plist = (ArrayList) session.getAttribute("list");
-            System.out.println("11111111111111111111111111111111111111111111");
+//            System.out.println("11111111111111111111111111111111111111111111");
             if (plist != null){
                 for (int i=0;i<plist.size();i++){
                     arrayList.add(plist.get(i));
@@ -51,7 +51,7 @@ public class FileUploadController {
                 }
             }
             arrayList.add(resultMap.get("newFileName"));
-            System.out.println("22222222222222222222222222222222222222222222");
+//            System.out.println("22222222222222222222222222222222222222222222");
             session.setAttribute("list",arrayList);
             result.setData(resultMap);
         } catch (ServiceException e) {

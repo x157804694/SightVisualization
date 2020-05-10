@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -51,70 +52,41 @@ public class FileUpAndDownServiceImpl implements FileUpAndDownService {
                 // 年月日文件夹
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
                 String basedir = sdf.format(new Date());
-                System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
-                System.out.println(ResourceUtils.getURL("classpath:static").getPath().substring(1));
+//                System.out.println(ResourceUtils.getURL("classpath:static").getPath().substring(1));
                 // 进行压缩(大于4M)
                 if (file.getSize() > config.getFileSize()) {
+                    System.out.println("压缩");
                     // 重新生成
                     String newUUID = UUID.randomUUID().toString().replaceAll("-", "");
                     newFileName = newUUID + "." + imageName;
                     //config.getUpPath();
                     path = ResourceUtils.getURL("classpath:static").getPath().substring(1) + "/" + "images" + "/" + "travelImg" + "/" + newUUID + "." + imageName;
+                    path = URLDecoder.decode(path, "utf-8");
                     System.out.println("path: " + path);
-                    System.out.println();
-                    System.out.println();
-                    System.out.println();
-                    System.out.println();
-                    System.out.println();
-                    System.out.println();
-                    System.out.println();
-                    System.out.println();
-                    System.out.println();
-                    System.out.println();
-                    System.out.println();System.out.println();
-                    System.out.println();System.out.println();
-                    System.out.println();System.out.println();
-                    System.out.println();
-
-
 
                     // 如果目录不存在则创建目录
                     File oldFile = new File(path);
                     if (!oldFile.exists()) {
                         oldFile.mkdirs();
-                        System.out.println("okokokokokokokokokokokokokokokok");
+                        System.out.println("创建目录");
                     }
                     file.transferTo(oldFile);
-                    System.out.println("cdcdccdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd");
                     // 压缩图片
                     Thumbnails.of(oldFile).scale(config.getScaleRatio()).toFile(path);
                     // 显示路径
                     resMap.put("path", "/" + basedir + "/" + newUUID + "." + imageName);
                 } else {
+                    System.out.println("未压缩");
                     path = ResourceUtils.getURL("classpath:static").getPath().substring(1) + "/" + "images" + "/" + "travelImg" + "/" + uuid + "." + imageName;
+                    path = URLDecoder.decode(path, "utf-8");
                     System.out.println("path: " + path);
-                    System.out.println();
-                    System.out.println();
-                    System.out.println();
-                    System.out.println();
-                    System.out.println();
-                    System.out.println();
-                    System.out.println();
-                    System.out.println();
-                    System.out.println();
-                    System.out.println();
-                    System.out.println();System.out.println();
-                    System.out.println();System.out.println();
-                    System.out.println();System.out.println();
-                    System.out.println();
                     // 如果目录不存在则创建目录
                     File uploadFile = new File(path);
                     if (!uploadFile.exists()) {
                         uploadFile.mkdirs();
-                        System.out.println("okokokokokokokokokokokokokokokok");
+                        System.out.println("创建目录");
                     }
                     file.transferTo(uploadFile);
-                    System.out.println("cdcdccdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd");
                     // 显示路径
                     resMap.put("path", "/" + "travelImg" + "/" + uuid + "." + imageName);
                 }
