@@ -942,169 +942,132 @@ $(function () {
         // 旅游城市分布图
         $.get("/visualization/getCityCoord", function (jsonData) {
             geoCoordMap = JSON.parse(jsonData);
-        });
-        $.get("/visualization/getCitySightNum", function (jsonData) {
-            data = JSON.parse(jsonData);
-            option = {
-                title: {
-                    text: '全国热门旅游城市分布图',
-                    subtext: 'data from qunar',
-                    left: 'center',
-                    top: 15,
-                    textStyle: {
-                        fontWeight: 'lighter',
-                        color: '#fff'
-                    }
-                },
-                tooltip: {
-                    trigger: 'item'
-                },
-                legend: {
-                    icon: 'circle',
-                    orient: 'vertical',
-                    y: 'bottom',
-                    x: 'right',
-                    data: ['散点图', 'Top 10', '热力图'],
-                    textStyle: {
-                        color: '#fff'
-                    },
-                    selected: {
-                        '散点图': true,
-                        'Top 10': true,
-                        '热力图': false
-                    }
-                },
-                geo: {
-                    map: 'china',
-                    label: {
-                        normal: {
-                            show: false,
-                            color: "#fff"
-                        },
-                        emphasis: {
-                            show: true,
-                            color: "#fff"
-                        }
-                    },
-                    roam: true,
-                    scaleLimit: {
-                        min: 0.5,
-                        max: 25,
-                    },
-                    itemStyle: {
-                        normal: {
-                            borderColor: 'rgba(147, 235, 248, 1)',
-                            borderWidth: 1,
-                            areaColor: {
-                                type: 'radial',
-                                x: 0.5,
-                                y: 0.5,
-                                r: 0.5,
-                                colorStops: [{
-                                    offset: 0,
-                                    color: 'rgba(147, 235, 248, 0)' // 0% 处的颜色
-                                }, {
-                                    offset: 1,
-                                    color: 'rgba(147, 235, 248, .2)' // 100% 处的颜色
-                                }],
-
-                            },
-                        },
-                        emphasis: {
-                            areaColor: '#278aa8'
-                        }
-                    }
-                },
-                visualMap: {
-                    min: 0,
-                    max: 300,
-                    pieces: [{
-                        min: 80
-                    },
-                        {
-                            min: 50,
-                            max: 80
-                        },
-                        {
-                            min: 25,
-                            max: 50
-                        },
-                        {
-                            min: 15,
-                            max: 25
-                        },
-                        {
-                            min: 5,
-                            max: 15
-                        },
-                        {
-                            max: 5
-                        }
-                    ],
-                    inRange: {
-                        color: ['#22e5e8', '#eac736', '#f15769']
-                    },
-                    textStyle: {
-                        color: '#fff'
-                    }
-                },
-                series: [{
-                    name: '散点图',
-                    type: 'scatter',
-                    coordinateSystem: 'geo',
-                    data: convertData(data),
-                    symbolSize: function (val) {
-                        return (5 + Math.log2(val[2]));
-                    },
-                    label: {
-                        normal: {
-                            formatter: '{b}',
-                            position: 'right',
-                            show: false
-                        },
-                        emphasis: {
-                            show: true
-                        }
-                    },
-                    itemStyle: {
-                        normal: {
-                            color: 'rgba(255,255,0,0.8)'
+            $.get("/visualization/getCitySightNum", function (jsonData) {
+                data = JSON.parse(jsonData);
+                option = {
+                    title: {
+                        text: '全国热门旅游城市分布图',
+                        subtext: 'data from qunar',
+                        left: 'center',
+                        top: 15,
+                        textStyle: {
+                            fontWeight: 'lighter',
+                            color: '#fff'
                         }
                     },
                     tooltip: {
-                        trigger: 'item',
-                        formatter: function (params) {
-                            return params.name + ' : ' + params.value[2];
+                        trigger: 'item'
+                    },
+                    legend: {
+                        icon: 'circle',
+                        orient: 'vertical',
+                        y: 'bottom',
+                        x: 'right',
+                        data: ['散点图', 'Top 10', '热力图'],
+                        textStyle: {
+                            color: '#fff'
+                        },
+                        selected: {
+                            '散点图': true,
+                            'Top 10': true,
+                            '热力图': false
                         }
                     },
-                },
-                    {
-                        name: 'Top 10',
-                        type: 'effectScatter',
+                    geo: {
+                        map: 'china',
+                        label: {
+                            normal: {
+                                show: false,
+                                color: "#fff"
+                            },
+                            emphasis: {
+                                show: true,
+                                color: "#fff"
+                            }
+                        },
+                        roam: true,
+                        scaleLimit: {
+                            min: 0.5,
+                            max: 25,
+                        },
+                        itemStyle: {
+                            normal: {
+                                borderColor: 'rgba(147, 235, 248, 1)',
+                                borderWidth: 1,
+                                areaColor: {
+                                    type: 'radial',
+                                    x: 0.5,
+                                    y: 0.5,
+                                    r: 0.5,
+                                    colorStops: [{
+                                        offset: 0,
+                                        color: 'rgba(147, 235, 248, 0)' // 0% 处的颜色
+                                    }, {
+                                        offset: 1,
+                                        color: 'rgba(147, 235, 248, .2)' // 100% 处的颜色
+                                    }],
+
+                                },
+                            },
+                            emphasis: {
+                                areaColor: '#278aa8'
+                            }
+                        }
+                    },
+                    visualMap: {
+                        min: 0,
+                        max: 300,
+                        pieces: [{
+                            min: 80
+                        },
+                            {
+                                min: 50,
+                                max: 80
+                            },
+                            {
+                                min: 25,
+                                max: 50
+                            },
+                            {
+                                min: 15,
+                                max: 25
+                            },
+                            {
+                                min: 5,
+                                max: 15
+                            },
+                            {
+                                max: 5
+                            }
+                        ],
+                        inRange: {
+                            color: ['#22e5e8', '#eac736', '#f15769']
+                        },
+                        textStyle: {
+                            color: '#fff'
+                        }
+                    },
+                    series: [{
+                        name: '散点图',
+                        type: 'scatter',
                         coordinateSystem: 'geo',
-                        data: convertData(data.sort(function (a, b) {
-                            return b.value - a.value;
-                        }).slice(0, 11)),
+                        data: convertData(data),
                         symbolSize: function (val) {
-                            return (6 + Math.log2(val[2]));
+                            return (5 + Math.log2(val[2]));
                         },
-                        showEffectOn: 'render',
-                        rippleEffect: {
-                            brushType: 'stroke'
-                        },
-                        hoverAnimation: true,
                         label: {
                             normal: {
                                 formatter: '{b}',
                                 position: 'right',
+                                show: false
+                            },
+                            emphasis: {
                                 show: true
                             }
                         },
                         itemStyle: {
                             normal: {
-                                color: '#f4e925',
-                                shadowBlur: 10,
-                                shadowColor: '#333'
+                                color: 'rgba(255,255,0,0.8)'
                             }
                         },
                         tooltip: {
@@ -1113,22 +1076,60 @@ $(function () {
                                 return params.name + ' : ' + params.value[2];
                             }
                         },
-                        zlevel: 1
                     },
-                    {
-                        name: '热力图',
-                        type: 'heatmap',
-                        coordinateSystem: 'geo',
-                        data: convertData(data)
-                    }
-                ]
-            };
-            // 使用制定的配置项和数据显示图表
-            mapEchart.setOption(option);
-            window.addEventListener("resize", function () {
-                mapEchart.resize();
+                        {
+                            name: 'Top 10',
+                            type: 'effectScatter',
+                            coordinateSystem: 'geo',
+                            data: convertData(data.sort(function (a, b) {
+                                return b.value - a.value;
+                            }).slice(0, 11)),
+                            symbolSize: function (val) {
+                                return (6 + Math.log2(val[2]));
+                            },
+                            showEffectOn: 'render',
+                            rippleEffect: {
+                                brushType: 'stroke'
+                            },
+                            hoverAnimation: true,
+                            label: {
+                                normal: {
+                                    formatter: '{b}',
+                                    position: 'right',
+                                    show: true
+                                }
+                            },
+                            itemStyle: {
+                                normal: {
+                                    color: '#f4e925',
+                                    shadowBlur: 10,
+                                    shadowColor: '#333'
+                                }
+                            },
+                            tooltip: {
+                                trigger: 'item',
+                                formatter: function (params) {
+                                    return params.name + ' : ' + params.value[2];
+                                }
+                            },
+                            zlevel: 1
+                        },
+                        {
+                            name: '热力图',
+                            type: 'heatmap',
+                            coordinateSystem: 'geo',
+                            data: convertData(data)
+                        }
+                    ]
+                };
+                // 使用制定的配置项和数据显示图表
+                mapEchart.setOption(option);
+                window.addEventListener("resize", function () {
+                    mapEchart.resize();
+                });
             });
         });
+
     }
 
     function getTime() {

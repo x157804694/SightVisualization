@@ -2,15 +2,21 @@ package com.jxufe.sight.web.client;
 
 import com.jxufe.sight.bean.WordCloudsAccessPath;
 import com.jxufe.sight.properties.WordCloudProperties;
+import com.jxufe.sight.service.RecommendationService;
+import com.jxufe.sight.service.SightCategoryService;
 import com.jxufe.sight.service.SightCommentsService;
 import com.jxufe.sight.utils.GenerateWordCloudUtils;
 import com.jxufe.sight.utils.GenerateWordCloudUtils2;
+import com.jxufe.sight.vo.SightCategory;
 import com.jxufe.sight.vo.SightCommentsInfoVO;
+import com.jxufe.sight.vo.UserClick;
+import com.jxufe.sight.vo.UserInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -21,20 +27,33 @@ import java.util.List;
 public class SightCommentsController {
     private SightCommentsService sightCommentsService;
     private WordCloudProperties wordCloudProperties;
+    private RecommendationService recommendationService;
+    private SightCategoryService sightCategoryService;
 
     public SightCommentsController() {
     }
 
     @Autowired
-    public SightCommentsController(SightCommentsService sightCommentsService) {
+    public SightCommentsController(SightCommentsService sightCommentsService,RecommendationService recommendationService,SightCategoryService sightCategoryService) {
         this.sightCommentsService = sightCommentsService;
+        this.recommendationService = recommendationService;
+        this.sightCategoryService = sightCategoryService;
     }
 
     @GetMapping("")
-    public String detail(String sightId,String sightName,String city,Model model){
+    public String detail(String sightId, String sightName, String city, Model model, HttpSession session){
         model.addAttribute("sightId",sightId);
         model.addAttribute("sightName",sightName);
         model.addAttribute("city",city);
+
+        UserInfoVO user = (UserInfoVO) session.getAttribute("user");
+//        点击查看景区后记录其点击的景区
+        if (user!=null){
+            UserClick userClick = new UserClick(user.getUsername(),sightId);
+            SightCategory sightCategory = new SightCategory(sightId);
+            recommendationService.saveClickNum(userClick);
+            sightCategoryService.updateClickNum(sightCategory);
+        }
         return "client/detail";
     }
 

@@ -9,6 +9,13 @@
     <select id="findBySightId" resultType="SightBasicInfoVO" parameterType="string">
         select t1.id as id,t1.sightId as sightId,t1.*,t2.* from t_sightinfo as t1 join t_sightupdateinfo as t2 on t1.sightId=t2.sightId where t1.sightId=#{sightId}
     </select>
+    <select id="findBySightIds" resultType="SightBasicInfoVO">
+        select t1.id as id,t1.sightId as sightId,t1.*,t2.* from t_sightinfo as t1 inner join t_sightupdateinfo as t2 on t1.sightId=t2.sightId
+        where t1.sightId in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+     </select>
     <select id="findOnePage" resultType="SightBasicInfoVO">
         select t1.id as id,t1.sightId as sightId,t1.*,t2.* from t_sightinfo as t1 join t_sightupdateinfo as t2 on t1.sightId=t2.sightId limit #{offset},#{size}
     </select>
@@ -46,7 +53,7 @@
         </if>
     </select>
     <select id="getSightSaleCountTop10" resultType="SightBasicInfoVO" parameterType="java.lang.Integer">
-        SELECT sightName,star,city,saleCount FROM t_sightinfo as t1 INNER JOIN t_sightmonthlysalecount as t2 on t1.sightId=t2.sightId WHERE MONTH(createDate)=#{month} ORDER BY saleCount DESC LIMIT 10
+        SELECT * FROM t_sightinfo as t1 INNER JOIN t_sightmonthlysalecount as t2 on t1.sightId=t2.sightId WHERE MONTH(createDate)=#{month} ORDER BY saleCount DESC LIMIT 10
     </select>
     <select id="getSumSaleCount" resultType="java.lang.Integer" parameterType="java.lang.Integer">
         SELECT SUM(saleCount) FROM t_sightmonthlysalecount WHERE MONTH(createDate)=#{month}

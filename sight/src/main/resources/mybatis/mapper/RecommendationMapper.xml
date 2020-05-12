@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxufe.sight.mapper.RecommendationMapper">
+    <insert id="saveClickNum" parameterType="UserClick" useGeneratedKeys="true" keyProperty="userClick.id">
+        insert into t_user_click(username,sightId,clickNum)
+        values (#{userClick.username},#{userClick.sightId},#{userClick.clickNum})
+    </insert>
+    <select id="findOneByUsernameAndSightId" parameterType="UserClick" resultType="UserClick">
+        select * from t_user_click where username = #{userClick.username} and sightId = #{userClick.sightId}
+    </select>
+    <update id="updateClickNum" parameterType="UserClick">
+        update t_user_click set clickNum = #{userClick.clickNum}
+        where username = #{userClick.username} and sightId = #{userClick.sightId}
+    </update>
+    <select id="findTwoFavouriteTypeByUsername" parameterType="UserInfoVO" resultType="java.util.HashMap">
+        SELECT type,SUM(t2.clickNum) as clickNum
+        FROM t_sightcategory as t1 INNER JOIN t_user_click as t2
+        WHERE t1.sightId = t2.sightId AND username = #{userInfoVO.username}
+        GROUP BY type
+        ORDER BY clickNum DESC
+        LIMIT 2
+    </select>
+</mapper>
