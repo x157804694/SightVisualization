@@ -39,4 +39,19 @@ public class UserServiceImpl implements UserService {
     public UserInfoVO findUserById(Long id) {
         return userInfoMapper.findUserById(id);
     }
+
+    @Override
+    public void updateUserByUsername(UserInfoVO userInfoVO) {
+        userInfoMapper.updateUserByUsername(userInfoVO);
+    }
+
+    @Override
+    public void updateAvatarByUsername(String username,String avatar) {
+        userInfoMapper.updateAvatarByUsername(username,avatar);
+    }
+
+    @Override
+    public UserInfoVO findByNickname(String nickname) {
+        return userInfoMapper.findByNickname(nickname);
+    }
 }

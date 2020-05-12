@@ -10,5 +10,8 @@ public interface UserInfoMapper {
     UserInfoVO findUserByName(@Param("username") String username);
     UserInfoVO addUser(@Param("username") String username,@Param("password") String password,
                        @Param("nickname") String nickname);
-    public UserInfoVO findUserById(@Param("id") Long id);
+    UserInfoVO findUserById(@Param("id") Long id);
+    void updateUserByUsername(@Param("user") UserInfoVO userInfoVO);
+    void updateAvatarByUsername(@Param("username") String username,@Param("avatar") String avatar);
+    UserInfoVO findByNickname(@Param("nickname") String nickname);
 }

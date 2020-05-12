@@ -1,21 +1,34 @@
 package com.jxufe.sight.web.client;
 
 import com.jxufe.sight.service.UserService;
+import com.jxufe.sight.utils.StatusCodes;
+import com.jxufe.sight.vo.ResponseResult;
 import com.jxufe.sight.vo.UserInfoVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.util.ResourceUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/admin")
 public class UserController {
+    //头像访问路径
+    private static final String avatarAccessPath = "/images/avatars/";
+    private static final String avatarUploadPath = "/images/avatars/";
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
@@ -65,5 +78,82 @@ public class UserController {
     public String logout(HttpSession session){
         session.removeAttribute("user");
         return "redirect:/";
+    }
+
+    //---------------管理用户信息--------------
+    @GetMapping("/user/updatePage")
+    public String updatePage(Model model){
+        return "client/updateUser";
+    }
+
+    //异步请求
+    @PostMapping("/user/updateAvatar")
+    @ResponseBody
+    public ResponseResult upload(@RequestParam("file") MultipartFile file, HttpSession session) throws IOException {
+        ResponseResult message=new ResponseResult();
+        if(!file.getContentType().startsWith("image/")){
+            message.setCode(String.valueOf(StatusCodes.UPLOAD_AVARTAR__FAIL));
+            message.setMessage("请上传图片");
+            return message;
+        }
+        //解析文件后缀名
+        String originFileName=file.getOriginalFilename();
+        String suffix=originFileName.substring(originFileName.indexOf("."));
+        //目标文件名
+        String destFileName= UUID.randomUUID().toString() +suffix;
+        LOGGER.info("destFileName--> {}",destFileName);
+        //上传文件的路径
+        String basePath= ResourceUtils.getURL("classpath:static").getPath().substring(1);//此路径打成jar时会失效。
+//        String basePath=uploadFileProperties.getResourcesLocation();
+        LOGGER.info("basePath--> {}",basePath);
+//        String uploadPath=basePath.substring(basePath.indexOf("/")+1);
+        String uploadPath=basePath+avatarUploadPath;
+        LOGGER.info("uploadPath--> {}",uploadPath);
+        File uploadDirectory=new File(uploadPath);
+        if(!uploadDirectory.exists()){
+            uploadDirectory.mkdirs();
+        }
+        //上传的目标文件
+        File targetFile=new File(uploadPath, destFileName);
+        LOGGER.info("target file---> {}",targetFile.getAbsolutePath());
+        //上传到目标文件。本质就是IO，从file的字节输入流取出字节输出到targetFile的字节输出流中。
+        if (targetFile.exists()){
+            message.setCode(String.valueOf(StatusCodes.UPLOAD_AVARTAR__FAIL));
+            message.setMessage("文件名冲突，请重新上传！");
+        }else{
+            file.transferTo(targetFile);
+            message.setCode(String.valueOf(StatusCodes.UPLOAD_AVARTAR_SUCCESS));
+            message.setMessage("上传成功");
+            Map<String, Object> resultMap=new HashMap<>();
+            resultMap.put("updateAvatarAddress",avatarAccessPath+destFileName);
+            message.setData(resultMap);
+        }
+        //更新数据库
+        userService.updateAvatarByUsername(((UserInfoVO)session.getAttribute("user")).getUsername(),avatarAccessPath+destFileName);
+        return message;
+    }
+
+    @PostMapping("/user/updateInfo")
+    @ResponseBody
+    public ResponseResult updateInfo(UserInfoVO userInfoVO,HttpSession session){
+        System.out.println(userInfoVO.toString());
+        ResponseResult message=new ResponseResult();
+        //去掉两边空格
+        userInfoVO.setNickname(userInfoVO.getNickname().trim());
+        userInfoVO.setPassword(userInfoVO.getPassword().trim());
+        //先查询nickname是否存在
+        System.out.println("");
+        UserInfoVO selectUser=userService.findByNickname(userInfoVO.getNickname());
+        System.out.println(selectUser==null);
+        if(selectUser!=null && !userInfoVO.getUsername().equals(selectUser.getUsername())){
+            message.setCode(String.valueOf(StatusCodes.CHANGE_USER_INFO_FAIL));
+            message.setMessage("修改失败，昵称已存在");
+        }else{
+            //根据username修改用户信息
+            userService.updateUserByUsername(userInfoVO);
+            message.setCode(String.valueOf(StatusCodes.CHANGE_USER_INFO_SUCCESS));
+            message.setMessage("修改成功");
+        }
+        return message;
     }
 }

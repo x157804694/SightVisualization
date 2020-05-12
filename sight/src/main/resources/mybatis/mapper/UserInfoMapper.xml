@@ -15,4 +15,22 @@
     <select id="addUser" resultType="UserInfoVO" parameterType="string">
         insert into t_user(id,avatar,username,password,nickname) values(null,"https://unsplash.it/100/100?image=1005",#{username},#{password},#{nickname})
     </select>
+    <update id="updateUserByUsername">
+        update t_user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="user.nickname != ''">nickname=#{user.nickname},</if>
+            <if test="user.password != ''">password=#{user.password},</if>
+        </trim>
+        where username=#{user.username}
+    </update>
+    <update id="updateAvatarByUsername">
+        update t_user
+        set avatar=#{avatar}
+        where username=#{username}
+    </update>
+    <select id="findByNickname" resultType="UserInfoVO" >
+        select username
+        from t_user
+        where nickname=#{nickname}
+    </select>
 </mapper>
