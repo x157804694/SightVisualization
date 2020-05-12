@@ -90,6 +90,11 @@ public class SightBasicInfoServiceImp implements SightBasicInfoService {
     }
 
     @Override
+    public List<SightBasicInfoVO> findBysightIds(List<String> sightIds) {
+        return sightBasicInfoMapper.findBySightIds(sightIds);
+    }
+
+    @Override
     public List<String> getAllProvince() {
         return sightBasicInfoMapper.getAllProvince();
     }

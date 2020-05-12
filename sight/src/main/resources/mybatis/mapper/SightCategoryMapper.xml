@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxufe.sight.mapper.SightCategoryMapper">
+    <select id="findOneBySightId" parameterType="SightCategory" resultType="SightCategory">
+        select * from t_sightcategory where sightId = #{sightCategory.sightId}
+    </select>
+    <update id="updateClickNum" parameterType="SightCategory">
+        update t_sightcategory set clickNum = #{sightCategory.clickNum}
+        where sightId = #{sightCategory.sightId}
+    </update>
+    <select id="findSightRandomlyByType" parameterType="Integer" resultType="SightCategory">
+        SELECT * FROM t_sightcategory WHERE type = #{type} ORDER BY RAND() LIMIT 5
+    </select>
+    <select id="findSightRandomly" resultType="SightCategory">
+        SELECT * FROM t_sightcategory ORDER BY RAND() LIMIT 10
+    </select>
+</mapper>

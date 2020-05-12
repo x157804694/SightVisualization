@@ -11,6 +11,7 @@ import java.util.List;
 public interface SightBasicInfoMapper {
     SightBasicInfoVO findById(long id);
     SightBasicInfoVO findBySightId(String sightId);
+    List<SightBasicInfoVO> findBySightIds(List<String> sightIds);
     List<SightBasicInfoVO> findOnePage(@Param("offset")int offset,@Param("size")int pageSize);
     List<SightBasicInfoVO> findAllByProvinceWithMultiCondition(@Param("province")String province,@Param("start")Double start,@Param("end")Double end,@Param("order")Integer order);
     List<String> getAllProvince();

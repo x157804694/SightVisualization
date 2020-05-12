@@ -1,0 +1,67 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<head th:replace="~{fragments/clientFragment::head('eTravel')}"></head>
+	<body>
+		<!-- Left Panel -->
+		<aside th:replace="~{fragments/clientFragment::aside}"></aside>
+		<!-- Left Panel -->
+
+		<!-- Right Panel -->
+		<div id="right-panel" class="right-panel">
+			<!-- Header-->
+			<header id="header" class="header" th:replace="~{fragments/clientFragment::rightPanelHeader}"></header>
+			<!-- /header -->
+			<div id="fragmentContainer_rightPanel_parent">
+				<div id="fragmentContainer_rightPanel">
+					<div th:fragment="rightPanel">
+
+						<div id="fragmentContainer_sightsWithPage">
+							<div th:fragment="sightsAndPageContainer">
+
+								<div id="fragmentContainer_sights">
+									<div class="container" th:fragment="sightsContainer">
+										<div class="sight" th:each="sight:${sights}">
+											<div class="row">
+												<div class="col-md-4 align-self-center">
+													<img src="https://imgs.qunarzz.com/sight/p0/1409/19/adca619faaab0898245dc4ec482b5722.jpg_280x200_444f23e4.jpg"
+													  th:src="${sight.sightImgURL}" class="card-body">
+												</div>
+												<div class="col-md-5">
+													<div class="card-body text-left">
+														<h3 class="card-title" th:text="${sight.sightName}">故宫</h3>
+														<p class="card-text text-success" th:if="${sight.star}" th:text="${sight.star}">5A景区</p>
+														<p class="card-text" th:text="${sight.address}">地址:北京市东城区景山前街4号</p>
+														<p class="card-text text-primary" th:text="${sight.intro}">世界五大宫之首，穿越与您近在咫尺...</p>
+														<p class="card-text text-danger">门票价格:<span th:text="|${sight.qunarPrice}元起|">159元起</span></p>
+														<p class="card-text text-info">好评数:<span th:text="${sight.goodCommentAmount}">666</span></p>
+													</div>
+												</div>
+												<div class="col-md-1 align-self-center">
+													<div class="col-md-12">
+														<a href="#" th:target="_blank" th:href="@{/detail(sightId=${sight.sightId},sightName=${sight.sightName},city=${sight.city})}" class="btn btn-info">查看景点</a>
+													</div>
+												</div>
+												<div class="col-md-2 align-self-center">
+													<div class="col-md-12">
+														<p class="text-left card-text">月销量:<span th:text="${sight.saleCount}">159</span></p>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- right-panel -->
+
+		<!-- Scripts -->
+		<th:block th:replace="~{fragments/clientFragment::js}"></th:block>
+
+	</body>
+</html>

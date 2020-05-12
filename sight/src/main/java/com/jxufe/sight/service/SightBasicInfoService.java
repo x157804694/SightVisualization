@@ -18,5 +18,5 @@ public interface SightBasicInfoService {
     List<String> getAllProvince();
     List<SightBasicInfoVO> getSightSaleCountTop10(Integer month);
     Integer getSumSaleCount(Integer month);
-
+    List<SightBasicInfoVO> findBysightIds(List<String> sightIds);
 }
