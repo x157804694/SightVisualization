@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -108,6 +109,7 @@ public class UserController {
         LOGGER.info("basePath--> {}",basePath);
 //        String uploadPath=basePath.substring(basePath.indexOf("/")+1);
         String uploadPath=basePath+avatarUploadPath;
+        uploadPath= URLDecoder.decode(uploadPath,"utf-8");//解决中文路径乱码
         LOGGER.info("uploadPath--> {}",uploadPath);
         File uploadDirectory=new File(uploadPath);
         if(!uploadDirectory.exists()){
