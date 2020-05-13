@@ -30,6 +30,12 @@ public class SightBasicInfoServiceImp implements SightBasicInfoService {
     }
 
     @Override
+    public PageInfo<SightBasicInfoVO> search(String sightName, Double start, Double end, Integer order, int page, int pageSize) {
+        PageHelper.startPage(page,pageSize);
+        return new PageInfo<SightBasicInfoVO>(sightBasicInfoMapper.search(sightName,start,end,order));
+    }
+
+    @Override
     public List<HashMap<String, Integer>> getCitySightNum() {
         return sightBasicInfoMapper.getCitySightNum();
     }

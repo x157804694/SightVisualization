@@ -14,6 +14,7 @@ public interface SightBasicInfoMapper {
     List<SightBasicInfoVO> findBySightIds(List<String> sightIds);
     List<SightBasicInfoVO> findOnePage(@Param("offset")int offset,@Param("size")int pageSize);
     List<SightBasicInfoVO> findAllByProvinceWithMultiCondition(@Param("province")String province,@Param("start")Double start,@Param("end")Double end,@Param("order")Integer order);
+    List<SightBasicInfoVO> search(@Param("sightName")String sightName,@Param("start")Double start,@Param("end")Double end,@Param("order")Integer order);
     List<String> getAllProvince();
     // 查询月销量前10的景区
     List<SightBasicInfoVO> getSightSaleCountTop10(Integer month);

@@ -52,6 +52,36 @@
             order by saleCount DESC
         </if>
     </select>
+    <select id="search" resultType="SightBasicInfoVO">
+        select t1.id as id,t1.sightId as sightId,t1.*,t2.* from t_sightinfo as t1 join t_sightupdateinfo as t2 on
+        t1.sightId=t2.sightId
+        where sightName like concat('%',#{sightName},'%')
+        <if test="start != null and end != null">
+            and qunarPrice BETWEEN #{start} AND #{end}
+        </if>
+        <if test="start != null and end == null">
+            and qunarPrice &gt;= #{start}
+        </if>
+        <if test="start == null and end != null">
+            and qunarPrice &lt;= #{end}
+        </if>
+        <if test="order != null">
+            <choose>
+                <when test="order==0">
+                    order by qunarPrice ASC
+                </when>
+                <when test="order==1">
+                    order by saleCount DESC
+                </when>
+                <otherwise>
+                    order by goodCommentAmount DESC
+                </otherwise>
+            </choose>
+        </if>
+        <if test="order == null">
+            order by saleCount DESC
+        </if>
+    </select>
     <select id="getSightSaleCountTop10" resultType="SightBasicInfoVO" parameterType="java.lang.Integer">
         SELECT * FROM t_sightinfo as t1 INNER JOIN t_sightmonthlysalecount as t2 on t1.sightId=t2.sightId WHERE MONTH(createDate)=#{month} ORDER BY saleCount DESC LIMIT 10
     </select>

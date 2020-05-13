@@ -1,0 +1,233 @@
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<head th:replace="~{fragments/clientFragment::head('eTravel')}"></head>
+	<body>
+		<!-- Left Panel -->
+		<aside th:replace="~{fragments/clientFragment::aside}"></aside>
+		<!-- Left Panel -->
+
+		<!-- Right Panel -->
+		<div id="right-panel" class="right-panel">
+			<!-- Header-->
+			<header id="header" class="header" th:replace="~{fragments/clientFragment::rightPanelHeader}"></header>
+			<!-- /header -->
+			<div id="fragmentContainer_rightPanel_parent">
+				<div id="fragmentContainer_rightPanel">
+					<div th:fragment="rightPanel">
+						<div class="container" style="padding-top: 20px;">
+							<div class="row">
+								<div class="col-md-4">
+									<form id="priceForm" style="width: 300px; float: left;" th:action="@{/search/}" method="get">
+										<div class="input-group mb-3">
+											<div class="input-group-prepend">
+												<span class="input-group-text" style="color: #000000;font-weight: 500;">价格区间</span>
+											</div>
+											<input id="startPrice" type="text" class="form-control" placeholder="start">
+											<input id="endPrice" type="text" class="form-control" placeholder="end">
+											<button id="formBtn" onclick="formBtnOnClick(this)" type="button" class="btn btn-outline-info">确定</button>
+										</div>
+									</form>
+								</div>
+								<div class="col-md-6">
+									<div id="orderBtns" class="btn-group" style="float: left;">
+										<button onclick="toggleActive(this)" id="priceBtn" class="btn btn-outline-info">价格优先</button>
+										<button onclick="toggleActive(this)"  id="saleBtn" class="btn btn-outline-info">销量优先</button>
+										<button onclick="toggleActive(this)"  id="goodCommentBtn" class="btn btn-outline-info">好评优先</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="fragmentContainer_sightsWithPage">
+							<div th:fragment="sightsAndPageContainer">
+								<!-- 辅助获取后台返回的总数 -->
+								<span id="totalElements" style="display: none" th:text="${page.total}"></span>
+
+								<div id="fragmentContainer_sights">
+									<div class="container" th:fragment="sightsContainer">
+										<div class="sight" th:each="sight:${page.list}" th:object="${sight}">
+											<div class="row">
+												<div class="col-md-4 align-self-center">
+													<img src="https://imgs.qunarzz.com/sight/p0/1409/19/adca619faaab0898245dc4ec482b5722.jpg_280x200_444f23e4.jpg"
+													  th:src="@{ *{sightImgURL} }" class="card-body">
+												</div>
+												<div class="col-md-5">
+													<div class="card-body text-left">
+														<h3 class="card-title" th:text="*{sightName}">故宫</h3>
+														<p class="card-text text-success" th:if="*{star}" th:text="*{star}">5A景区</p>
+														<p class="card-text" th:text="*{address}">地址:北京市东城区景山前街4号</p>
+														<p class="card-text text-primary" th:text="*{intro}">世界五大宫之首，穿越与您近在咫尺...</p>
+														<p class="card-text text-danger">门票价格:<span th:text="|*{qunarPrice}元起|">159元起</span></p>
+														<p class="card-text text-info">好评数:<span th:text="*{goodCommentAmount}">666</span></p>
+													</div>
+												</div>
+												<div class="col-md-1 align-self-center">
+													<div class="col-md-12">
+														<a href="#" th:target="_blank" th:href="@{/detail(sightId=*{sightId},sightName=*{sightName},city=*{city})}" class="btn btn-info">查看景点</a>
+													</div>
+												</div>
+												<div class="col-md-2 align-self-center">
+													<div class="col-md-12">
+														<p class="text-left card-text">月销量:<span th:text="*{saleCount}">159</span></p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!--/*-->
+										<div class="sight">
+											<div class="row">
+												<div class="col-md-4 align-self-center">
+													<img src="https://imgs.qunarzz.com/sight/p0/1409/19/adca619faaab0898245dc4ec482b5722.jpg_280x200_444f23e4.jpg"
+													 class="card-body">
+												</div>
+												<div class="col-md-5">
+													<div class="card-body text-left">
+														<h3 class="card-title">故宫</h3>
+														<p class="card-text text-success">5A景区</p>
+														<p class="card-text">地址:北京市东城区景山前街4号</p>
+														<p class="card-text text-primary">世界五大宫之首，穿越与您近在咫尺...世界五大宫之首，穿越与您近在咫尺...世界五大宫之首，穿越与您近在咫尺...世界五大宫之首，穿越与您近在咫尺...世界五大宫之首，穿越与您近在咫尺...</p>
+														<p class="card-text text-danger">门票价格:159</p>
+													</div>
+												</div>
+												<div class="col-md-1 align-self-center">
+													<div class="col-md-12">
+														<a href="#" class="btn btn-info ">查看景点</a>
+													</div>
+												</div>
+												<div class="col-md-2 align-self-center">
+													<div class="col-md-12">
+														<p class="text-left card-text">月销量:159</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="sight">
+											<div class="row">
+												<div class="col-md-4 align-self-center">
+													<img src="https://imgs.qunarzz.com/sight/p0/1409/19/adca619faaab0898245dc4ec482b5722.jpg_280x200_444f23e4.jpg"
+													 class="card-body">
+												</div>
+												<div class="col-md-5">
+													<div class="card-body text-left">
+														<h3 class="card-title">故宫</h3>
+														<p class="card-text text-success">5A景区</p>
+														<p class="card-text">地址:北京市东城区景山前街4号</p>
+														<p class="card-text text-primary">世界五大宫之首，穿越与您近在咫尺...</p>
+														<p class="card-text text-danger">门票价格:159</p>
+													</div>
+												</div>
+												<div class="col-md-1 align-self-center">
+													<div class="col-md-12">
+														<a href="#" class="btn btn-info ">查看景点</a>
+													</div>
+												</div>
+												<div class="col-md-2 align-self-center">
+													<div class="col-md-12">
+														<p class="text-left card-text">月销量:159</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!--*/-->
+									</div>
+								</div>
+								<div class="container">
+									<div id="Page" style="float: left;"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- right-panel -->
+
+		<!-- 用于辅助获取后台返回的值的标签 -->
+		<a id="queryURL" style="display: none" href="/search/" th:href="@{/search/}"></a>
+
+		<!-- Scripts -->
+		<th:block th:replace="~{fragments/clientFragment::js}"></th:block>
+		<script type="text/javascript" th:inline="javascript">
+			//初始化分页栏
+			function initPage(){
+				//分页栏
+				layui.use(['laypage', 'layer'], function() {
+					var laypage = layui.laypage,
+							layer = layui.layer;
+					//完整功能
+					laypage.render({
+						elem: 'Page',
+						count: $('#totalElements').text(),//通过一个辅助标签来获取后台返回的总数量
+						layout: ['count', 'prev', 'page', 'next', 'limit', 'skip'],
+						jump: function(obj) {
+							console.log(obj);
+							var searchSightName=$('#searchSightName').val();
+							var start=$("#startPrice").val();
+							var end=$("#endPrice").val();
+							var order;
+							if ($('#orderBtns').attr("data-order")==undefined){
+								order="";
+							}else{
+								order=$('#orderBtns').attr("data-order");
+							}
+							var page=obj.curr;
+							var pageSize=obj.limit;
+							var url=$("#queryURL").prop('href')+"?sightName="+searchSightName+"&start="+start+"&end="+end+
+									"&order="+order+"&page="+page+"&pageSize="+pageSize+"&turnPage=true";
+
+							//load方法会将后台返回的文本加载到被选元素中。
+							$("#fragmentContainer_sights").load(url,function(response,status,xhr) {
+							});
+							//回到最顶层
+							$('#fragmentContainer_rightPanel_parent').animate({scrollTop:'0'},1000);
+						}
+					});
+				});
+			}
+			//必须使用onclick属性设置事件调用函数。因为异步放回的页面片段时，不会执行下面的js代码来设置事件！
+			function formBtnOnClick(obj){
+				var searchSightName=$('#searchSightName').val();
+				var start=$("#startPrice").val();
+				var end=$("#endPrice").val();
+				var url=$("#priceForm").prop("action")+"?sightName="+searchSightName+"&start="+start+"&end="+end;
+				console.log("提交--->"+url);
+
+				//还原排序按钮状态
+				$('#orderBtns').removeAttr('data-order');
+				$('#orderBtns').find('button').removeClass('active');
+
+				$("#fragmentContainer_sightsWithPage").load(url,function(response,status,xhr) {
+					initPage();//重新初始化分页栏
+				});
+			}
+
+			//
+			function toggleActive(obj){
+				var id=$(obj).prop("id");
+				$('#orderBtns').find('button').removeClass('active');
+				if (id=='priceBtn'){
+					$('#orderBtns').attr("data-order",0);//0是价格优先
+				}else if (id=='saleBtn'){
+					$('#orderBtns').attr("data-order",1);//1是销量优先
+				}else{
+					$('#orderBtns').attr("data-order",2);//2是好评优先
+				}
+				$(obj).toggleClass("active");
+				var searchSightName=$('#searchSightName').val();
+				var start=$("#startPrice").val();
+				var end=$("#endPrice").val();
+				var url=$('#queryURL').prop('href')+"?sightName="+searchSightName+"&start="+start+"&end="+end+"&order="+$('#orderBtns').attr("data-order");
+				console.log("排序-->"+url);
+				$("#fragmentContainer_sightsWithPage").load(url,function(response,status,xhr) {
+					initPage();//重新初始化分页栏
+				});
+			}
+
+			$(function () {
+				initPage();
+				console.log($('#orderBtns').attr("data-order"));
+				console.log($('#orderBtns').attr("data-order")==undefined);
+			});
+		</script>
+	</body>
+</html>
