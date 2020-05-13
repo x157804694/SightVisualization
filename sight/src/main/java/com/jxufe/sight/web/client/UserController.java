@@ -129,7 +129,12 @@ public class UserController {
             message.setData(resultMap);
         }
         //更新数据库
-        userService.updateAvatarByUsername(((UserInfoVO)session.getAttribute("user")).getUsername(),avatarAccessPath+destFileName);
+        String username=((UserInfoVO)session.getAttribute("user")).getUsername();
+        userService.updateAvatarByUsername(username,avatarAccessPath+destFileName);
+        //更新session中的user
+        UserInfoVO selectUser=userService.findUserByName(username);
+        selectUser.setPassword(null);
+        session.setAttribute("user",selectUser);
         return message;
     }
 
@@ -153,6 +158,10 @@ public class UserController {
             userService.updateUserByUsername(userInfoVO);
             message.setCode(String.valueOf(StatusCodes.CHANGE_USER_INFO_SUCCESS));
             message.setMessage("修改成功");
+            //更新session中的user
+            UserInfoVO selectUserInfo=userService.findUserByName(((UserInfoVO)session.getAttribute("user")).getUsername());
+            selectUserInfo.setPassword(null);
+            session.setAttribute("user",selectUserInfo);
         }
         return message;
     }
