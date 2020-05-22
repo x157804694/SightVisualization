@@ -769,10 +769,10 @@ $(function () {
                     var option = {
                         title: {
                             text: province + '景区月销量变化图',
-                            top: '2%',
+                            top: '4%',
                             left: 'center',
                             textStyle: {
-                                fontSize: '12',
+                                fontSize: '14',
                                 fontWeight: 'lighter',
                                 color: '#fff'
                             }
@@ -826,7 +826,7 @@ $(function () {
                             name: '总销量',
                             data: [],
                             type: 'line',
-                            areaStyle: {}
+                            // areaStyle: {}
                         }
                     };
 

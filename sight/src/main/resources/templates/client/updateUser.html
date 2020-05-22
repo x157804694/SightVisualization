@@ -94,25 +94,32 @@
 				var username=$('#username').val();
 				var nickname=$('#nickname').val();
 				var password=$('#password').val();
-				//发送异步请求
-				$.ajax({
-					async:true,
-					url:'/admin/user/updateInfo',
-					type:'post',
-					data:{
-						username: username,
-						nickname: nickname,
-						password: password
-					},
-					success:function (result,status,xhr){
-						$('#password').val('');
-						layer.msg(result.message,{time:1500});
-					},
-					error:function (xhr,status,error){
+				console.log(username+" "+nickname+" "+password);
+				if (nickname!=""&&password!=""){
+					//发送异步请求
+					$.ajax({
+						async:true,
+						url:'/admin/user/updateInfo',
+						type:'post',
+						data:{
+							username: username,
+							nickname: nickname,
+							password: password
+						},
+						success:function (result,status,xhr){
+							$('#password').val('');
+							layer.msg(result.message,{time:1500});
+						},
+						error:function (xhr,status,error){
 
-					},
+						},
 
-				});
+					});
+				}
+				else {
+					alert("请确保填写昵称和密码");
+				}
+
 			});
 		</script>
 	</body>

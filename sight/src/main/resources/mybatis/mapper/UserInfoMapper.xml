@@ -13,7 +13,7 @@
         SELECT * FROM t_user WHERE username = #{username}
     </select>
     <select id="addUser" resultType="UserInfoVO" parameterType="string">
-        insert into t_user(id,avatar,username,password,nickname) values(null,"https://unsplash.it/100/100?image=1005",#{username},#{password},#{nickname})
+        insert into t_user(id,avatar,username,password,nickname) values(null,"/img/user.png",#{username},#{password},#{nickname})
     </select>
     <update id="updateUserByUsername">
         update t_user

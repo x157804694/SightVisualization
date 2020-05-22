@@ -13,6 +13,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addInterceptor(new LoginInterceptor())
                 .addPathPatterns("/admin/addVoteComment")
                 .addPathPatterns("/admin/addVoteReplyComment")
-                .addPathPatterns("/admin/addVoteOptionNum");
+                .addPathPatterns("/admin/addVoteOptionNum")
+                .addPathPatterns("/admin/addTravelComment")
+                .addPathPatterns("/admin/addTravelReplyComment");
     }
 }
