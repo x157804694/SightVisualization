@@ -15,6 +15,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
                 .addPathPatterns("/admin/addVoteReplyComment")
                 .addPathPatterns("/admin/addVoteOptionNum")
                 .addPathPatterns("/admin/addTravelComment")
-                .addPathPatterns("/admin/addTravelReplyComment");
+                .addPathPatterns("/admin/addTravelReplyComment")
+                .addPathPatterns("/recommendation");
     }
 }

@@ -940,8 +940,8 @@ $(function () {
         var data;
         var geoCoordMap;
         // 旅游城市分布图
-        $.get("/visualization/getCityCoord", function (jsonData) {
-            geoCoordMap = JSON.parse(jsonData);
+        $.get("/js/echarts/json/cityCoords.json", function (jsonData) {
+            geoCoordMap = jsonData;
             $.get("/visualization/getCitySightNum", function (jsonData) {
                 data = JSON.parse(jsonData);
                 option = {
