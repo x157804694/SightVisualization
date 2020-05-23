@@ -39,3 +39,6 @@ logging:
       jxufe:
         sight:
           mapper: debug
+    root: warn
+    com.jxufe.sight: info
+  file: log/sight-pro.log
