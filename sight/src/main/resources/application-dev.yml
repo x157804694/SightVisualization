@@ -1,0 +1,6 @@
+self:
+  upload:
+    travelImgsAccessPath: /travelImgs/**
+    travelImgsResourcePath: file:/D:/pyInterface/travelImgs/
+    avatarsAccessPath: /avatars/**
+    avatarsResourcePath: file:/D:/pyInterface/avatars/

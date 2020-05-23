@@ -50,4 +50,15 @@ public class T1 {
         list.add("1231");
         System.out.println("hhh");
     }
+
+    @Test
+    public void sort(){
+        String s1="江西";
+        String s2="湖北";
+        String s3="江吸";
+
+        System.out.println(s1.compareTo(s2));
+        System.out.println(s2.compareTo(s1));
+        System.out.println(s1.compareTo(s3));
+    }
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/querySights")
@@ -37,9 +38,9 @@ public class SightBasicInfoController {
         if (!AllProvinceSet.set.contains(province)){
             throw new NotFoundException(NotFoundException.NOT_FOUNG_PROVINCE);
         }
-
         //首先，必须确保start和end要么都null，要么都有值！
-        model.addAttribute("allProvince",AllProvinceSet.set);
+//        model.addAttribute("allProvince",AllProvinceSet.set);
+        model.addAttribute("allProvince",getAllProvinces());
         model.addAttribute("page",sightBasicInfoService.findOnePage(province,start,end,order,page,pageSize));
         if (turnPage){//正在翻页
             System.out.println("--------------------sightsContainer------------------");
@@ -63,4 +64,14 @@ public class SightBasicInfoController {
         }
     }
 
+    private ArrayList<String> getAllProvinces(){
+        ArrayList<String> allProvinces=new ArrayList<>();
+        allProvinces.add("全国");
+        for(String province:AllProvinceSet.set){
+            if(!province.equals("全国")){
+                allProvinces.add(province);
+            }
+        }
+        return allProvinces;
+    }
 }

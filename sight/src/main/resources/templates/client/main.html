@@ -200,6 +200,13 @@
 				var province=$("#provinceSelect option:selected").val();
 				var start=$("#startPrice").val();
 				var end=$("#endPrice").val();
+				if(start=="" && end==""){
+					alert("价格不能都为空，至少填写一个");
+					return;
+				}else if(isNaN(start) || isNaN(end)){
+					alert("价格只能填数字，请重新填写");
+					return;
+				}
 				var url=$("#priceForm").prop("action")+province+"?start="+start+"&end="+end;
 				console.log("提交--->"+url);
 

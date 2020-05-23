@@ -1,5 +1,6 @@
 package com.jxufe.sight.web.client;
 
+import com.jxufe.sight.bean.UploadPathManagement;
 import com.jxufe.sight.service.UserService;
 import com.jxufe.sight.utils.StatusCodes;
 import com.jxufe.sight.vo.ResponseResult;
@@ -9,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -33,6 +33,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UploadPathManagement uploadPathManagement;
 
     @GetMapping
     public String loginPage(){
@@ -104,11 +106,11 @@ public class UserController {
         String destFileName= UUID.randomUUID().toString() +suffix;
         LOGGER.info("destFileName--> {}",destFileName);
         //上传文件的路径
-        String basePath= ResourceUtils.getURL("classpath:static").getPath().substring(1);//此路径打成jar时会失效。
-//        String basePath=uploadFileProperties.getResourcesLocation();
+//        String basePath= ResourceUtils.getURL("classpath:static").getPath().substring(1);//此路径打成jar时会失效。
+        String basePath=uploadPathManagement.getAvatarsResourcePath();
         LOGGER.info("basePath--> {}",basePath);
-//        String uploadPath=basePath.substring(basePath.indexOf("/")+1);
-        String uploadPath=basePath+avatarUploadPath;
+        String uploadPath=basePath.substring(basePath.indexOf("/")+1);
+//        String uploadPath=basePath+avatarUploadPath;
         uploadPath= URLDecoder.decode(uploadPath,"utf-8");//解决中文路径乱码
         LOGGER.info("uploadPath--> {}",uploadPath);
         File uploadDirectory=new File(uploadPath);
@@ -117,6 +119,8 @@ public class UserController {
         }
         //上传的目标文件
         File targetFile=new File(uploadPath, destFileName);
+        //图片访问目录
+        String avatarsAccessBasePath=uploadPathManagement.getAvatarsAccessPath().substring(0,uploadPathManagement.getAvatarsAccessPath().indexOf("**"));
         LOGGER.info("target file---> {}",targetFile.getAbsolutePath());
         //上传到目标文件。本质就是IO，从file的字节输入流取出字节输出到targetFile的字节输出流中。
         if (targetFile.exists()){
@@ -127,12 +131,12 @@ public class UserController {
             message.setCode(String.valueOf(StatusCodes.UPLOAD_AVARTAR_SUCCESS));
             message.setMessage("上传成功");
             Map<String, Object> resultMap=new HashMap<>();
-            resultMap.put("updateAvatarAddress",avatarAccessPath+destFileName);
+            resultMap.put("updateAvatarAddress",avatarsAccessBasePath+destFileName);
             message.setData(resultMap);
         }
         //更新数据库
         String username=((UserInfoVO)session.getAttribute("user")).getUsername();
-        userService.updateAvatarByUsername(username,avatarAccessPath+destFileName);
+        userService.updateAvatarByUsername(username,avatarsAccessBasePath+destFileName);
         //更新session中的user
         UserInfoVO selectUser=userService.findUserByName(username);
         selectUser.setPassword(null);

@@ -84,8 +84,8 @@
                     currentOption.css("display","block");
                     currentOption.appendTo('.addImg');
                     currentOption.removeAttr('id');
-                    currentOption.find('img').attr("src","/images"+res.data['path']+"");
-                    console.log("/images"+res.data['path']);
+                    currentOption.find('img').attr("src",res.data['path']);
+                    console.log(res.data['path']);
                     //上传完毕回调
                     if (res.code != 1000) {
                         return layer.msg('上传失败');

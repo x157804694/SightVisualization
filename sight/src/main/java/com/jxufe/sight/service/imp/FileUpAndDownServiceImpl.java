@@ -1,5 +1,6 @@
 package com.jxufe.sight.service.imp;
 
+import com.jxufe.sight.bean.UploadPathManagement;
 import com.jxufe.sight.exception.ServiceException;
 import com.jxufe.sight.service.FileUpAndDownService;
 import com.jxufe.sight.service.IStatusMessage;
@@ -7,7 +8,6 @@ import com.jxufe.sight.vo.MessageProperties;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +24,8 @@ public class FileUpAndDownServiceImpl implements FileUpAndDownService {
 
     @Autowired
     private MessageProperties config; //用来获取file-message.properties配置文件中的信息
+    @Autowired
+    private UploadPathManagement uploadPathManagement;
 
     @Override
     public Map<String, Object> uploadPicture(MultipartFile file) throws ServiceException {
@@ -53,6 +55,8 @@ public class FileUpAndDownServiceImpl implements FileUpAndDownService {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
                 String basedir = sdf.format(new Date());
 //                System.out.println(ResourceUtils.getURL("classpath:static").getPath().substring(1));
+                String travelImgsAccessBasePath=uploadPathManagement.getTravelImgsAccessPath().substring(0,uploadPathManagement.getTravelImgsAccessPath().indexOf("**"));
+                String travelImgsResourceBasePath=uploadPathManagement.getTravelImgsResourcePath().substring(uploadPathManagement.getTravelImgsResourcePath().indexOf("/")+1);
                 // 进行压缩(大于4M)
                 if (file.getSize() > config.getFileSize()) {
                     System.out.println("压缩");
@@ -60,7 +64,9 @@ public class FileUpAndDownServiceImpl implements FileUpAndDownService {
                     String newUUID = UUID.randomUUID().toString().replaceAll("-", "");
                     newFileName = newUUID + "." + imageName;
                     //config.getUpPath();
-                    path = ResourceUtils.getURL("classpath:static").getPath().substring(1) + "/" + "images" + "/" + "travelImg" + "/" + newUUID + "." + imageName;
+                    //待上传的文件路径
+//                    path = ResourceUtils.getURL("classpath:static").getPath().substring(1) + "/" + "images" + "/" + "travelImg" + "/" + newUUID + "." + imageName;
+                    path = travelImgsResourceBasePath+ newUUID + "." + imageName;
                     path = URLDecoder.decode(path, "utf-8");
                     System.out.println("path: " + path);
 
@@ -74,10 +80,13 @@ public class FileUpAndDownServiceImpl implements FileUpAndDownService {
                     // 压缩图片
                     Thumbnails.of(oldFile).scale(config.getScaleRatio()).toFile(path);
                     // 显示路径
-                    resMap.put("path", "/" + basedir + "/" + newUUID + "." + imageName);
+//                    resMap.put("path", "/" + basedir + "/" + newUUID + "." + imageName);
+                    resMap.put("path", travelImgsAccessBasePath + basedir + "/" + newUUID + "." + imageName);
                 } else {
+                    String targetFileName=uuid + "." + imageName;
                     System.out.println("未压缩");
-                    path = ResourceUtils.getURL("classpath:static").getPath().substring(1) + "/" + "images" + "/" + "travelImg" + "/" + uuid + "." + imageName;
+//                    path = ResourceUtils.getURL("classpath:static").getPath().substring(1) + "/" + "images" + "/" + "travelImg" + "/" + uuid + "." + imageName;
+                    path = travelImgsResourceBasePath + targetFileName;
                     path = URLDecoder.decode(path, "utf-8");
                     System.out.println("path: " + path);
                     // 如果目录不存在则创建目录
@@ -88,7 +97,8 @@ public class FileUpAndDownServiceImpl implements FileUpAndDownService {
                     }
                     file.transferTo(uploadFile);
                     // 显示路径
-                    resMap.put("path", "/" + "travelImg" + "/" + uuid + "." + imageName);
+//                    resMap.put("path", "/" + "travelImg" + "/" + targetFileName);
+                    resMap.put("path", travelImgsAccessBasePath + targetFileName);
                 }
                 resMap.put("oldFileName", oldFileName);
                 resMap.put("newFileName", newFileName);

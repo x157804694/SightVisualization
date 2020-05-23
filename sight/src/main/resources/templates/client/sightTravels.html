@@ -67,7 +67,7 @@
 						</div>
 						<div class="row img-box" style="margin-left: 10%;">
 							<div style="width:28%; margin-left: 1%; margin-top: 1%;" th:each="travelImg: ${travel.travelImgs}">
-								<img style="height: 200px;" th:src="@{|/images/travelImg/${travelImg.img_url}|}">
+								<img style="height: 200px;" th:src="@{${travelImg.img_url}}">
 							</div>
 						</div>
 						<div class="row ppy" ></div>
