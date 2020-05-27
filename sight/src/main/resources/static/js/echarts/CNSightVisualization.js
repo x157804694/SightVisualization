@@ -13,7 +13,7 @@ $(function () {
     var right2chart = echarts.init(document.getElementById('right2chartArea'));
     var right3chart = echarts.init(document.getElementById('right3chartArea'));
     var left2chart = echarts.init(document.getElementById('left2chartArea'));
-    chinaMap();
+    chinaMap(4);
     pie1();
     pie2();
     right1();
@@ -24,6 +24,7 @@ $(function () {
     $('#selectMonth').change(function () {
         var month = $("#selectMonth").find("option:selected").val();
         updateSumSaleCount(month);
+        chinaMap(month)
         left1(month);
         left2(month);
         right2(month);
@@ -138,7 +139,7 @@ $(function () {
 
             var option = {
                 title: {
-                    text: '全国5A/4A/其他景区占比情况',
+                    text: '全国各等级景区占比情况',
                     top: '2%',
                     left: 'center',
                     textStyle: {
@@ -468,7 +469,7 @@ $(function () {
             ];
             var option = {
                 title: {
-                    text: '城市景区数量top5',
+                    text: '景区数量最多的城市top5',
                     top: '1%',
                     left: 'center',
                     textStyle: {
@@ -551,7 +552,7 @@ $(function () {
         $.get("/visualization/getCitySaleCountTop5/"+month, function (jsonData){
             var option = {
                 title: {
-                    text: '城市月销量top5',
+                    text: month+'月热门旅游城市',
                     top: '2%',
                     left: 'center',
                     textStyle: {
@@ -919,7 +920,7 @@ $(function () {
         });
     }
 
-    function chinaMap() {
+    function chinaMap(month) {
         //处理数据函数
         var convertData = function (data) {
             var res = [];
@@ -928,8 +929,11 @@ $(function () {
                 var cityName = data[i].city;
                 var geoCoord = geoCoordMap[cityName];
                 if (geoCoord) {
+                    names = [];
+                    names.push(cityName);
+                    var goodRate = (data[i].goodCommentAmount*100/data[i].sumAmount).toFixed(2);
                     res.push({
-                        name: cityName,
+                        name: names.concat(data[i].saleCount,goodRate),
                         value: geoCoord.concat(data[i].value)
                     });
                 }
@@ -942,7 +946,7 @@ $(function () {
         // 旅游城市分布图
         $.get("/js/echarts/json/cityCoords.json", function (jsonData) {
             geoCoordMap = jsonData;
-            $.get("/visualization/getCitySightNum", function (jsonData) {
+            $.get("/visualization/getCitySightNum/"+month, function (jsonData) {
                 data = JSON.parse(jsonData);
                 option = {
                     title: {
@@ -1057,7 +1061,9 @@ $(function () {
                         },
                         label: {
                             normal: {
-                                formatter: '{b}',
+                                formatter: function (params) {
+                                    return params.name[0];
+                                },
                                 position: 'right',
                                 show: false
                             },
@@ -1073,7 +1079,10 @@ $(function () {
                         tooltip: {
                             trigger: 'item',
                             formatter: function (params) {
-                                return params.name + ' : ' + params.value[2];
+                                return params.name[0]+'<br>'+
+                                    '景区数量：'+params.value[2]+'<br>'+
+                                    '城市月销量：'+params.name[1]+'<br>'+
+                                    '好评率：'+params.name[2]+'%';
                             }
                         },
                     },
@@ -1082,7 +1091,7 @@ $(function () {
                             type: 'effectScatter',
                             coordinateSystem: 'geo',
                             data: convertData(data.sort(function (a, b) {
-                                return b.value - a.value;
+                                return b.saleCount - a.saleCount;
                             }).slice(0, 11)),
                             symbolSize: function (val) {
                                 return (6 + Math.log2(val[2]));
@@ -1094,7 +1103,9 @@ $(function () {
                             hoverAnimation: true,
                             label: {
                                 normal: {
-                                    formatter: '{b}',
+                                    formatter: function (params) {
+                                        return params.name[0];
+                                    },
                                     position: 'right',
                                     show: true
                                 }
@@ -1109,7 +1120,10 @@ $(function () {
                             tooltip: {
                                 trigger: 'item',
                                 formatter: function (params) {
-                                    return params.name + ' : ' + params.value[2];
+                                    return params.name[0]+'<br>'+
+                                        '景区数量：'+params.value[2]+'<br>'+
+                                        '城市月销量：'+params.name[1]+'<br>'+
+                                        '好评率：'+params.name[2]+'%';
                                 }
                             },
                             zlevel: 1

@@ -32,10 +32,10 @@ public class VisualizationInfoController {
     @Autowired
     SightBasicInfoService sightBasicInfoService;
 
-    //查询城市的景区数量
-    @GetMapping("/getCitySightNum")
-    public String queryCitySightNum() {
-        List<HashMap<String, Integer>> citySightNum = sightBasicInfoService.getCitySightNum();
+    //查询城市的景区数量月销量好评数等信息
+    @GetMapping("/getCitySightNum/{month}")
+    public String queryCitySightNum(@PathVariable Integer month) {
+        List<HashMap<String, Integer>> citySightNum = sightBasicInfoService.getCitySightNum(month);
         return JSONUtils.toJSONString(citySightNum);
     }
 

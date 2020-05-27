@@ -91,8 +91,12 @@
     <select id="getAllProvince" resultType="string">
         SELECT province FROM t_sightinfo GROUP BY province
     </select>
-    <select id="getCitySightNum" resultType="java.util.HashMap">
-        SELECT city,COUNT(DISTINCT sightId) as value FROM t_sightinfo GROUP BY city
+    <select id="getCitySightNum" resultType="java.util.HashMap" parameterType="java.lang.Integer">
+        SELECT city,COUNT(DISTINCT t1.sightId) as value,SUM(t2.saleCount) as saleCount,SUM(goodCommentAmount) as goodCommentAmount,SUM(sumAmount) as sumAmount
+        FROM t_sightinfo as t1 INNER JOIN t_sightmonthlysalecount as t2
+        ON t1.sightId=t2.sightId AND MONTH(createDate)=#{month}
+        INNER JOIN t_sightupdateinfo as t3 ON t1.sightId=t3.sightId
+        GROUP BY city
     </select>
     <select id="getDiffStarNum" resultType="java.util.HashMap">
         SELECT star,COUNT(DISTINCT sightId) as value FROM t_sightinfo GROUP BY star

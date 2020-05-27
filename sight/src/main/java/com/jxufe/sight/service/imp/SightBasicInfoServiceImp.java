@@ -36,8 +36,8 @@ public class SightBasicInfoServiceImp implements SightBasicInfoService {
     }
 
     @Override
-    public List<HashMap<String, Integer>> getCitySightNum() {
-        return sightBasicInfoMapper.getCitySightNum();
+    public List<HashMap<String, Integer>> getCitySightNum(Integer month) {
+        return sightBasicInfoMapper.getCitySightNum(month);
     }
 
     @Override

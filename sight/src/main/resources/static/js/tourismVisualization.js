@@ -154,7 +154,7 @@ $(function(){
                     1324,
                     1420,
                     1557,
-                    1692,
+                    1240,
                 ],
             },
 
@@ -196,7 +196,7 @@ $(function(){
                         3677,
                         4119,
                         4453,
-                        4886,
+                        4012,
                     ]
                 }, {
                     "name": "总数",
@@ -237,7 +237,7 @@ $(function(){
                         5001,
                         5539,
                         6010,
-                        6578,
+                        5252,
                     ]
                 },
             ]
@@ -312,7 +312,7 @@ $(function(){
                     913,
                     925.8,
                     935.6,
-                    946.8
+                    910.2
                 ],
                 type: 'line',
                 color: '#e273c8',
@@ -342,7 +342,7 @@ $(function(){
                         1024.6,
                         1034,
                         1044,
-                        1060,
+                        1003,
                     ],
                     type: 'line',
                     color: '#e2585a',
@@ -372,7 +372,7 @@ $(function(){
                         603.3,
                         611.9,
                         620,
-                        631,
+                        606.1,
                     ],
                     type: 'line',
                     color: '#5d9dea',
@@ -409,12 +409,18 @@ $(function(){
                 containLabel: true
             },
             legend: {
-                data: ['1月', '2月', '3月'],
+                data: ['1月', '2月', '3月','4月'],
                 right: '2%',
                 top: '5%',
                 textStyle: {
                     color: '#333'
                 },
+                selected: {
+                    '1月': false,
+                    '2月': true,
+                    '3月': true,
+                    '4月': true,
+                }
             },
             xAxis: {
                 type: 'category',
@@ -496,6 +502,25 @@ $(function(){
                         }
                     },
                     data: [195.55,294.28,462.67,630.61,2086.19,3563.18]
+                },
+                {
+                    name: '4月',
+                    type: 'bar',
+                    barMaxWidth:'30%',
+                    itemStyle: {
+                        normal: {
+                            color: '#e2585a',
+                            // barBorderRadius: 12,
+                            label: {
+                                show: true,
+                                position: 'top',
+                                textStyle: {
+                                    color: '#e2585a',
+                                }
+                            }
+                        }
+                    },
+                    data: [222.38,332.89,522.24,706.22,2355.72,4077.26]
                 }
             ]
         };

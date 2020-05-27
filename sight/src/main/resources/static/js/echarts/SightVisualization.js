@@ -13,20 +13,21 @@ $(function () {
     var center2chart = echarts.init(document.getElementById('right3chartArea'));
 
     pie1("北京");
-    Map("北京", 3);
+    Map("北京", 4);
     pie2("北京");
     right1("北京");
-    right2("北京", 3);
-    right3("北京", 3);
-    insertText("北京", 3);
-
+    right2("北京", 4);
+    right3("北京", 4);
+    insertText("北京", 4);
+    $("#selectProvince").val("北京");
+    $("#selectMonth").val("4");
     document.getElementById("selectProvince").onchange = function () {
         var selectProvince = document.getElementById("selectProvince");
         var selectMonth = document.getElementById("selectMonth");
         var province = (selectProvince.options)[selectProvince.selectedIndex].value;
         var month = (selectMonth.options)[selectMonth.selectedIndex].value;
         if (province == undefined) province = "北京";
-        if (month == undefined) month = "3";
+        if (month == undefined) month = "4";
         pie1(province);
         Map(province, month);
         pie2(province);
@@ -42,7 +43,7 @@ $(function () {
         var province = (selectProvince.options)[selectProvince.selectedIndex].value;
         var month = (selectMonth.options)[selectMonth.selectedIndex].value;
         if (province == undefined) province = "北京";
-        if (month == undefined) month = "3";
+        if (month == undefined) month = "4";
 
         Map(province, month);
         right2(province, month);
@@ -198,7 +199,7 @@ $(function () {
 
             var option = {
                 title: {
-                    text: '5A/4A/其他景区占比情况',
+                    text: province+'省景区分布情况',
                     top: '2%',
                     left: 'center',
                     textStyle: {
@@ -209,7 +210,7 @@ $(function () {
                 },
                 tooltip: {
                     trigger: 'item',
-                    formatter: '{b} : {c} ({d}%)',
+                    formatter: '{b}景区数量及占比 : {c} ({d}%)',
                     position: function (pos, params, dom, rect, size) {
                         // 鼠标在左侧时 tooltip 显示到右侧，鼠标在右侧时 tooltip 显示到左侧。
                         var obj = {
@@ -232,12 +233,12 @@ $(function () {
                 series: [{
                     name: '景区占比情况',
                     type: 'pie',
-                    radius: ['50%', '70%'],
-                    avoidLabelOverlap: false,
+                    // radius: ['50%', '70%'],
+                    avoidLabelOverlap: true,
                     selectedMode: 'single',
                     label: {
                         show: false,
-                        position: 'center',
+                        position: 'right',
                     },
                     data: data,
                     emphasis: {
@@ -389,7 +390,7 @@ $(function () {
             }
             var option = {
                 title: {
-                    text: province+'省景区价格区间',
+                    text: province+'省景区价格分布',
                     top: '2%',
                     left: 'center',
                     textStyle: {
@@ -400,7 +401,7 @@ $(function () {
                 },
                 tooltip: {
                     trigger: 'item',
-                    formatter: '{b} : {c} ({d}%)',
+                    formatter: '{b}景区数量及占比 : {c} ({d}%)',
                     position: function (pos, params, dom, rect, size) {
                         // 鼠标在左侧时 tooltip 显示到右侧，鼠标在右侧时 tooltip 显示到左侧。
                         var obj = {
@@ -513,7 +514,7 @@ $(function () {
                 ];
                 var option = {
                     title: {
-                        text: province + '最热景区top5',
+                        text: province + '省热门景区top5',
                         top: '1%',
                         left: 'center',
                         textStyle: {
@@ -680,7 +681,7 @@ $(function () {
                 ];
                 var option = {
                     title: {
-                        text: province + '景区数量top5',
+                        text: province + '省景区数量最多的5个城市',
                         top: '1%',
                         left: 'center',
                         textStyle: {
@@ -768,7 +769,7 @@ $(function () {
             $.get("/ProvinceVisualization/getSightSaleOfMonth/" + province, function (Data) {
                     var option = {
                         title: {
-                            text: province + '景区月销量变化图',
+                            text: province + '省景区总月销量变化图',
                             top: '4%',
                             left: 'center',
                             textStyle: {
@@ -848,7 +849,7 @@ $(function () {
             $.get("/ProvinceVisualization/getCitySaleTop5/" + province + "/" + month, function (jsonData) {
                 var option = {
                     title: {
-                        text: province + '城市月销量top5',
+                        text: province + '省'+month+'月热门旅游城市',
                         top: '2%',
                         left: 'center',
                         textStyle: {
@@ -1128,10 +1129,9 @@ $(function () {
                         if (data[i].value == 0) {
                             data[i].value = 1;
                         }
+                        var goodRate = (data[i].goodCommentAmount*100/data[i].sumAmount).toFixed(2);
                         res.push({
-                            name: sightName,
-                            name: values.concat(data[i].sightName, data[i].star),
-
+                            name: values.concat(data[i].sightName, data[i].star,data[i].address,data[i].price,goodRate),
                             value: values.concat(data[i].value)
                         });
                     }
@@ -1177,7 +1177,6 @@ $(function () {
                         },
                         selected: {
                             '散点图': true,
-                            'Top 10': true,
                             '热力图': false
                         }
                     },
@@ -1281,7 +1280,11 @@ $(function () {
                         tooltip: {
                             trigger: 'item',
                             formatter: function (params) {
-                                return params.name[2] + '(' + params.name[3] + '): ' + params.value[2];
+                                return params.name[2] + '(' + params.name[3] + ')<br>' +
+                                    '月销量：' + params.value[2] +'<br>'+
+                                    '地址：'+ params.name[4]+'<br>'+
+                                    '价格：'+params.name[5]+'元'+'<br>'+
+                                    '好评率：'+params.name[6]+'%';
                             }
                         },
                     },

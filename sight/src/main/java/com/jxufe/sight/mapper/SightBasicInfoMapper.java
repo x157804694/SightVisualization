@@ -21,7 +21,7 @@ public interface SightBasicInfoMapper {
     // 查询本月总销量
     Integer getSumSaleCount(Integer month);
     // 查询每个城市有多少个景区，key城市 value景区数量
-    List<HashMap<String, Integer>> getCitySightNum();
+    List<HashMap<String, Integer>> getCitySightNum(Integer month);
     // 查询不同等级景区数量
     List<HashMap<String, Integer>> getDiffStarNum();
     // 查询不同等级景区月销量

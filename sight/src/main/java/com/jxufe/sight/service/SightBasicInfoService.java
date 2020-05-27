@@ -9,7 +9,7 @@ import java.util.List;
 public interface SightBasicInfoService {
     PageInfo<SightBasicInfoVO> findOnePage(String province, Double start, Double end, Integer order, int page, int pageSize);
     PageInfo<SightBasicInfoVO> search(String sightName, Double start, Double end, Integer order, int page, int pageSize);
-    List<HashMap<String, Integer>> getCitySightNum();
+    List<HashMap<String, Integer>> getCitySightNum(Integer month);
     List<HashMap<String, Integer>> getDiffStarNum();
     List<HashMap<String, Integer>> getDiffStarSaleCount(Integer month);
     List<HashMap<String, Integer>> getDiffPriceRangeNum();

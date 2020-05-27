@@ -67,7 +67,7 @@ public class TestController {
     }
     @RequestMapping("/t5")
     public String getCitySightNums(){
-        String data = JSONUtils.toJSONString(sightBasicInfoMapper.getCitySightNum());
+        String data = JSONUtils.toJSONString(sightBasicInfoMapper.getCitySightNum(4));
         return data;
     }
     @RequestMapping("/t6")
