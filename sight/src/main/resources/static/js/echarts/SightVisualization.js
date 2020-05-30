@@ -13,21 +13,21 @@ $(function () {
     var center2chart = echarts.init(document.getElementById('right3chartArea'));
 
     pie1("北京");
-    Map("北京", 4);
+    Map("北京", 5);
     pie2("北京");
     right1("北京");
-    right2("北京", 4);
-    right3("北京", 4);
-    insertText("北京", 4);
+    right2("北京", 5);
+    right3("北京", 5);
+    insertText("北京", 5);
     $("#selectProvince").val("北京");
-    $("#selectMonth").val("4");
+    $("#selectMonth").val("5");
     document.getElementById("selectProvince").onchange = function () {
         var selectProvince = document.getElementById("selectProvince");
         var selectMonth = document.getElementById("selectMonth");
         var province = (selectProvince.options)[selectProvince.selectedIndex].value;
         var month = (selectMonth.options)[selectMonth.selectedIndex].value;
         if (province == undefined) province = "北京";
-        if (month == undefined) month = "4";
+        if (month == undefined) month = "5";
         pie1(province);
         Map(province, month);
         pie2(province);
@@ -210,7 +210,8 @@ $(function () {
                 },
                 tooltip: {
                     trigger: 'item',
-                    formatter: '{b}景区数量及占比 : {c} ({d}%)',
+                    formatter: '{b}景区数量: {c} <br> ' +
+                                '占比：{d}%',
                     position: function (pos, params, dom, rect, size) {
                         // 鼠标在左侧时 tooltip 显示到右侧，鼠标在右侧时 tooltip 显示到左侧。
                         var obj = {
@@ -233,12 +234,12 @@ $(function () {
                 series: [{
                     name: '景区占比情况',
                     type: 'pie',
-                    // radius: ['50%', '70%'],
-                    avoidLabelOverlap: true,
+                    radius: ['50%', '70%'],
+                    avoidLabelOverlap: false,
                     selectedMode: 'single',
                     label: {
                         show: false,
-                        position: 'right',
+                        position: 'center',
                     },
                     data: data,
                     emphasis: {
@@ -401,7 +402,8 @@ $(function () {
                 },
                 tooltip: {
                     trigger: 'item',
-                    formatter: '{b}景区数量及占比 : {c} ({d}%)',
+                    formatter: '{b}: {c} <br>' +
+                                '占比：{d}%',
                     position: function (pos, params, dom, rect, size) {
                         // 鼠标在左侧时 tooltip 显示到右侧，鼠标在右侧时 tooltip 显示到左侧。
                         var obj = {
@@ -427,7 +429,7 @@ $(function () {
                     name: '价格区间占比',
                     type: 'pie',
                     radius: ['50%', '70%'],
-                    avoidLabelOverlap: false,
+                    avoidLabelOverlap: true,
                     selectedMode: 'single',
                     label: {
                         show: false,
@@ -439,7 +441,8 @@ $(function () {
                             show: true,
                             fontSize: 16,
                             fontWeight: 'bold',
-                            color: "#fff"
+                            color: "#fff",
+                            position: 'right',
                         }
                     }
                 }
@@ -1129,9 +1132,12 @@ $(function () {
                         if (data[i].value == 0) {
                             data[i].value = 1;
                         }
-                        var goodRate = (data[i].goodCommentAmount*100/data[i].sumAmount).toFixed(2);
+                        var goodRate = "无评价";
+                        if (data[i].goodCommentAmount!=0){
+                            goodRate = (data[i].goodCommentAmount*100/data[i].sumAmount).toFixed(2)+"%";
+                        }
                         res.push({
-                            name: values.concat(data[i].sightName, data[i].star,data[i].address,data[i].price,goodRate),
+                            name: values.concat(data[i].sightName, data[i].star,data[i].address,data[i].price,goodRate,data[i].sightImgURL),
                             value: values.concat(data[i].value)
                         });
                     }
@@ -1284,7 +1290,8 @@ $(function () {
                                     '月销量：' + params.value[2] +'<br>'+
                                     '地址：'+ params.name[4]+'<br>'+
                                     '价格：'+params.name[5]+'元'+'<br>'+
-                                    '好评率：'+params.name[6]+'%';
+                                    '好评率：'+params.name[6]+'<br>'+
+                                    '<img src="'+params.name[7]+'" style="width: 196px;height: 120px" />';
                             }
                         },
                     },

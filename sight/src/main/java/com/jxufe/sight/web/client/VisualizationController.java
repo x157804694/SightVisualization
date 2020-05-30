@@ -31,15 +31,15 @@ public class VisualizationController {
     public String SightVisualization(@PathVariable String province, Model model) {
         if (province.equals("全国")) {
             //把月销量前10的景区信息和本月总销量添加到Model 用thymeleaf表达式填充表格
-            model.addAttribute("SightSaleCountTop10", sightBasicInfoService.getSightSaleCountTop10(4));
-            model.addAttribute("SumSaleCount", sightBasicInfoService.getSumSaleCount(4));
+            model.addAttribute("SightSaleCountTop10", sightBasicInfoService.getSightSaleCountTop10(5));
+            model.addAttribute("SumSaleCount", sightBasicInfoService.getSumSaleCount(5));
             return "client/CNSightVisualization";
         }
         //把省份信息传到前端，前端再用ajax读取
         else {
-            model.addAttribute("SightOfProvinceSaleCountTop10", provinceVisualizationService.getProvinceSaleCountTop10("北京",3));
+            model.addAttribute("SightOfProvinceSaleCountTop10", provinceVisualizationService.getProvinceSaleCountTop10("北京",5));
             model.addAttribute("AllProvince", sightBasicInfoService.getAllProvince());
-            model.addAttribute("Month", "三月");
+            model.addAttribute("Month", "五月");
             return "client/ProvinceSightVisualization";
         }
     }

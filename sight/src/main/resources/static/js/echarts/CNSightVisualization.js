@@ -13,13 +13,13 @@ $(function () {
     var right2chart = echarts.init(document.getElementById('right2chartArea'));
     var right3chart = echarts.init(document.getElementById('right3chartArea'));
     var left2chart = echarts.init(document.getElementById('left2chartArea'));
-    chinaMap(4);
+    chinaMap(5);
     pie1();
     pie2();
     right1();
-    right2(4);
-    right3(4);
-    left2(4);
+    right2(5);
+    right3(5);
+    left2(5);
 
     $('#selectMonth').change(function () {
         var month = $("#selectMonth").find("option:selected").val();
@@ -150,7 +150,8 @@ $(function () {
                 },
                 tooltip: {
                     trigger: 'item',
-                    formatter: '{b} : {c} ({d}%)',
+                    formatter: '{b}景区数量: {c} <br> ' +
+                                '占比：{d}%',
                     position: function (pos, params, dom, rect, size) {
                         // 鼠标在左侧时 tooltip 显示到右侧，鼠标在右侧时 tooltip 显示到左侧。
                         var obj = {
@@ -340,7 +341,8 @@ $(function () {
                 },
                 tooltip: {
                     trigger: 'item',
-                    formatter: '{b} : {c} ({d}%)',
+                    formatter: '{b}: {c} <br>' +
+                                '占比：{d}%',
                     position: function (pos, params, dom, rect, size) {
                         // 鼠标在左侧时 tooltip 显示到右侧，鼠标在右侧时 tooltip 显示到左侧。
                         var obj = {

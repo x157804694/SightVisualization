@@ -16,7 +16,7 @@
         where MONTH(t2.createDate)=#{month} and t1.province=#{province} ORDER BY saleCount DESC LIMIT 10
     </select>
     <select id="getCitySightSaleCount" resultType="java.util.HashMap">
-        SELECT t1.sightName as sightName,t1.star as star,t2.saleCount as value,t1.address as address,t3.qunarPrice as price,t3.goodCommentAmount as goodCommentAmount,t3.sumAmount as sumAmount FROM t_sightinfo as t1 INNER JOIN t_sightmonthlysalecount as t2 on t1.sightId=t2.sightId inner join t_sightupdateinfo as t3 on t1.sightId=t3.sightId where MONTH(t2.createDate)=#{month} and t1.province=#{province}
+        SELECT t1.sightName as sightName,t1.star as star,t2.saleCount as value,t1.address as address,t1.sightImgURL as sightImgURL,t3.qunarPrice as price,t3.goodCommentAmount as goodCommentAmount,t3.sumAmount as sumAmount FROM t_sightinfo as t1 INNER JOIN t_sightmonthlysalecount as t2 on t1.sightId=t2.sightId inner join t_sightupdateinfo as t3 on t1.sightId=t3.sightId where MONTH(t2.createDate)=#{month} and t1.province=#{province}
     </select>
     <select id="getCityCoord" resultType="java.util.HashMap">
         SELECT sightName,point as value FROM t_sightinfo where province=#{province}
